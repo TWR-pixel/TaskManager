@@ -11,13 +11,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TaskColumns\" />
     <Folder Include="Tasks\" />
-    <Folder Include="Users\" />
+    <Folder Include="Users\Requests\AddAndSaveRequest\" />
+    <Folder Include="Users\Requests\DeleteAndSaveRequest\" />
+    <Folder Include="Users\Requests\UpdateAndSaveRequest\" />
   </ItemGroup>
 
 </Project>

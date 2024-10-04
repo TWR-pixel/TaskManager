@@ -2,9 +2,8 @@
 
 namespace TaskManager.Core.Entities.Common;
 
-public abstract record EntityBase
+public abstract class EntityBase
 {
-    [Key]
-    public required int Id { get; set; }
-    public bool IsSoftDeleted { get; set; } = false;
+    //[Key]
+    public int Id { get; set; }
 }
