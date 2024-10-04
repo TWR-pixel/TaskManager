@@ -8,8 +8,9 @@ public sealed class RoleEntityTypeConfiguration : IEntityTypeConfiguration<RoleE
 {
     public void Configure(EntityTypeBuilder<RoleEntity> builder)
     {
-        //builder.Property(r => r.Name)
-        //    .IsRequired()
-        //    .HasMaxLength(40);
+        builder.Property(r => r.Name)
+            .HasColumnName("name")
+            .IsRequired()
+            .HasMaxLength(40);
     }
 }

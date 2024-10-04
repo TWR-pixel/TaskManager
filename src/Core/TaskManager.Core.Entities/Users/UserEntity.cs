@@ -5,7 +5,7 @@ namespace TaskManager.Core.Entities.Users;
 
 public class UserEntity : EntityBase
 {
-    public required string LoginEmail { get; set; }
+    public required string EmailLogin { get; set; }
     public required string Username { get; set; }
     public required string PasswordHash { get; set; }
     public required string PasswordSalt { get; set; }

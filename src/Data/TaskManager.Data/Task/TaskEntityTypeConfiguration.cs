@@ -9,12 +9,21 @@ public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<TaskE
     public void Configure(EntityTypeBuilder<TaskEntity> builder)
     {
         builder.Property(t => t.Title)
+            .HasColumnName("title")
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(t => t.ContentBody)
+        builder.Property(t => t.Content)
+            .HasColumnName("content")
             .IsRequired()
             .HasMaxLength(int.MaxValue);
 
+        builder.Property(t => t.IsCompleted)
+            .HasColumnName("is_completed")
+            .IsRequired();
+
+        builder.Property(t => t.IsInProgress)
+            .HasColumnName("is_in_progress")
+            .IsRequired();
     }
 }

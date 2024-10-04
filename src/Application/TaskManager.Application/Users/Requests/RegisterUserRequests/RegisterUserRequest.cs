@@ -52,7 +52,7 @@ public sealed class RegisterUserRequestHandler
 
         var userEntity = new UserEntity()
         {
-            LoginEmail = request.Email,
+            EmailLogin = request.Email,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
             Role = roleEntity,
