@@ -1,8 +1,10 @@
 ﻿using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.TaskColumns;
+using TaskManager.Core.Entities.Users;
 
 namespace TaskManager.Core.Entities.Tasks;
 
-public class TaskEntity : EntityBase
+public sealed class TaskEntity : EntityBase
 {
     public required string Title { get; set; }
     public required string Content { get; set; }
@@ -10,4 +12,6 @@ public class TaskEntity : EntityBase
     public required bool IsCompleted { get; set; }
     public required bool IsInProgress { get; set; }
 
+    public required UserEntity Owner { get; set; }
+    public required TaskColumnEntity TaskColumn { get; set; }
 }

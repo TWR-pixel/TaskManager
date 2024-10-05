@@ -6,15 +6,12 @@ namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public sealed class RoleController : CrudApiControllerBase
+public sealed class RoleController(IMediatorFacade mediator) : CrudApiControllerBase(mediator)
 {
-    public RoleController(IMediatorFacade mediator) : base(mediator)
-    {
-    }
-
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<AddAndSAveRoleResponse>> Create(AddAndSaveRoleRequest request, CancellationToken cancellation)
+    public async Task<ActionResult<AddAndSaveRoleResponse>> Create([FromBody] AddAndSaveRoleRequest request,
+                                                                   CancellationToken cancellation)
     {
         var response = await Mediator.SendAsync(request, cancellation);
 

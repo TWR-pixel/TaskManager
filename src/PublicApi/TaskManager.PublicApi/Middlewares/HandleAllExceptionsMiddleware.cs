@@ -1,13 +1,8 @@
 ﻿namespace TaskManager.PublicApi.Middlewares;
 
-public sealed class HandleAllExceptionsMiddleware : IMiddleware
+public sealed class HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMiddleware> logger) : IMiddleware
 {
-    private readonly ILogger<HandleAllExceptionsMiddleware> _logger;
-
-    public HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMiddleware> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<HandleAllExceptionsMiddleware> _logger = logger;
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {

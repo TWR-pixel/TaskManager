@@ -3,9 +3,13 @@ using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
+using TaskManager.Data.User.Specifications;
 
 namespace TaskManager.Application.Users.Requests.GetUsersTasksById;
 
+/// <summary>
+/// Returns all user's tasks by id in database
+/// </summary>
 public sealed class GetAllUserTasksByIdRequest : RequestBase<GetAllUserTasksByIdResponse>
 {
     public required int UserId { get; set; }
@@ -16,30 +20,35 @@ public sealed class GetAllUserTasksByIdResponse : ResponseBase
     public required int UserId { get; set; }
     public required string UserName { get; set; }
 
-    public required IEnumerable<TaskEntity> UserTasks { get; set; }
+    public required IEnumerable<GetUserTasksByIdResponse> UserTasks { get; set; }
 }
 
 public sealed class GetAllUserTasksByIdRequestHandler
     : RequestHandlerBase<GetAllUserTasksByIdRequest, GetAllUserTasksByIdResponse>
 {
-    private readonly EfRepositoryBase<UserEntity> _tasksRepo;
+    private readonly EfRepositoryBase<UserEntity> _usersRepo;
+    private readonly EfRepositoryBase<TaskEntity> _tasksRepo;
 
-    public GetAllUserTasksByIdRequestHandler(EfRepositoryBase<UserEntity> tasksRepo)
+    public GetAllUserTasksByIdRequestHandler(EfRepositoryBase<UserEntity> usersRepo, EfRepositoryBase<TaskEntity> tasksRepo)
     {
+        _usersRepo = usersRepo;
         _tasksRepo = tasksRepo;
     }
 
     public override async Task<GetAllUserTasksByIdResponse> Handle(GetAllUserTasksByIdRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await _tasksRepo.GetByIdAsync(request.UserId, cancellationToken)
+        var userQueryResult = await _usersRepo.SingleOrDefaultAsync(new GetUserWithTasksByIdSpecification(request.UserId),
+                                                                    cancellationToken)
+
             ?? throw new EntityNotFoundException($"User by id {request.UserId} not found");
 
-        if (queryResult.Tasks is null)
+
+        if (userQueryResult.Tasks is null)
         {
             var nullTasksResponse = new GetAllUserTasksByIdResponse
             {
                 UserId = request.UserId,
-                UserName = queryResult.Username,
+                UserName = userQueryResult.Username,
                 UserTasks = []
             };
 
@@ -48,9 +57,22 @@ public sealed class GetAllUserTasksByIdRequestHandler
 
         var response = new GetAllUserTasksByIdResponse
         {
-            UserTasks = queryResult.Tasks,
+            UserTasks = userQueryResult.Tasks.Select(t => new GetUserTasksByIdResponse
+            {
+                Content = t.Content,
+                IsCompleted = t.IsCompleted,
+                IsInProgress = t.IsInProgress,
+                Title = t.Title,
+
+                //TaskColumn = new GetUserTaskColumnsByIdResponse
+                //{
+                //    Name = t.TaskColumn.Name,
+                //},
+
+            }),
+
             UserId = request.UserId,
-            UserName = queryResult.Username,
+            UserName = userQueryResult.Username,
         };
 
         return response;

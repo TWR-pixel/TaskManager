@@ -8,6 +8,11 @@ public sealed class RoleEntityTypeConfiguration : IEntityTypeConfiguration<RoleE
 {
     public void Configure(EntityTypeBuilder<RoleEntity> builder)
     {
+        builder.ToTable("roles");
+
+        builder.Property(t => t.Id)
+            .HasColumnName("id");
+
         builder.Property(r => r.Name)
             .HasColumnName("name")
             .IsRequired()

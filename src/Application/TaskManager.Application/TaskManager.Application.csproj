@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tasks\" />
     <Folder Include="Users\Requests\AddAndSaveRequest\" />
     <Folder Include="Users\Requests\DeleteAndSaveRequest\" />
     <Folder Include="Users\Requests\UpdateAndSaveRequest\" />

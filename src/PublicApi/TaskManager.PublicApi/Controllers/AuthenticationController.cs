@@ -10,8 +10,8 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : CrudApi
 {
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<AuthenticateUserResponse>> AuthenticateUser
-        ([FromQuery] AuthenticateUserRequestByEmailAndPassword request, CancellationToken cancellationToken)
+    public async Task<ActionResult<AuthenticateUserByEmailResponse>> AuthenticateUser([FromQuery] AuthenticateUserRequestByEmail request,
+                                                                                      CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 

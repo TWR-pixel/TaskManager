@@ -4,17 +4,17 @@ using TaskManager.Data;
 
 namespace TaskManager.Application.Role.Requests;
 
-public sealed class AddAndSaveRoleRequest : RequestBase<AddAndSAveRoleResponse>
+public sealed class AddAndSaveRoleRequest : RequestBase<AddAndSaveRoleResponse>
 {
     public required string Name { get; set; }
 }
 
-public sealed class AddAndSAveRoleResponse : ResponseBase
+public sealed class AddAndSaveRoleResponse : ResponseBase
 {
     public required string Name { get; set; }
 }
 
-public sealed class AddAndSaveRoleRequestHandler : RequestHandlerBase<AddAndSaveRoleRequest, AddAndSAveRoleResponse>
+public sealed class AddAndSaveRoleRequestHandler : RequestHandlerBase<AddAndSaveRoleRequest, AddAndSaveRoleResponse>
 {
     private readonly EfRepositoryBase<RoleEntity> _roleRepo;
 
@@ -23,13 +23,13 @@ public sealed class AddAndSaveRoleRequestHandler : RequestHandlerBase<AddAndSave
         _roleRepo = roleRepo;
     }
 
-    public override async Task<AddAndSAveRoleResponse> Handle(AddAndSaveRoleRequest request, CancellationToken cancellationToken)
+    public override async Task<AddAndSaveRoleResponse> Handle(AddAndSaveRoleRequest request, CancellationToken cancellationToken)
     {
         var role = new RoleEntity { Name = request.Name };
 
         await _roleRepo.AddAsync(role, cancellationToken);
 
-        var response = new AddAndSAveRoleResponse { Name = request.Name };
+        var response = new AddAndSaveRoleResponse { Name = request.Name };
 
         return response;
     }

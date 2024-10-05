@@ -8,6 +8,11 @@ public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<TaskE
 {
     public void Configure(EntityTypeBuilder<TaskEntity> builder)
     {
+        builder.ToTable("tasks");
+
+        builder.Property(t => t.Id)
+            .HasColumnName("id");
+
         builder.Property(t => t.Title)
             .HasColumnName("title")
             .IsRequired()
@@ -24,6 +29,14 @@ public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<TaskE
 
         builder.Property(t => t.IsInProgress)
             .HasColumnName("is_in_progress")
+            .IsRequired();
+
+        builder.Property("OwnerId")
+            .HasColumnName("owner_id")
+            .IsRequired();
+
+        builder.Property("TaskColumnId")
+            .HasColumnName("task_column_id")
             .IsRequired();
     }
 }

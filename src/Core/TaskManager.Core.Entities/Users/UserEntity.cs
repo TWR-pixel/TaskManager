@@ -4,7 +4,7 @@ using TaskManager.Core.Entities.Tasks;
 
 namespace TaskManager.Core.Entities.Users;
 
-public class UserEntity : EntityBase
+public sealed class UserEntity : EntityBase
 {
     public required string EmailLogin { get; set; }
     public required string Username { get; set; }

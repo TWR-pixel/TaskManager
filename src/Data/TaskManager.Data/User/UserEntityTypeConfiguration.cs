@@ -8,6 +8,11 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserE
 {
     public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
+        builder.ToTable("users");
+
+        builder.Property(t => t.Id)
+            .HasColumnName("id");
+
         builder.Property(u => u.EmailLogin)
             .HasColumnName("email_login")
             .IsRequired()

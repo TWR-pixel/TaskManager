@@ -1,18 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Common.Requests;
 using TaskManager.PublicApi.Common;
 
 namespace TaskManager.PublicApi.Controllers;
 
-public abstract class CrudApiControllerBase : ControllerBase
+public abstract class CrudApiControllerBase(IMediatorFacade mediator) : ControllerBase
 {
-    private readonly IMediatorFacade _mediator;
+    private readonly IMediatorFacade _mediator = mediator;
 
     protected IMediatorFacade Mediator => _mediator;
-
-    protected CrudApiControllerBase(IMediatorFacade mediator)
-    {
-        _mediator = mediator;
-    }
-
 }

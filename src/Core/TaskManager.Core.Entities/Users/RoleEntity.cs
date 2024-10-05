@@ -2,7 +2,7 @@
 
 namespace TaskManager.Core.Entities.Users;
 
-public class RoleEntity : EntityBase
+public sealed class RoleEntity : EntityBase
 {
     public required string Name { get; set; }
 

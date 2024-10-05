@@ -1,6 +1,6 @@
 ﻿namespace TaskManager.Application.Common.Security.Authentication.Abstractions;
 
-public interface IPasswordHasher
+public interface IBCryptPasswordHasher
 {
     public string HashPassword(string password, string salt);
     public string GenerateSalt(int workFactor = 11);

@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <Folder Include="TaskColumn\Specifications\" />
-    <Folder Include="Task\Specifications\" />
   </ItemGroup>
 
 </Project>

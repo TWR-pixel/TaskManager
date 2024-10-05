@@ -16,7 +16,8 @@ public sealed class UserController : CrudApiControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<RegisterUserResponse>> RegisterUser(RegisterUserRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest request,
+                                                                       CancellationToken cancellationToken)
     {
         try
         {

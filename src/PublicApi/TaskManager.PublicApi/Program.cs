@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TaskManager.Application.Common.Extensions;
+using TaskManager.Application.Common.Security.Authentication;
 using TaskManager.Application.Common.Security.Authentication.Abstractions;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.Options;
@@ -31,17 +32,22 @@ builder.Services.AddDbContext<TaskManagerDbContext>(d =>
     d.UseNpgsql(connectionString);
 });
 
+#region Add entityframework repositories
 builder.Services.AddScoped<EfRepositoryBase<UserEntity>, EfRepository<UserEntity>>();
 builder.Services.AddScoped<EfRepositoryBase<RoleEntity>, EfRepository<RoleEntity>>();
 builder.Services.AddScoped<EfRepositoryBase<TaskEntity>, EfRepository<TaskEntity>>();
 builder.Services.AddScoped<EfRepositoryBase<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
+#endregion
 
 builder.Services.AddMediator();
 builder.Services.AddScoped<IMediatorFacade, MediatorFacade>();
 
+#region Add authentication services
+
+builder.Services.AddScoped<IJwtClaimsFactory, JwtClaimsFactory>();
 builder.Services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
 builder.Services.AddScoped<ISymmetricSecurityKeysGenerator, SymmetricSecurityKeysGenerator>();
-builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+builder.Services.AddScoped<IBCryptPasswordHasher, BCryptPasswordHasher>();
 
 builder.Services.AddOptions<JwtAuthenticationOptions>().BindConfiguration(nameof(JwtAuthenticationOptions),
     o => o.ErrorOnUnknownConfiguration = true);
@@ -50,8 +56,12 @@ var validIssuer = builder.Configuration["JwtAuthenticationOptions:Issuer"];
 var validAudience = builder.Configuration["JwtAuthenticationOptions:Audience"];
 var issuerSigningKey = builder.Configuration["JwtAuthenticationOptions:SecurityKey"];
 
+if (string.IsNullOrWhiteSpace(issuerSigningKey))
+    throw new NullReferenceException(nameof(issuerSigningKey) + " is null or empty");
+
 builder.Services.AddAuthentication();
 
+#region configure jwt bearer authentication scheme
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -62,11 +72,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidAudience = validAudience,
             ValidateLifetime = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey!)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey)),
             ValidateIssuerSigningKey = true,
         };
     });
+#endregion
 
+#endregion
 
 var app = builder.Build();
 
