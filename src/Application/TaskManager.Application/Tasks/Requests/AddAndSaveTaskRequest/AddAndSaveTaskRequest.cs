@@ -6,7 +6,7 @@ using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
 
 namespace TaskManager.Application.Tasks.Requests.AddAndSaveTaskRequest;
-
+ 
 public sealed class AddAndSaveTaskRequest : RequestBase<AddAndSaveTaskResponse>
 {
     public required int UserId { get; set; }
@@ -20,6 +20,8 @@ public sealed class AddAndSaveTaskRequest : RequestBase<AddAndSaveTaskResponse>
 public sealed class AddAndSaveTaskResponse : ResponseBase
 {
     public required int CreatedTaskId { get; set; }
+    public required string Title { get; set; }
+    public required string Content { get; set; }
 }
 
 public sealed class AddAndSaveTaskRequestHandler : RequestHandlerBase<AddAndSaveTaskRequest, AddAndSaveTaskResponse>
@@ -59,7 +61,9 @@ public sealed class AddAndSaveTaskRequestHandler : RequestHandlerBase<AddAndSave
 
         var response = new AddAndSaveTaskResponse
         {
-            CreatedTaskId = queryResult.Id
+            CreatedTaskId = queryResult.Id,
+            Content = queryResult.Content,
+            Title = queryResult.Title,
         };
 
         return response;

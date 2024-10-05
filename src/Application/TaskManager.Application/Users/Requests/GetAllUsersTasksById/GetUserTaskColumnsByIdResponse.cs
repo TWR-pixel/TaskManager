@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Application.Users.Requests.GetUsersTasksById;
+﻿namespace TaskManager.Application.Users.Requests.GetAllUsersTasksById;
 
 public sealed class GetUserTaskColumnsByIdResponse
 {

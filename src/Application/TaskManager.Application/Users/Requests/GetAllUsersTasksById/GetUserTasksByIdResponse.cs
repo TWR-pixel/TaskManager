@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Application.Users.Requests.GetUsersTasksById;
+﻿namespace TaskManager.Application.Users.Requests.GetAllUsersTasksById;
 
 public sealed class GetUserTasksByIdResponse
 {
@@ -8,5 +8,5 @@ public sealed class GetUserTasksByIdResponse
     public required bool IsCompleted { get; set; }
     public required bool IsInProgress { get; set; }
 
-   // public required GetUserTaskColumnsByIdResponse TaskColumn { get; set; }
+    // public required GetUserTaskColumnsByIdResponse TaskColumn { get; set; }
 }

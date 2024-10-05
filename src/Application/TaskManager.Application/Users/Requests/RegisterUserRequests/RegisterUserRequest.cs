@@ -74,7 +74,7 @@ public sealed class RegisterUserRequestHandler
 
         userEntity = await _userRepo.AddAsync(userEntity, cancellationToken);
 
-        var claims = _claimsFactory.CreateDefault(userEntity.Id, roleEntity.Id);
+        var claims = _claimsFactory.CreateDefault(userEntity.Id, roleEntity.Id, userEntity.Username, roleEntity.Name);
         var token = _jwtTokenFactory.CreateSecurityToken(claims); // create new jwt token with claims
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);

@@ -14,7 +14,8 @@ public sealed class AddAndSaveRoleResponse : ResponseBase
     public required string Name { get; set; }
 }
 
-public sealed class AddAndSaveRoleRequestHandler : RequestHandlerBase<AddAndSaveRoleRequest, AddAndSaveRoleResponse>
+public sealed class AddAndSaveRoleRequestHandler
+    : RequestHandlerBase<AddAndSaveRoleRequest, AddAndSaveRoleResponse>
 {
     private readonly EfRepositoryBase<RoleEntity> _roleRepo;
 

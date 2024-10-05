@@ -4,7 +4,7 @@ using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
 
-namespace TaskManager.Application.TaskColumns.AddAndSaveTaskColumnRequests;
+namespace TaskManager.Application.TaskColumns.Requests.AddAndSaveTaskColumnRequests;
 
 /// <summary>
 /// Request for creating and saving user's task column in db

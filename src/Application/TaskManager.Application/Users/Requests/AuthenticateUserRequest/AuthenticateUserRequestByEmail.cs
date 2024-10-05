@@ -42,7 +42,10 @@ public sealed class AuthenticateUserRequestHandler :
         var queryResult = await _userRepo.SingleOrDefaultAsync(new GetUserByEmailLoginSpecification(request.Email), cancellationToken)
                           ?? throw new EntityNotFoundException("User not found by id. Try register new user.");
 
-        var claims = _claimsFactory.CreateDefault(queryResult.Id, queryResult.Role.Id);
+        var claims = _claimsFactory.CreateDefault(queryResult.Id,
+                                                  queryResult.Role.Id,
+                                                  queryResult.Username,
+                                                  queryResult.Role.Name);
 
         var token = _jwtSecurityTokenFactory.CreateSecurityToken(claims);
 

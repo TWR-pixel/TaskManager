@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Tasks.Requests.AddAndSaveTaskRequest;
 using TaskManager.Application.Tasks.Requests.UpdatePatchAndSaveTaskRequest;
-using TaskManager.Application.Users.Requests.GetUsersTasksById;
+using TaskManager.Application.Users.Requests.GetAllUsersTasksById;
 using TaskManager.PublicApi.Common;
 
 namespace TaskManager.PublicApi.Controllers;
@@ -16,7 +16,7 @@ public sealed class UserTasksController(IMediatorFacade mediator) : CrudApiContr
     [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GetAllUserTasksByIdResponse>> GetAllUsersTasks(
+    public async Task<ActionResult<GetAllUserTasksByIdResponse>> GetAllUserTasks(
         [FromQuery] GetAllUserTasksByIdRequest request, CancellationToken cancellation)
     {
         var result = await Mediator.SendAsync(request, cancellation);

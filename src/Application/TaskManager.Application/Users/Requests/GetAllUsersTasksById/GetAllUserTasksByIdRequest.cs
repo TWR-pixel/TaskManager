@@ -1,11 +1,10 @@
 ﻿using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
 using TaskManager.Data.User.Specifications;
 
-namespace TaskManager.Application.Users.Requests.GetUsersTasksById;
+namespace TaskManager.Application.Users.Requests.GetAllUsersTasksById;
 
 /// <summary>
 /// Returns all user's tasks by id in database
@@ -23,25 +22,19 @@ public sealed class GetAllUserTasksByIdResponse : ResponseBase
     public required IEnumerable<GetUserTasksByIdResponse> UserTasks { get; set; }
 }
 
-public sealed class GetAllUserTasksByIdRequestHandler
-    : RequestHandlerBase<GetAllUserTasksByIdRequest, GetAllUserTasksByIdResponse>
+public sealed class GetAllUserTasksByIdRequestHandler : RequestHandlerBase<GetAllUserTasksByIdRequest, GetAllUserTasksByIdResponse>
 {
     private readonly EfRepositoryBase<UserEntity> _usersRepo;
-    private readonly EfRepositoryBase<TaskEntity> _tasksRepo;
 
-    public GetAllUserTasksByIdRequestHandler(EfRepositoryBase<UserEntity> usersRepo, EfRepositoryBase<TaskEntity> tasksRepo)
+    public GetAllUserTasksByIdRequestHandler(EfRepositoryBase<UserEntity> usersRepo)
     {
         _usersRepo = usersRepo;
-        _tasksRepo = tasksRepo;
     }
 
     public override async Task<GetAllUserTasksByIdResponse> Handle(GetAllUserTasksByIdRequest request, CancellationToken cancellationToken)
     {
-        var userQueryResult = await _usersRepo.SingleOrDefaultAsync(new GetUserWithTasksByIdSpecification(request.UserId),
-                                                                    cancellationToken)
-
+        var userQueryResult = await _usersRepo.SingleOrDefaultAsync(new GetAllUserTasksByIdSpecification(request.UserId), cancellationToken)
             ?? throw new EntityNotFoundException($"User by id {request.UserId} not found");
-
 
         if (userQueryResult.Tasks is null)
         {
@@ -49,7 +42,7 @@ public sealed class GetAllUserTasksByIdRequestHandler
             {
                 UserId = request.UserId,
                 UserName = userQueryResult.Username,
-                UserTasks = []
+                UserTasks = [] // empty tasks
             };
 
             return nullTasksResponse;
@@ -63,12 +56,6 @@ public sealed class GetAllUserTasksByIdRequestHandler
                 IsCompleted = t.IsCompleted,
                 IsInProgress = t.IsInProgress,
                 Title = t.Title,
-
-                //TaskColumn = new GetUserTaskColumnsByIdResponse
-                //{
-                //    Name = t.TaskColumn.Name,
-                //},
-
             }),
 
             UserId = request.UserId,

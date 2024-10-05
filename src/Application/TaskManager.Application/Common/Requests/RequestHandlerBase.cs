@@ -8,8 +8,8 @@ namespace TaskManager.Application.Common.Requests;
 /// <typeparam name="TRequest"></typeparam>
 /// <typeparam name="TResponse"></typeparam>
 public abstract class RequestHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
-    where TResponse : class
+    where TRequest : RequestBase<TResponse>
+    where TResponse : ResponseBase
 {
     public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 }
