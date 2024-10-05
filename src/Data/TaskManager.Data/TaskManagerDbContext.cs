@@ -6,7 +6,7 @@ using TaskManager.Core.Entities.Users;
 
 namespace TaskManager.Data;
 
-public class TaskManagerDbContext : DbContext
+public sealed class TaskManagerDbContext : DbContext
 {
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<TaskColumnEntity> TaskColumns { get; set; }

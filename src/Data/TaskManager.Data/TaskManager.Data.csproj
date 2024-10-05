@@ -16,10 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Role\Specifications\" />
     <Folder Include="TaskColumn\Specifications\" />
     <Folder Include="Task\Specifications\" />
-    <Folder Include="User\Specifications\" />
   </ItemGroup>
 
 </Project>

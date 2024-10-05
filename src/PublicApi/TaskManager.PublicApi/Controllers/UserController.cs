@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Application.Users.Requests.RegisterUserRequests;
 using TaskManager.PublicApi.Common;
 
@@ -6,7 +7,7 @@ namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : CrudApiControllerBase
+public sealed class UserController : CrudApiControllerBase
 {
     public UserController(IMediatorFacade mediator) : base(mediator)
     {
@@ -14,10 +15,22 @@ public class UserController : CrudApiControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<RegisterUserResponse>> RegisterUserAsync(RegisterUserRequest request, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<RegisterUserResponse>> RegisterUser(RegisterUserRequest request, CancellationToken cancellationToken)
     {
-        var response = await Mediator.SendAsync(request, cancellationToken);
+        try
+        {
+            var response = await Mediator.SendAsync(request, cancellationToken);
 
-        return CreatedAtAction(nameof(RegisterUserAsync), response);
+            return CreatedAtAction(nameof(RegisterUser), response);
+        }
+        catch (UserAlreadyExistsException exception)
+        {
+            return Conflict(exception.Message);
+        }
     }
+
+
+
+
 }

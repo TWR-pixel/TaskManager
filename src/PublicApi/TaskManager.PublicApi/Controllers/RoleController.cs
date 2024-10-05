@@ -21,9 +21,10 @@ public sealed class RoleController : CrudApiControllerBase
         return CreatedAtAction(nameof(Create), response);
     }
 
-    [HttpGet]
-    public async Task<ActionResult> GetByIdAsync()
-    {
-        return Ok();
-    }
+    //[HttpGet]
+    //[ProducesResponseType(StatusCodes.Status200OK)]
+    //public async Task<ActionResult> GetByIdAsync()
+    //{
+    //    return Ok();
+    //}
 }

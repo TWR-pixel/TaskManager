@@ -3,10 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TaskManager.Data;
 
-public abstract class EfRepositoryBase<T>
-    : RepositoryBase<T> where T : class
+public abstract class EfRepositoryBase<T>(DbContext dbContext) : RepositoryBase<T>(dbContext) where T : class
 {
-    protected EfRepositoryBase(DbContext dbContext) : base(dbContext)
-    {
-    }
 }

@@ -3,8 +3,11 @@ using System.Security.Claims;
 using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Authentication.Abstractions;
+using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
+using TaskManager.Data.Role.Specifications;
+using TaskManager.Data.User.Specifications;
 
 namespace TaskManager.Application.Users.Requests.RegisterUserRequests;
 
@@ -13,15 +16,17 @@ public sealed class RegisterUserRequest : RequestBase<RegisterUserResponse>
     public required string Username { get; set; }
     public required string Email { get; set; }
     public required string Password { get; set; }
-    public required int Id { get; set; }
 }
 
 public sealed class RegisterUserResponse : ResponseBase
 {
     public required string TokenString { get; set; }
+
     public required string Username { get; set; }
     public required int UserId { get; set; }
+
     public required int RoleId { get; set; }
+    public required string RoleName { get; set; }
 }
 
 public sealed class RegisterUserRequestHandler
@@ -44,7 +49,16 @@ public sealed class RegisterUserRequestHandler
 
     public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
     {
-        var roleEntity = await _roleRepo.GetByIdAsync(request.Id, cancellationToken)
+        var user = await _userRepo
+            .SingleOrDefaultAsync(new GetUserEntityByEmailLoginSpecification(request.Email), cancellationToken);
+
+        if (user != null)
+        {
+            throw new UserAlreadyExistsException($"User with email = {request.Email} already exists");
+        }
+
+
+        var roleEntity = await _roleRepo.SingleOrDefaultAsync(new GetRoleByNameSpecification("User"), cancellationToken)
             ?? throw new EntityNotFoundException($"Entity not found by name 'User'");
 
         var passwordSalt = _passwordHasher.GenerateSalt();
@@ -61,11 +75,9 @@ public sealed class RegisterUserRequestHandler
 
         userEntity = await _userRepo.AddAsync(userEntity, cancellationToken);
 
-        await _userRepo.SaveChangesAsync(cancellationToken);
-
         var claims = new List<Claim>()
         {
-            new(nameof(request.Email), request.Email),
+            new("Id", userEntity.Id.ToString()),
             new(nameof(userEntity.Role.Name), userEntity.Role.Name),
         };
 
@@ -78,7 +90,8 @@ public sealed class RegisterUserRequestHandler
             TokenString = tokenString,
             Username = request.Username,
             UserId = userEntity.Id,
-            RoleId = roleEntity.Id
+            RoleId = roleEntity.Id,
+            RoleName = roleEntity.Name,
         };
 
         return response;

@@ -13,6 +13,8 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserE
             .IsRequired()
             .HasMaxLength(128);
 
+        builder.HasIndex(u => u.EmailLogin);
+
         builder.Property(u => u.Username)
             .HasColumnName("username")
             .IsRequired()

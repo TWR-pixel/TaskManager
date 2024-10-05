@@ -1,8 +1,5 @@
 ﻿namespace TaskManager.Data;
 
-public class EfRepository<T> : EfRepositoryBase<T> where T : class
+public sealed class EfRepository<T>(TaskManagerDbContext dbContext) : EfRepositoryBase<T>(dbContext) where T : class
 {
-    public EfRepository(TaskManagerDbContext dbContext) : base(dbContext)
-    {
-    }
 }

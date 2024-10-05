@@ -13,11 +13,12 @@ using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
 using TaskManager.PublicApi.Common;
+using TaskManager.PublicApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddTransient<HandleAllExceptionsMiddleware>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -68,6 +69,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 var app = builder.Build();
+
+app.UseMiddleware<HandleAllExceptionsMiddleware>(); // catches all exceptions in app and logging them
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

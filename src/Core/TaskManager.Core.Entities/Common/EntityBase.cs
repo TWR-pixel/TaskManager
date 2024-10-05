@@ -4,6 +4,6 @@ namespace TaskManager.Core.Entities.Common;
 
 public abstract class EntityBase
 {
-    //[Key]
+    [Key]
     public int Id { get; set; }
 }
