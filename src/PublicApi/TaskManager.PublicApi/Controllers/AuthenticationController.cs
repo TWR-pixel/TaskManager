@@ -10,7 +10,7 @@ namespace TaskManager.PublicApi.Controllers;
 public sealed class AuthenticationController(IMediatorFacade mediator) : ApiControllerBase(mediator)
 {
     #region
-    [HttpGet("login")]
+    [HttpGet("auth")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<AuthenticateUserByEmailResponse>> LoginUser([FromQuery] AuthenticateUserRequestByEmail request,
                                                                                       CancellationToken cancellationToken)

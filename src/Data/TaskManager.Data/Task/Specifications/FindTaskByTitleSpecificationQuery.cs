@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using TaskManager.Core.Entities.Tasks;
 
-namespace TaskManager.Data.Role.Specifications;
+namespace TaskManager.Data.Task.Specifications;
 
 public sealed class FindTaskByTitleSpecificationQuery : SingleResultSpecification<TaskEntity>
 {

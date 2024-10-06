@@ -7,6 +7,7 @@ public sealed class GetUserTasksByIdResponse
 
     public required bool IsCompleted { get; set; }
     public required bool IsInProgress { get; set; }
+    public required DateTime CreatedAt { get; set; }
 
     // public required GetUserTaskColumnsByIdResponse TaskColumn { get; set; }
 }

@@ -18,6 +18,7 @@ public sealed class GetAllUserTasksByIdResponse : ResponseBase
 {
     public required int UserId { get; set; }
     public required string UserName { get; set; }
+    public required string UserEmail { get; set; }
 
     public required IEnumerable<GetUserTasksByIdResponse> UserTasks { get; set; }
 }
@@ -42,6 +43,7 @@ public sealed class GetAllUserTasksByIdRequestHandler : RequestHandlerBase<GetAl
             {
                 UserId = request.UserId,
                 UserName = userQueryResult.Username,
+                UserEmail = userQueryResult.EmailLogin,
                 UserTasks = [] // empty tasks
             };
 
@@ -50,16 +52,19 @@ public sealed class GetAllUserTasksByIdRequestHandler : RequestHandlerBase<GetAl
 
         var response = new GetAllUserTasksByIdResponse
         {
+
+            UserId = request.UserId,
+            UserName = userQueryResult.Username,
+            UserEmail = userQueryResult.EmailLogin,
+
             UserTasks = userQueryResult.Tasks.Select(t => new GetUserTasksByIdResponse
             {
                 Content = t.Content,
                 IsCompleted = t.IsCompleted,
                 IsInProgress = t.IsInProgress,
                 Title = t.Title,
+                CreatedAt = t.CreatedAt,
             }),
-
-            UserId = request.UserId,
-            UserName = userQueryResult.Username,
         };
 
         return response;

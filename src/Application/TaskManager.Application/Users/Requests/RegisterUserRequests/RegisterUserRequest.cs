@@ -4,6 +4,7 @@ using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Authentication;
 using TaskManager.Application.Common.Security.Authentication.Abstractions;
 using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
+using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
 using TaskManager.Data.Role.Specifications;
@@ -38,15 +39,17 @@ public sealed class RegisterUserRequestHandler
 
     private readonly EfRepositoryBase<RoleEntity> _roleRepo;
     private readonly EfRepositoryBase<UserEntity> _userRepo;
+    private readonly EfRepositoryBase<TaskColumnEntity> _columnsRepo;
 
     public RegisterUserRequestHandler(IJwtSecurityTokenFactory jwtTokenFactory, IBCryptPasswordHasher passwordHasher,
-        EfRepositoryBase<RoleEntity> roleRepo, EfRepositoryBase<UserEntity> userRepo, IJwtClaimsFactory claimsFactory)
+        EfRepositoryBase<RoleEntity> roleRepo, EfRepositoryBase<UserEntity> userRepo, IJwtClaimsFactory claimsFactory, EfRepositoryBase<TaskColumnEntity> columnsRepo)
     {
         _jwtTokenFactory = jwtTokenFactory;
         _passwordHasher = passwordHasher;
         _roleRepo = roleRepo;
         _userRepo = userRepo;
         _claimsFactory = claimsFactory;
+        _columnsRepo = columnsRepo;
     }
 
     public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
@@ -87,6 +90,29 @@ public sealed class RegisterUserRequestHandler
             RoleId = roleEntity.Id,
             RoleName = roleEntity.Name,
         };
+
+        #region Default columns adding
+        var defaultColumns = new List<TaskColumnEntity>()
+        {
+            new() {
+                Name = "Завершенные",
+                Owner = userEntity,
+                Description = "Test"
+            },
+            new()
+            {
+                Name = "Нужно сделать",
+                Owner = userEntity
+            },
+            new()
+            {
+                Name = "В процессе",
+                Owner = userEntity
+            }
+        };
+        #endregion
+        await _columnsRepo.AddRangeAsync(defaultColumns, cancellationToken);
+
 
         return response;
     }
