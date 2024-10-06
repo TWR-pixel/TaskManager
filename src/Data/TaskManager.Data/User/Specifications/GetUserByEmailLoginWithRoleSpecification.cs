@@ -3,9 +3,9 @@ using TaskManager.Core.Entities.Users;
 
 namespace TaskManager.Data.User.Specifications;
 
-public sealed class GetUserByEmailLoginSpecification : SingleResultSpecification<UserEntity>
+public sealed class GetUserByEmailLoginWithRoleSpecification : SingleResultSpecification<UserEntity>
 {
-    public GetUserByEmailLoginSpecification(string emailLogin)
+    public GetUserByEmailLoginWithRoleSpecification(string emailLogin)
     {
         Query
             .Where(u => u.EmailLogin == emailLogin)

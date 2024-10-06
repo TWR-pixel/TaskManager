@@ -8,9 +8,10 @@ namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]")]
-public sealed class TaskColumnController(IMediatorFacade mediator) : CrudApiControllerBase(mediator)
+[Route("api/task-columns")]
+public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControllerBase(mediator)
 {
+    #region HTTP methods
     [HttpPost]
     [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -31,4 +32,5 @@ public sealed class TaskColumnController(IMediatorFacade mediator) : CrudApiCont
 
         return Ok(result);
     }
+    #endregion
 }

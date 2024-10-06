@@ -1,4 +1,8 @@
-﻿namespace TaskManager.PublicApi.Middlewares;
+﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Common;
+using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
+
+namespace TaskManager.PublicApi.Middlewares;
 
 public sealed class HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMiddleware> logger) : IMiddleware
 {
@@ -10,16 +14,54 @@ public sealed class HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMid
         {
             await next(context);
         }
+        catch (EntityNotFoundException entityNotFoundException)
+        {
+            _logger.LogError(entityNotFoundException.Message, entityNotFoundException);
+
+            var problemDetails = new ProblemDetails
+            {
+                Title = "Not found",
+                Detail = entityNotFoundException.Message,
+                Status = StatusCodes.Status404NotFound,
+            };
+
+            await context.Response.WriteAsJsonAsync(problemDetails);
+        }
+        catch (UserAlreadyExistsException userAlreadyExistsException)
+        {
+            var alreadyExistsProblemDetails = new ProblemDetails
+            {
+                Title = "User already exists",
+                Detail = userAlreadyExistsException.Message,
+                Status = StatusCodes.Status409Conflict
+            };
+
+            await context.Response.WriteAsJsonAsync(alreadyExistsProblemDetails);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
 
-            var jsonResponse = new
+            var unhandledException = new ProblemDetails
             {
-                ExceptionMessage = ex.Message,
+                Title = "Unhandled exception",
+                Detail = ex.Message,
+                Status = StatusCodes.Status400BadRequest
             };
 
-            await context.Response.WriteAsJsonAsync(jsonResponse);
+            await context.Response.WriteAsJsonAsync(unhandledException);
         }
+    }
+
+    private ProblemDetails CreateProblemDetails(string title, string details, int statusCode)
+    {
+        var result = new ProblemDetails
+        {
+            Title = title,
+            Detail = details,
+            Status = statusCode
+        };
+
+        return result;
     }
 }

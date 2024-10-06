@@ -1,37 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
-using TaskManager.Application.Users.Requests.RegisterUserRequests;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Common;
+using TaskManager.Application.Users.Requests.GetAllUsersTasksById;
 using TaskManager.PublicApi.Common;
 
 namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-public sealed class UserController : CrudApiControllerBase
+[Route("api/users")]
+public sealed class UserController(IMediatorFacade mediator) : ApiControllerBase(mediator)
 {
-    public UserController(IMediatorFacade mediator) : base(mediator)
-    {
-    }
-
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest request,
-                                                                       CancellationToken cancellationToken)
+    #region HTTP methods
+    [HttpGet]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<GetAllUserTasksByIdResponse>> GetById([FromQuery] GetAllUserTasksByIdRequest request, CancellationToken cancellationToken)
     {
         try
         {
-            var response = await Mediator.SendAsync(request, cancellationToken);
+            var result = await Mediator.SendAsync(request, cancellationToken);
 
-            return CreatedAtAction(nameof(RegisterUser), response);
+            return Ok(result);
         }
-        catch (UserAlreadyExistsException exception)
+        catch (EntityNotFoundException notFoundException)
         {
-            return Conflict(exception.Message);
+            return NotFound(notFoundException.Message);
         }
     }
-
-
-
-
+    #endregion
 }

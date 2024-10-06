@@ -52,13 +52,13 @@ public sealed class RegisterUserRequestHandler
     public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
     {
         var user = await _userRepo
-            .SingleOrDefaultAsync(new GetUserByEmailLoginSpecification(request.Email), cancellationToken);
+            .SingleOrDefaultAsync(new GetUserByEmailLoginWithRoleSpecification(request.Email), cancellationToken);
 
         if (user != null)
-            throw new UserAlreadyExistsException($"User with email = {request.Email} already exists");
+            throw new UserAlreadyExistsException($"User with email '{request.Email}' already exists");
 
         var roleEntity = await _roleRepo.SingleOrDefaultAsync(new GetRoleByNameSpecification("User"), cancellationToken)
-            ?? throw new EntityNotFoundException($"Entity not found by name 'User'");
+            ?? throw new EntityNotFoundException($"Role with name 'User' not found");
 
         var passwordSalt = _passwordHasher.GenerateSalt();
         var passwordHash = _passwordHasher.HashPassword(request.Password, passwordSalt);

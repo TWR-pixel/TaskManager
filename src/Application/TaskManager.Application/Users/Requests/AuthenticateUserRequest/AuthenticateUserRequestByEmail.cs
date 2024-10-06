@@ -12,7 +12,7 @@ namespace TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 public sealed class AuthenticateUserRequestByEmail :
     RequestBase<AuthenticateUserByEmailResponse>
 {
-    public required string Email { get; set; }
+    public required string EmailLogin { get; set; }
     public required string Password { get; set; }
 }
 public sealed class AuthenticateUserByEmailResponse : ResponseBase
@@ -39,7 +39,7 @@ public sealed class AuthenticateUserRequestHandler :
 
     public override async Task<AuthenticateUserByEmailResponse> Handle(AuthenticateUserRequestByEmail request, CancellationToken cancellationToken)
     {
-        var queryResult = await _userRepo.SingleOrDefaultAsync(new GetUserByEmailLoginSpecification(request.Email), cancellationToken)
+        var queryResult = await _userRepo.SingleOrDefaultAsync(new GetUserByEmailLoginWithRoleSpecification(request.EmailLogin), cancellationToken)
                           ?? throw new EntityNotFoundException("User not found by id. Try register new user.");
 
         var claims = _claimsFactory.CreateDefault(queryResult.Id,
@@ -53,7 +53,7 @@ public sealed class AuthenticateUserRequestHandler :
         {
             TokenString = new JwtSecurityTokenHandler().WriteToken(token),
         };
-
+            
         return response;
     }
 }

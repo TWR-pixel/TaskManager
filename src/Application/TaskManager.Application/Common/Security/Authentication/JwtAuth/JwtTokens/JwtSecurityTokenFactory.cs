@@ -27,7 +27,7 @@ public sealed class JwtSecurityTokenFactory(IOptions<JwtAuthenticationOptions> a
             throw new ArgumentNullException(nameof(claims));
 
         var key = _symmetricSecurityKeysGenerator.CreateSecurityKey(_authOptions.Value.SecurityKey); // generate new security key 
-        var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // data for algorithm info
+        var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // algorithm info
 
         var token = new JwtSecurityToken(
             _authOptions.Value.Issuer,

@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Tasks;
+using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Data;
 
 namespace TaskManager.Application.TaskColumns.Requests.DeleteTaskColumnRequests;
@@ -17,9 +17,9 @@ public sealed class DeleteAndSaveTaskColumnByIdResponse : ResponseBase
 public sealed class DeleteAndSaveTaskColumnByIdRequestHandler
     : RequestHandlerBase<DeleteAndSaveTaskColumnByIdRequest, DeleteAndSaveTaskColumnByIdResponse>
 {
-    private readonly EfRepository<TaskEntity> _tasksRepo;
+    private readonly EfRepositoryBase<TaskColumnEntity> _tasksRepo;
 
-    public DeleteAndSaveTaskColumnByIdRequestHandler(EfRepository<TaskEntity> tasksRepo)
+    public DeleteAndSaveTaskColumnByIdRequestHandler(EfRepositoryBase<TaskColumnEntity> tasksRepo)
     {
         _tasksRepo = tasksRepo;
     }
@@ -28,7 +28,6 @@ public sealed class DeleteAndSaveTaskColumnByIdRequestHandler
     {
         var entity = await _tasksRepo.GetByIdAsync(request.TaskColumnId, cancellationToken)
             ?? throw new EntityNotFoundException("task column not found by id " + request.TaskColumnId);
-
 
         await _tasksRepo.DeleteAsync(entity, cancellationToken);
 

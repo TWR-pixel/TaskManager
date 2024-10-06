@@ -9,15 +9,14 @@ namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]")]
-public sealed class UserTasksController(IMediatorFacade mediator) : CrudApiControllerBase(mediator)
+[Route("api/user-tasks")]
+public sealed class UserTasksController(IMediatorFacade mediator) : ApiControllerBase(mediator)
 {
+    #region HTTP methods
     [HttpGet]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GetAllUserTasksByIdResponse>> GetAllUserTasks(
-        [FromQuery] GetAllUserTasksByIdRequest request, CancellationToken cancellation)
+    public async Task<ActionResult<GetAllUserTasksByIdResponse>> GetAllUserTasks([FromQuery] GetAllUserTasksByIdRequest request, CancellationToken cancellation)
     {
         var result = await Mediator.SendAsync(request, cancellation);
 
@@ -25,7 +24,6 @@ public sealed class UserTasksController(IMediatorFacade mediator) : CrudApiContr
     }
 
     [HttpPost]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<AddAndSaveTaskResponse>> CreateTask([FromBody] AddAndSaveTaskRequest request, CancellationToken cancellationToken)
@@ -36,7 +34,6 @@ public sealed class UserTasksController(IMediatorFacade mediator) : CrudApiContr
     }
 
     [HttpPatch]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<UpdatePatchAndSaveTaskResponse>> PatchTask([FromBody] UpdatePatchAndSaveTaskRequest request,
@@ -46,4 +43,5 @@ public sealed class UserTasksController(IMediatorFacade mediator) : CrudApiContr
 
         return Ok(result);
     }
+    #endregion
 }

@@ -3,7 +3,7 @@ using TaskManager.PublicApi.Common;
 
 namespace TaskManager.PublicApi.Controllers;
 
-public abstract class CrudApiControllerBase(IMediatorFacade mediator) : ControllerBase
+public abstract class ApiControllerBase(IMediatorFacade mediator) : ControllerBase
 {
     private readonly IMediatorFacade _mediator = mediator;
 
