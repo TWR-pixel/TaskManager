@@ -12,6 +12,13 @@ public sealed class GetTaskByIdRequest : RequestBase<GetTaskByIdResponse>
 
 public sealed class GetTaskByIdResponse : ResponseBase
 {
+    public required string Title { get; set; }
+    public required string Content { get; set; }
+
+    public required bool IsCompleted { get; set; }
+    public required bool IsInProgress { get; set; }
+
+    public required DateTime CreatedAt { get; set; }
 }
 
 public sealed class GetTaskByIdRequetHandler : RequestHandlerBase<GetTaskByIdRequest, GetTaskByIdResponse>
@@ -25,10 +32,17 @@ public sealed class GetTaskByIdRequetHandler : RequestHandlerBase<GetTaskByIdReq
 
     public override async Task<GetTaskByIdResponse> Handle(GetTaskByIdRequest request, CancellationToken cancellationToken)
     {
-        var result = await _tasksRepo.GetByIdAsync(request.TaskId)
+        var result = await _tasksRepo.GetByIdAsync(request.TaskId, cancellationToken)
             ?? throw new EntityNotFoundException("Task not found by id = " + request.TaskId);
 
-        var response = new GetTaskByIdResponse();
+        var response = new GetTaskByIdResponse
+        {
+            Title = result.Title,
+            Content = result.Content,
+            CreatedAt = result.CreatedAt,
+            IsCompleted = result.IsCompleted,
+            IsInProgress = result.IsInProgress,
+        };
 
         return response;
     }

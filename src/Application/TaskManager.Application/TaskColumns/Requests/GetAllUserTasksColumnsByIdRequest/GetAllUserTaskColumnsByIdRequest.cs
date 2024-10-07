@@ -59,7 +59,7 @@ public sealed class GetAllUserTaskColumnsByIdRequestHandler
             UserName = queryResult.Username,
             UserTaskColumns = queryResult.TaskColumns.Select(u => new GetAllUserTaskColumnsByIdResponse.UserTasksColumnsResponse
             {
-                Content = u.Description ?? "NULL",
+                Content = u.Description ?? "Empty", // if null return empty
                 Id = u.Id,
                 Name = u.Name,
             })

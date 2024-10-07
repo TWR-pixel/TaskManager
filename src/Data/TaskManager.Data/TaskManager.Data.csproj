@@ -15,8 +15,4 @@
     <ProjectReference Include="..\..\Core\TaskManager.Core.Interfaces\TaskManager.Core.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TaskColumn\Specifications\" />
-  </ItemGroup>
-
 </Project>
