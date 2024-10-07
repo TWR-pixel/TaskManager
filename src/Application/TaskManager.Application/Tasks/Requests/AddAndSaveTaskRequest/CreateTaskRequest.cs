@@ -7,7 +7,7 @@ using TaskManager.Data;
 
 namespace TaskManager.Application.Tasks.Requests.AddAndSaveTaskRequest;
  
-public sealed class AddAndSaveTaskRequest : RequestBase<AddAndSaveTaskResponse>
+public sealed class CreateTaskRequest : RequestBase<CreateTaskResponse>
 {
     public required int UserId { get; set; }
     public required int ColumnId { get; set; }
@@ -17,20 +17,20 @@ public sealed class AddAndSaveTaskRequest : RequestBase<AddAndSaveTaskResponse>
     public bool IsInProgress { get; set; } = true;
 }
 
-public sealed class AddAndSaveTaskResponse : ResponseBase
+public sealed class CreateTaskResponse : ResponseBase
 {
     public required int CreatedTaskId { get; set; }
     public required string Title { get; set; }
     public required string Content { get; set; }
 }
 
-public sealed class AddAndSaveTaskRequestHandler : RequestHandlerBase<AddAndSaveTaskRequest, AddAndSaveTaskResponse>
+public sealed class CreateTaskRequestHandler : RequestHandlerBase<CreateTaskRequest, CreateTaskResponse>
 {
     private readonly EfRepositoryBase<TaskEntity> _taskRepo;
     private readonly EfRepositoryBase<UserEntity> _userRepo;
     private readonly EfRepositoryBase<TaskColumnEntity> _taskColumnsRepo;
 
-    public AddAndSaveTaskRequestHandler(EfRepositoryBase<TaskEntity> taskRepo,
+    public CreateTaskRequestHandler(EfRepositoryBase<TaskEntity> taskRepo,
                                         EfRepositoryBase<UserEntity> userRepo,
                                         EfRepositoryBase<TaskColumnEntity> taskColumnsRepo)
     {
@@ -39,7 +39,7 @@ public sealed class AddAndSaveTaskRequestHandler : RequestHandlerBase<AddAndSave
         _taskColumnsRepo = taskColumnsRepo;
     }
 
-    public override async Task<AddAndSaveTaskResponse> Handle(AddAndSaveTaskRequest request, CancellationToken cancellationToken)
+    public override async Task<CreateTaskResponse> Handle(CreateTaskRequest request, CancellationToken cancellationToken)
     {
         var user = await _userRepo.GetByIdAsync(request.UserId, cancellationToken)
             ?? throw new EntityNotFoundException("User not found by id " + request.UserId);
@@ -59,7 +59,7 @@ public sealed class AddAndSaveTaskRequestHandler : RequestHandlerBase<AddAndSave
 
         var queryResult = await _taskRepo.AddAsync(taskEntity, cancellationToken);
 
-        var response = new AddAndSaveTaskResponse
+        var response = new CreateTaskResponse
         {
             CreatedTaskId = queryResult.Id,
             Content = queryResult.Content,

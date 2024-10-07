@@ -1,7 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Data;
-using TaskManager.Data.Role.Specifications;
+using TaskManager.Data.Task.Specifications;
 
 namespace TaskManager.Application.Tasks.Requests.GetTaskByTitleRequest;
 

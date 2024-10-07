@@ -34,14 +34,14 @@ public sealed class RegisterUserRequestHandler
     : RequestHandlerBase<RegisterUserRequest, RegisterUserResponse>
 {
     private readonly IJwtSecurityTokenFactory _jwtTokenFactory;
-    private readonly IBCryptPasswordHasher _passwordHasher;
+    private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtClaimsFactory _claimsFactory;
 
     private readonly EfRepositoryBase<RoleEntity> _roleRepo;
     private readonly EfRepositoryBase<UserEntity> _userRepo;
     private readonly EfRepositoryBase<TaskColumnEntity> _columnsRepo;
 
-    public RegisterUserRequestHandler(IJwtSecurityTokenFactory jwtTokenFactory, IBCryptPasswordHasher passwordHasher,
+    public RegisterUserRequestHandler(IJwtSecurityTokenFactory jwtTokenFactory, IPasswordHasher passwordHasher,
         EfRepositoryBase<RoleEntity> roleRepo, EfRepositoryBase<UserEntity> userRepo, IJwtClaimsFactory claimsFactory, EfRepositoryBase<TaskColumnEntity> columnsRepo)
     {
         _jwtTokenFactory = jwtTokenFactory;

@@ -4,23 +4,34 @@ using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
 using TaskManager.Data.User.Specifications;
 
-namespace TaskManager.Application.Users.Requests.GetAllUsersTasksById;
+namespace TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
 
 /// <summary>
 /// Returns all user's tasks by id in database
 /// </summary>
 public sealed class GetAllUserTasksByIdRequest : RequestBase<GetAllUserTasksByIdResponse>
 {
-    public required int UserId { get; set; }
+    public required int UserId { get; init; }
 }
 
 public sealed class GetAllUserTasksByIdResponse : ResponseBase
 {
-    public required int UserId { get; set; }
+    public required int UserId { get; init; }
     public required string UserName { get; set; }
     public required string UserEmail { get; set; }
 
-    public required IEnumerable<GetUserTasksByIdResponse> UserTasks { get; set; }
+    public required IEnumerable<UserTaskByIdResponse> UserTasks { get; set; }
+
+    public sealed class UserTaskByIdResponse
+    {
+        public required string Title { get; set; }
+        public required string Content { get; set; }
+
+        public required bool IsCompleted { get; set; }
+        public required bool IsInProgress { get; set; }
+        public required DateTime CreatedAt { get; set; }
+
+    }
 }
 
 public sealed class GetAllUserTasksByIdRequestHandler : RequestHandlerBase<GetAllUserTasksByIdRequest, GetAllUserTasksByIdResponse>
@@ -35,7 +46,7 @@ public sealed class GetAllUserTasksByIdRequestHandler : RequestHandlerBase<GetAl
     public override async Task<GetAllUserTasksByIdResponse> Handle(GetAllUserTasksByIdRequest request, CancellationToken cancellationToken)
     {
         var userQueryResult = await _usersRepo.SingleOrDefaultAsync(new GetAllUserTasksByIdSpecification(request.UserId), cancellationToken)
-            ?? throw new EntityNotFoundException($"User by id {request.UserId} not found");
+            ?? throw new EntityNotFoundException($"User with id {request.UserId} not found");
 
         if (userQueryResult.Tasks is null)
         {
@@ -44,7 +55,7 @@ public sealed class GetAllUserTasksByIdRequestHandler : RequestHandlerBase<GetAl
                 UserId = request.UserId,
                 UserName = userQueryResult.Username,
                 UserEmail = userQueryResult.EmailLogin,
-                UserTasks = [] // empty tasks
+                UserTasks = [] // null tasks
             };
 
             return nullTasksResponse;
@@ -52,12 +63,11 @@ public sealed class GetAllUserTasksByIdRequestHandler : RequestHandlerBase<GetAl
 
         var response = new GetAllUserTasksByIdResponse
         {
-
             UserId = request.UserId,
             UserName = userQueryResult.Username,
             UserEmail = userQueryResult.EmailLogin,
 
-            UserTasks = userQueryResult.Tasks.Select(t => new GetUserTasksByIdResponse
+            UserTasks = userQueryResult.Tasks.Select(t => new GetAllUserTasksByIdResponse.UserTaskByIdResponse
             {
                 Content = t.Content,
                 IsCompleted = t.IsCompleted,

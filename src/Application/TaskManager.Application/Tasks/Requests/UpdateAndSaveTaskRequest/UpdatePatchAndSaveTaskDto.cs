@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Application.Tasks.Requests.UpdatePatchAndSaveTaskRequest;
+﻿namespace TaskManager.Application.Tasks.Requests.UpdateAndSaveTaskRequest;
 
 public sealed class UpdatePatchAndSaveTaskDto
 {

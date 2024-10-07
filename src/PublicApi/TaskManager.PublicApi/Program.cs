@@ -47,7 +47,7 @@ builder.Services.AddScoped<IMediatorFacade, MediatorFacade>();
 builder.Services.AddScoped<IJwtClaimsFactory, JwtClaimsFactory>();
 builder.Services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
 builder.Services.AddScoped<ISymmetricSecurityKeysGenerator, SymmetricSecurityKeysGenerator>();
-builder.Services.AddScoped<IBCryptPasswordHasher, BCryptPasswordHasher>();
+builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
 builder.Services.AddOptions<JwtAuthenticationOptions>().BindConfiguration(nameof(JwtAuthenticationOptions),
     o => o.ErrorOnUnknownConfiguration = true);

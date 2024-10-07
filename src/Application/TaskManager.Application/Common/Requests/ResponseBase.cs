@@ -2,5 +2,5 @@
 
 public abstract class ResponseBase
 {
-    public string ResponseStatus { get; set; } = "Success";
+    public string Status { get; set; } = "Success";
 }

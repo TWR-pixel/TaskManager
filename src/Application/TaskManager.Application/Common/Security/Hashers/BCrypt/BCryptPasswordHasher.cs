@@ -3,7 +3,7 @@ using Hash = BCrypt.Net;
 
 namespace TaskManager.Application.Common.Security.Hashers.BCrypt;
 
-public sealed class BCryptPasswordHasher : IBCryptPasswordHasher
+public sealed class BCryptPasswordHasher : IPasswordHasher
 {
     public string HashPassword(string password, string salt)
     {

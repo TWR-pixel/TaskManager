@@ -10,7 +10,7 @@ namespace TaskManager.PublicApi.Controllers;
 public sealed class AuthenticationController(IMediatorFacade mediator) : ApiControllerBase(mediator)
 {
     #region
-    [HttpGet("auth")]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<AuthenticateUserByEmailResponse>> LoginUser([FromQuery] AuthenticateUserRequestByEmail request,
                                                                                       CancellationToken cancellationToken)
@@ -20,7 +20,7 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
         return Ok(result);
     }
 
-    [HttpPost("register")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest request,

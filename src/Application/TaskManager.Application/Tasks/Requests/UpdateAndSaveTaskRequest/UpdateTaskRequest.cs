@@ -3,9 +3,9 @@ using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Data;
 
-namespace TaskManager.Application.Tasks.Requests.UpdatePatchAndSaveTaskRequest;
+namespace TaskManager.Application.Tasks.Requests.UpdateAndSaveTaskRequest;
 
-public sealed class UpdatePatchAndSaveTaskRequest : RequestBase<UpdatePatchAndSaveTaskResponse>
+public sealed class UpdateTaskRequest : RequestBase<UpdateTaskResponse>
 {
     public required int UpdatingTaskId { get; set; }
     public string? Title { get; set; }
@@ -14,7 +14,7 @@ public sealed class UpdatePatchAndSaveTaskRequest : RequestBase<UpdatePatchAndSa
     public bool? IsInProgress { get; set; }
 }
 
-public sealed class UpdatePatchAndSaveTaskResponse : ResponseBase
+public sealed class UpdateTaskResponse : ResponseBase
 {
     public string? Title { get; set; }
     public string? Content { get; set; }
@@ -22,17 +22,17 @@ public sealed class UpdatePatchAndSaveTaskResponse : ResponseBase
     public bool? IsInProgress { get; set; }
 }
 
-public sealed class UpdatePatchAndSaveTaskRequestHandler
-    : RequestHandlerBase<UpdatePatchAndSaveTaskRequest, UpdatePatchAndSaveTaskResponse>
+public sealed class UpdateTaskRequestHandler
+    : RequestHandlerBase<UpdateTaskRequest, UpdateTaskResponse>
 {
     private readonly EfRepositoryBase<TaskEntity> _taskRepo;
 
-    public UpdatePatchAndSaveTaskRequestHandler(EfRepositoryBase<TaskEntity> taskRepo)
+    public UpdateTaskRequestHandler(EfRepositoryBase<TaskEntity> taskRepo)
     {
         _taskRepo = taskRepo;
     }
 
-    public override async Task<UpdatePatchAndSaveTaskResponse> Handle(UpdatePatchAndSaveTaskRequest request, CancellationToken cancellationToken)
+    public override async Task<UpdateTaskResponse> Handle(UpdateTaskRequest request, CancellationToken cancellationToken)
     {
         var entityForUpdate = await _taskRepo.GetByIdAsync(request.UpdatingTaskId, cancellationToken)
             ?? throw new EntityNotFoundException($"Task by id {request.UpdatingTaskId} not found. ");
@@ -52,7 +52,7 @@ public sealed class UpdatePatchAndSaveTaskRequestHandler
 
         await _taskRepo.UpdateAsync(entityForUpdate, cancellationToken);
 
-        var response = new UpdatePatchAndSaveTaskResponse()
+        var response = new UpdateTaskResponse()
         {
             Content = request.Content,
             Title = request.Title,

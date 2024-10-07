@@ -24,6 +24,8 @@ public sealed class HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMid
                 Detail = entityNotFoundException.Message,
                 Status = StatusCodes.Status404NotFound,
             };
+            
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
 
             await context.Response.WriteAsJsonAsync(problemDetails);
         }
@@ -35,6 +37,8 @@ public sealed class HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMid
                 Detail = userAlreadyExistsException.Message,
                 Status = StatusCodes.Status409Conflict
             };
+
+            context.Response.StatusCode = StatusCodes.Status409Conflict;
 
             await context.Response.WriteAsJsonAsync(alreadyExistsProblemDetails);
         }
@@ -48,6 +52,8 @@ public sealed class HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMid
                 Detail = ex.Message,
                 Status = StatusCodes.Status400BadRequest
             };
+
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
             await context.Response.WriteAsJsonAsync(unhandledException);
         }

@@ -9,7 +9,7 @@ namespace TaskManager.Application.TaskColumns.Requests.AddAndSaveTaskColumnReque
 /// <summary>
 /// Request for creating and saving user's task column in db
 /// </summary>
-public sealed class AddAndSaveTaskColumnRequest : RequestBase<AddAndSaveTaskColumnResponse>
+public sealed class CreateTaskColumnRequest : RequestBase<CreateTaskColumnResponse>
 {
     public required int UserId { get; set; }
     public required string Name { get; set; }
@@ -19,27 +19,27 @@ public sealed class AddAndSaveTaskColumnRequest : RequestBase<AddAndSaveTaskColu
 /// <summary>
 /// Response for user
 /// </summary>
-public sealed class AddAndSaveTaskColumnResponse : ResponseBase
+public sealed class CreateTaskColumnResponse : ResponseBase
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
 }
 
-public sealed class AddAndSaveTaskColumnRequestHandler :
-    RequestHandlerBase<AddAndSaveTaskColumnRequest, AddAndSaveTaskColumnResponse>
+public sealed class CreateTaskColumnRequestHandler :
+    RequestHandlerBase<CreateTaskColumnRequest, CreateTaskColumnResponse>
 {
     private readonly EfRepositoryBase<TaskColumnEntity> _taskColumnRepo;
     private readonly EfRepositoryBase<UserEntity> _usersRepo;
 
-    public AddAndSaveTaskColumnRequestHandler(EfRepositoryBase<TaskColumnEntity> taskColumnRepo, EfRepositoryBase<UserEntity> usersRepo)
+    public CreateTaskColumnRequestHandler(EfRepositoryBase<TaskColumnEntity> taskColumnRepo, EfRepositoryBase<UserEntity> usersRepo)
     {
         _taskColumnRepo = taskColumnRepo;
         _usersRepo = usersRepo;
     }
 
-    public override async Task<AddAndSaveTaskColumnResponse> Handle
-        (AddAndSaveTaskColumnRequest request, CancellationToken cancellationToken)
+    public override async Task<CreateTaskColumnResponse> Handle
+        (CreateTaskColumnRequest request, CancellationToken cancellationToken)
     {
         var userEntity = await _usersRepo.GetByIdAsync(request.UserId, cancellationToken)
             ?? throw new EntityNotFoundException("user not found by id " + request.UserId);
@@ -53,7 +53,7 @@ public sealed class AddAndSaveTaskColumnRequestHandler :
 
         var queryResult = await _taskColumnRepo.AddAsync(entity, cancellationToken);
 
-        var response = new AddAndSaveTaskColumnResponse
+        var response = new CreateTaskColumnResponse
         {
             Id = queryResult.Id,
             Name = queryResult.Name,

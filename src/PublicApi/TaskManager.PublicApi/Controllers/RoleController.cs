@@ -11,7 +11,7 @@ public sealed class RoleController(IMediatorFacade mediator) : ApiControllerBase
     #region HTTP methods
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<AddAndSaveRoleResponse>> Create([FromBody] AddAndSaveRoleRequest request,
+    public async Task<ActionResult<CreateRoleResponse>> Create([FromBody] CreateRoleRequest request,
                                                                    CancellationToken cancellation)
     {
         var response = await Mediator.SendAsync(request, cancellation);

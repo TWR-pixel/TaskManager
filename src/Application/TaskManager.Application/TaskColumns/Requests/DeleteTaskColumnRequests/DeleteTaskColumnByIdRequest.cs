@@ -5,33 +5,33 @@ using TaskManager.Data;
 
 namespace TaskManager.Application.TaskColumns.Requests.DeleteTaskColumnRequests;
 
-public sealed class DeleteAndSaveTaskColumnByIdRequest : RequestBase<DeleteAndSaveTaskColumnByIdResponse>
+public sealed class DeleteTaskColumnByIdRequest : RequestBase<DeleteTaskColumnByIdResponse>
 {
     public required int TaskColumnId { get; set; }
 }
 
-public sealed class DeleteAndSaveTaskColumnByIdResponse : ResponseBase
+public sealed class DeleteTaskColumnByIdResponse : ResponseBase
 {
 }
 
-public sealed class DeleteAndSaveTaskColumnByIdRequestHandler
-    : RequestHandlerBase<DeleteAndSaveTaskColumnByIdRequest, DeleteAndSaveTaskColumnByIdResponse>
+public sealed class DeleteTaskColumnByIdRequestHandler
+: RequestHandlerBase<DeleteTaskColumnByIdRequest, DeleteTaskColumnByIdResponse>
 {
     private readonly EfRepositoryBase<TaskColumnEntity> _tasksRepo;
 
-    public DeleteAndSaveTaskColumnByIdRequestHandler(EfRepositoryBase<TaskColumnEntity> tasksRepo)
+    public DeleteTaskColumnByIdRequestHandler(EfRepositoryBase<TaskColumnEntity> tasksRepo)
     {
         _tasksRepo = tasksRepo;
     }
 
-    public override async Task<DeleteAndSaveTaskColumnByIdResponse> Handle(DeleteAndSaveTaskColumnByIdRequest request, CancellationToken cancellationToken)
+    public override async Task<DeleteTaskColumnByIdResponse> Handle(DeleteTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
         var entity = await _tasksRepo.GetByIdAsync(request.TaskColumnId, cancellationToken)
             ?? throw new EntityNotFoundException("task column not found by id " + request.TaskColumnId);
 
         await _tasksRepo.DeleteAsync(entity, cancellationToken);
 
-        var response = new DeleteAndSaveTaskColumnByIdResponse();
+        var response = new DeleteTaskColumnByIdResponse();
 
         return response;
     }

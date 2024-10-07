@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.TaskColumns.Requests.AddAndSaveTaskColumnRequests;
 using TaskManager.Application.TaskColumns.Requests.DeleteTaskColumnRequests;
+using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest;
 using TaskManager.PublicApi.Common;
 
 namespace TaskManager.PublicApi.Controllers;
@@ -13,9 +14,9 @@ public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControll
 {
     #region HTTP methods
     [HttpPost]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<AddAndSaveTaskColumnResponse>> Create(AddAndSaveTaskColumnRequest request,
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<CreateTaskColumnResponse>> Create(CreateTaskColumnRequest request,
                                                                          CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
@@ -24,9 +25,20 @@ public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControll
     }
 
     [HttpDelete]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<DeleteAndSaveTaskColumnByIdResponse>> Delete(DeleteAndSaveTaskColumnByIdRequest request, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<DeleteTaskColumnByIdResponse>> Delete(DeleteTaskColumnByIdRequest request, CancellationToken cancellationToken)
+    {
+        var result = await Mediator.SendAsync(request, cancellationToken);
+
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult<GetAllUserTaskColumnsByIdResponse>> GetAllUserTaskColumns([FromQuery] GetAllUserTaskColumnsByIdRequest request,
+                                                                                                CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 
