@@ -1,6 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using TaskManager.Application.Common.Security.Authentication.Abstractions;
 
 namespace TaskManager.Application.Common.Security.SymmetricSecurityKeys;
 

@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Authentication.Abstractions;
+using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
 

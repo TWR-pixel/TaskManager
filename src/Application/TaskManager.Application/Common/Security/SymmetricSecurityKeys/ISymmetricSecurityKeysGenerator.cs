@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 
-namespace TaskManager.Application.Common.Security.Authentication.Abstractions;
+namespace TaskManager.Application.Common.Security.SymmetricSecurityKeys;
 
 public interface ISymmetricSecurityKeysGenerator
 {

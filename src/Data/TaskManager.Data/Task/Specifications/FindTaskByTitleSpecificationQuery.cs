@@ -3,7 +3,7 @@ using TaskManager.Core.Entities.Tasks;
 
 namespace TaskManager.Data.Task.Specifications;
 
-public sealed class FindTaskByTitleSpecificationQuery : SingleResultSpecification<TaskEntity>
+public sealed class FindTaskByTitleSpecificationQuery : SingleResultSpecification<UserTaskEntity>
 {
     public FindTaskByTitleSpecificationQuery(string taskTitle)
     {

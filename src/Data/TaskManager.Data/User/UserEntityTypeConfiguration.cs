@@ -35,6 +35,11 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserE
             .IsRequired()
             .HasMaxLength(512);
 
+        builder.HasIndex(u => u.RefreshToken);
+
+        builder.Property(u => u.RefreshToken)
+            .IsRequired();
+
         builder.Property("RoleId")
             .HasColumnName("role_id")
             .IsRequired();

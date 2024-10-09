@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using TaskManager.Application.Common.Extensions;
-using TaskManager.Application.Common.Security.Authentication;
-using TaskManager.Application.Common.Security.Authentication.Abstractions;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.Options;
+using TaskManager.Application.Common.Security.Authentication.JwtClaims;
+using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Common.Security.Hashers.BCrypt;
 using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
 using TaskManager.Core.Entities.TaskColumns;
@@ -23,7 +24,35 @@ builder.Services.AddTransient<HandleAllExceptionsMiddleware>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "My API",
+        Version = "v1"
+    });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please insert JWT with Bearer into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+   {
+     new OpenApiSecurityScheme
+     {
+       Reference = new OpenApiReference
+       {
+         Type = ReferenceType.SecurityScheme,
+         Id = "Bearer"
+       }
+      },
+      new string[] { }
+    }
+  });
+});
+
 
 var connectionString = builder.Configuration.GetConnectionString("Postgresql");
 
@@ -35,7 +64,7 @@ builder.Services.AddDbContext<TaskManagerDbContext>(d =>
 #region Add entityframework repositories
 builder.Services.AddScoped<EfRepositoryBase<UserEntity>, EfRepository<UserEntity>>();
 builder.Services.AddScoped<EfRepositoryBase<RoleEntity>, EfRepository<RoleEntity>>();
-builder.Services.AddScoped<EfRepositoryBase<TaskEntity>, EfRepository<TaskEntity>>();
+builder.Services.AddScoped<EfRepositoryBase<UserTaskEntity>, EfRepository<UserTaskEntity>>();
 builder.Services.AddScoped<EfRepositoryBase<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
 #endregion
 
@@ -48,6 +77,7 @@ builder.Services.AddScoped<IJwtClaimsFactory, JwtClaimsFactory>();
 builder.Services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
 builder.Services.AddScoped<ISymmetricSecurityKeysGenerator, SymmetricSecurityKeysGenerator>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+builder.Services.AddScoped<IJwtRefreshTokenGenerator, JwtRefreshTokenGenerator>();
 
 builder.Services.AddOptions<JwtAuthenticationOptions>().BindConfiguration(nameof(JwtAuthenticationOptions),
     o => o.ErrorOnUnknownConfiguration = true);
@@ -76,6 +106,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
         };
     });
+
+
+builder.Services.AddMemoryCache();
 #endregion
 
 #endregion

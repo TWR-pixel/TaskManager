@@ -15,6 +15,8 @@ public sealed class CreateTaskRequest : RequestBase<CreateTaskResponse>
     public required string Content { get; set; }
     public bool IsCompleted { get; set; } = false;
     public bool IsInProgress { get; set; } = true;
+    public DateTime? DoTo { get; set; } 
+
 }
 
 public sealed class CreateTaskResponse : ResponseBase
@@ -26,11 +28,11 @@ public sealed class CreateTaskResponse : ResponseBase
 
 public sealed class CreateTaskRequestHandler : RequestHandlerBase<CreateTaskRequest, CreateTaskResponse>
 {
-    private readonly EfRepositoryBase<TaskEntity> _taskRepo;
+    private readonly EfRepositoryBase<UserTaskEntity> _taskRepo;
     private readonly EfRepositoryBase<UserEntity> _userRepo;
     private readonly EfRepositoryBase<TaskColumnEntity> _taskColumnsRepo;
 
-    public CreateTaskRequestHandler(EfRepositoryBase<TaskEntity> taskRepo,
+    public CreateTaskRequestHandler(EfRepositoryBase<UserTaskEntity> taskRepo,
                                         EfRepositoryBase<UserEntity> userRepo,
                                         EfRepositoryBase<TaskColumnEntity> taskColumnsRepo)
     {
@@ -47,14 +49,15 @@ public sealed class CreateTaskRequestHandler : RequestHandlerBase<CreateTaskRequ
         var column = await _taskColumnsRepo.GetByIdAsync(request.ColumnId, cancellationToken)
             ?? throw new EntityNotFoundException("Column not found by id " + request.ColumnId);
 
-        var taskEntity = new TaskEntity
+        var taskEntity = new UserTaskEntity
         {
             Title = request.Title,
             Content = request.Content,
             IsCompleted = request.IsCompleted,
             IsInProgress = request.IsInProgress,
             TaskColumn = column,
-            Owner = user
+            Owner = user,
+            DoTo = request.DoTo
         };
 
         var queryResult = await _taskRepo.AddAsync(taskEntity, cancellationToken);

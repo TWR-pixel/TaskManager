@@ -12,9 +12,9 @@ public sealed class GetAllUserTasksByLimitResponse : ResponseBase
 {
 }
 
-public sealed class GetAllUserTasksByLimitRequestHandler(EfRepositoryBase<TaskEntity> userTasksRepo) : RequestHandlerBase<GetAllUserTasksByLimitRequest, GetAllUserTasksByLimitResponse>
+public sealed class GetAllUserTasksByLimitRequestHandler(EfRepositoryBase<UserTaskEntity> userTasksRepo) : RequestHandlerBase<GetAllUserTasksByLimitRequest, GetAllUserTasksByLimitResponse>
 {
-    private readonly EfRepositoryBase<TaskEntity> _userTasksRepo = userTasksRepo;
+    private readonly EfRepositoryBase<UserTaskEntity> _userTasksRepo = userTasksRepo;
 
     public override async Task<GetAllUserTasksByLimitResponse> Handle(GetAllUserTasksByLimitRequest request, CancellationToken cancellationToken)
     {

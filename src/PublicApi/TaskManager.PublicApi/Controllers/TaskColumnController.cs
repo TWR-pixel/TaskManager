@@ -21,7 +21,7 @@ public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControll
                                                                          CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
-
+        
         return Created(nameof(Create), result);
     }
 

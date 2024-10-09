@@ -1,8 +1,12 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.Extensions.Caching.Memory;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
+using System.Text;
 using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Authentication;
-using TaskManager.Application.Common.Security.Authentication.Abstractions;
+using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
+using TaskManager.Application.Common.Security.Authentication.JwtClaims;
+using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
@@ -21,7 +25,8 @@ public sealed class RegisterUserRequest : RequestBase<RegisterUserResponse>
 
 public sealed class RegisterUserResponse : ResponseBase
 {
-    public required string TokenString { get; set; }
+    public required string AccessTokenString { get; set; }
+    public required string RefreshTokenString { get; set; }
 
     public required string Username { get; set; }
     public required int UserId { get; set; }
@@ -36,13 +41,19 @@ public sealed class RegisterUserRequestHandler
     private readonly IJwtSecurityTokenFactory _jwtTokenFactory;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtClaimsFactory _claimsFactory;
+    private readonly IJwtRefreshTokenGenerator _jwtRefreshTokenGenerator;
 
     private readonly EfRepositoryBase<RoleEntity> _roleRepo;
     private readonly EfRepositoryBase<UserEntity> _userRepo;
     private readonly EfRepositoryBase<TaskColumnEntity> _columnsRepo;
 
-    public RegisterUserRequestHandler(IJwtSecurityTokenFactory jwtTokenFactory, IPasswordHasher passwordHasher,
-        EfRepositoryBase<RoleEntity> roleRepo, EfRepositoryBase<UserEntity> userRepo, IJwtClaimsFactory claimsFactory, EfRepositoryBase<TaskColumnEntity> columnsRepo)
+    public RegisterUserRequestHandler(IJwtSecurityTokenFactory jwtTokenFactory,
+                                      IPasswordHasher passwordHasher,
+                                      EfRepositoryBase<RoleEntity> roleRepo,
+                                      EfRepositoryBase<UserEntity> userRepo,
+                                      IJwtClaimsFactory claimsFactory,
+                                      EfRepositoryBase<TaskColumnEntity> columnsRepo,
+                                      IJwtRefreshTokenGenerator jwtRefreshTokenGenerator)
     {
         _jwtTokenFactory = jwtTokenFactory;
         _passwordHasher = passwordHasher;
@@ -50,6 +61,7 @@ public sealed class RegisterUserRequestHandler
         _userRepo = userRepo;
         _claimsFactory = claimsFactory;
         _columnsRepo = columnsRepo;
+        _jwtRefreshTokenGenerator = jwtRefreshTokenGenerator;
     }
 
     public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
@@ -72,7 +84,8 @@ public sealed class RegisterUserRequestHandler
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
             Role = roleEntity,
-            Username = request.Username
+            Username = request.Username,
+            RefreshToken = _jwtRefreshTokenGenerator.GenerateRefreshToken(),
         };
 
         userEntity = await _userRepo.AddAsync(userEntity, cancellationToken);
@@ -84,11 +97,12 @@ public sealed class RegisterUserRequestHandler
 
         var response = new RegisterUserResponse
         {
-            TokenString = tokenString,
+            AccessTokenString = tokenString,
             Username = request.Username,
             UserId = userEntity.Id,
             RoleId = roleEntity.Id,
             RoleName = roleEntity.Name,
+            RefreshTokenString = _jwtRefreshTokenGenerator.GenerateRefreshToken()
         };
 
         #region Default columns adding
@@ -97,7 +111,6 @@ public sealed class RegisterUserRequestHandler
             new() {
                 Name = "Завершенные",
                 Owner = userEntity,
-                Description = "Test"
             },
             new()
             {

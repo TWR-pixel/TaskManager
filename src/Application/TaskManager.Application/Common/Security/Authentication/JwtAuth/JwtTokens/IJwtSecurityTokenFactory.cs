@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace TaskManager.Application.Common.Security.Authentication.Abstractions;
+namespace TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 
 public interface IJwtSecurityTokenFactory : ISecurityTokenFactory<JwtSecurityToken>
 {

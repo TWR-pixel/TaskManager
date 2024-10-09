@@ -19,7 +19,7 @@ public sealed class TaskColumnEntityTypeConfiguration : IEntityTypeConfiguration
             .HasMaxLength(50);
 
         builder.Property(t => t.Description)
-            .IsRequired()
+            .IsRequired(false)
             .HasColumnName("description")
             .HasMaxLength(int.MaxValue);
 

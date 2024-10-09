@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace TaskManager.Application.Common.Security.Authentication;
+namespace TaskManager.Application.Common.Security.Authentication.JwtClaims;
 
 public interface IJwtClaimsFactory
 {

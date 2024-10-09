@@ -23,9 +23,9 @@ public sealed class GetTaskByIdResponse : ResponseBase
 
 public sealed class GetTaskByIdRequetHandler : RequestHandlerBase<GetTaskByIdRequest, GetTaskByIdResponse>
 {
-    private readonly EfRepositoryBase<TaskEntity> _tasksRepo;
+    private readonly EfRepositoryBase<UserTaskEntity> _tasksRepo;
 
-    public GetTaskByIdRequetHandler(EfRepositoryBase<TaskEntity> tasksRepo)
+    public GetTaskByIdRequetHandler(EfRepositoryBase<UserTaskEntity> tasksRepo)
     {
         _tasksRepo = tasksRepo;
     }

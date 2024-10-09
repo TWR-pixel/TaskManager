@@ -4,9 +4,9 @@ using TaskManager.Core.Entities.Tasks;
 
 namespace TaskManager.Data.Task;
 
-public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<TaskEntity>
+public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<UserTaskEntity>
 {
-    public void Configure(EntityTypeBuilder<TaskEntity> builder)
+    public void Configure(EntityTypeBuilder<UserTaskEntity> builder)
     {
         builder.ToTable("tasks");
 

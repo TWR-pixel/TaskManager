@@ -1,5 +1,4 @@
-﻿using TaskManager.Application.Common.Security.Authentication.Abstractions;
-using Hash = BCrypt.Net;
+﻿using Hash = BCrypt.Net;
 
 namespace TaskManager.Application.Common.Security.Hashers.BCrypt;
 

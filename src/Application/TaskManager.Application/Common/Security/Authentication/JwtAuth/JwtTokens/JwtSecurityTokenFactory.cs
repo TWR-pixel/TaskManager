@@ -2,8 +2,8 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using TaskManager.Application.Common.Security.Authentication.Abstractions;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.Options;
+using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
 
 namespace TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 
@@ -33,7 +33,7 @@ public sealed class JwtSecurityTokenFactory(IOptions<JwtAuthenticationOptions> a
             _authOptions.Value.Issuer,
             _authOptions.Value.Audience,
             claims,
-            expires: DateTime.UtcNow.AddHours(_authOptions.Value.ExpiresTokenHours),
+            expires: DateTime.UtcNow.AddMinutes(_authOptions.Value.ExpiresTokenMinutes),
             signingCredentials: signingCredentials
             );
 

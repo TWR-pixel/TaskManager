@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D9601ACB-0390-4B9D-B3D9-BE47FE5FCF75}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yaml = docker-compose.yaml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublicApi", "PublicApi", "{FE0589C6-0E12-4846-8633-C2414FDA10B2}"
 EndProject
@@ -23,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Core.Interfaces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application", "src\Application\TaskManager.Application\TaskManager.Application.csproj", "{02FA1F59-E406-415F-BF9A-580F0EE64A53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application.Tests", "src\Application\TaskManager.Application.Tests\TaskManager.Application.Tests.csproj", "{C5671450-36B6-4A2A-9EB5-F3F728A83323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.Tests", "src\Application\TaskManager.Application.Tests\TaskManager.Application.Tests.csproj", "{C5671450-36B6-4A2A-9EB5-F3F728A83323}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

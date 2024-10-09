@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Common;
 using TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
+using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Application.Users.Requests.DeleteUserByIdRequest;
 using TaskManager.Application.Users.Requests.GetUserByIdRequest;
+using TaskManager.Application.Users.Requests.RegisterUserRequests;
 using TaskManager.Application.Users.Requests.UpdateUserByIdRequest;
 using TaskManager.PublicApi.Common;
 
@@ -53,6 +55,40 @@ public sealed class UserController(IMediatorFacade mediator) : ApiControllerBase
         var result = await Mediator.SendAsync(request, cancellationToken);
 
         return Ok(result);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<RegisterUserModelResponse>> RegisterUser([FromBody] RegisterUserRequest request,
+                                                                 CancellationToken cancellationToken)
+    {
+        try
+        {
+            var response = await Mediator.SendAsync(request, cancellationToken);
+
+            var resp = new RegisterUserModelResponse()
+            {
+                AccessTokenString = response.AccessTokenString,
+                RoleId = response.RoleId,
+                RoleName = response.RoleName,
+                UserId = response.UserId,
+                Username = response.Username,
+            };
+
+            var options = new CookieOptions()
+            {
+                HttpOnly = true
+            };
+
+            Response.Cookies.Append(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, response.RefreshTokenString, options);
+
+            return CreatedAtAction(nameof(RegisterUser), resp);
+        }
+        catch (UserAlreadyExistsException exception)
+        {
+            return Conflict(exception.Message);
+        }
     }
 
     #endregion

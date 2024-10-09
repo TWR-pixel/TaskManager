@@ -25,9 +25,9 @@ public sealed class UpdateTaskResponse : ResponseBase
 public sealed class UpdateTaskRequestHandler
     : RequestHandlerBase<UpdateTaskRequest, UpdateTaskResponse>
 {
-    private readonly EfRepositoryBase<TaskEntity> _taskRepo;
+    private readonly EfRepositoryBase<UserTaskEntity> _taskRepo;
 
-    public UpdateTaskRequestHandler(EfRepositoryBase<TaskEntity> taskRepo)
+    public UpdateTaskRequestHandler(EfRepositoryBase<UserTaskEntity> taskRepo)
     {
         _taskRepo = taskRepo;
     }

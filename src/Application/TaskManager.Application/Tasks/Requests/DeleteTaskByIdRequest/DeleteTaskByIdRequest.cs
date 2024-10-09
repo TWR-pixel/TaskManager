@@ -16,9 +16,9 @@ public sealed class DeleteTaskByIdResponse : ResponseBase
 
 public sealed class DeleteTaskByIdRequestHandler : RequestHandlerBase<DeleteTaskByIdRequest, DeleteTaskByIdResponse>
 {
-    private readonly EfRepositoryBase<TaskEntity> _tasksRepo;
+    private readonly EfRepositoryBase<UserTaskEntity> _tasksRepo;
 
-    public DeleteTaskByIdRequestHandler(EfRepositoryBase<TaskEntity> tasksRepo)
+    public DeleteTaskByIdRequestHandler(EfRepositoryBase<UserTaskEntity> tasksRepo)
     {
         _tasksRepo = tasksRepo;
     }

@@ -8,6 +8,6 @@ public sealed class TaskColumnEntity : EntityBase
 {
     public required string Name { get; set; }
     public string? Description { get; set; }
-    public IEnumerable<TaskEntity>? TasksInColumn { get; set; } 
+    public IEnumerable<UserTaskEntity>? TasksInColumn { get; set; } 
     public required UserEntity Owner { get; set; }
 }

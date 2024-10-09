@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\Security\Authentication\Abstractions\" />
     <Folder Include="Users\Requests\AuthenticateUserRequest\Validators\" />
     <Folder Include="Users\Requests\RegisterUserRequests\Validators\" />
   </ItemGroup>

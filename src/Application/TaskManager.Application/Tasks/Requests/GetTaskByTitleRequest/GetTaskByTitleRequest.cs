@@ -16,9 +16,9 @@ public sealed class GetTaskByTitleResponse : ResponseBase
 
 public sealed class GetTaskByTitleRequestHandler : RequestHandlerBase<GetTaskByTitleRequest, GetTaskByTitleResponse>
 {
-    private readonly EfRepositoryBase<TaskEntity> _tasksRepo;
+    private readonly EfRepositoryBase<UserTaskEntity> _tasksRepo;
 
-    public GetTaskByTitleRequestHandler(EfRepositoryBase<TaskEntity> tasksRepo)
+    public GetTaskByTitleRequestHandler(EfRepositoryBase<UserTaskEntity> tasksRepo)
     {
         _tasksRepo = tasksRepo;
     }
