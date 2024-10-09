@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.IdentityModel.Tokens.Jwt;
 using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
@@ -124,6 +121,7 @@ public sealed class RegisterUserRequestHandler
             }
         };
         #endregion
+
         await _columnsRepo.AddRangeAsync(defaultColumns, cancellationToken);
 
 

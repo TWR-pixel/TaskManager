@@ -9,6 +9,11 @@ public sealed class RoleEntityTypeConfiguration : IEntityTypeConfiguration<RoleE
     public void Configure(EntityTypeBuilder<RoleEntity> builder)
     {
         builder.ToTable("roles");
+        
+        builder.HasData(new List<RoleEntity>()
+        {
+            new(){Id = 1, Name = "User"}
+        });
 
         builder.Property(t => t.Id)
             .HasColumnName("id");

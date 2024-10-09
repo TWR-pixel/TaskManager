@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Application.Users.Requests.GetNewUserAccessToken;
+using TaskManager.Application.Users.Requests.RegisterUserRequests;
 using TaskManager.PublicApi.Common;
 
 namespace TaskManager.PublicApi.Controllers;
@@ -51,8 +52,6 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
 
     }
 
-
-
     /// <summary>
     /// Returns new user token with refresh token
     /// </summary>
@@ -62,9 +61,9 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<GetNewUserAccessTokenResponse>> UpdateUserAccessTokenByRefreshToken(CancellationToken cancellationToken)
     {
-        var refreshToken = Request.Cookies.TryGetValue(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, out string? value);
+        var isRefreshTokenInRequest= Request.Cookies.TryGetValue(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, out string? value);
 
-        if (string.IsNullOrWhiteSpace(value))
+        if (!isRefreshTokenInRequest || string.IsNullOrWhiteSpace(value))
             return Unauthorized();
 
         var mediatorRequest = new GetNewUserAccessTokenRequest() { RefreshToken = value };
@@ -76,18 +75,53 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
 
     [HttpPost("logout")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult Logout()
     {
         var isRefreshTokenInRequest = Request.Cookies.TryGetValue(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, out string? value);
 
         if (isRefreshTokenInRequest == false)
         {
-            return Unauthorized("Use http cookie with refresh token to logout from server.");
+            return NotFound("cookie with name 'RefreshToken' not found");
         }
 
         Response.Cookies.Delete(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME);
 
         return Ok();
+    }
+
+    [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<RegisterUserModelResponse>> RegisterUser([FromBody] RegisterUserRequest request,
+                                                             CancellationToken cancellationToken)
+    {
+        try
+        {
+            var response = await Mediator.SendAsync(request, cancellationToken);
+
+            var resp = new RegisterUserModelResponse()
+            {
+                AccessTokenString = response.AccessTokenString,
+                RoleId = response.RoleId,
+                RoleName = response.RoleName,
+                UserId = response.UserId,
+                Username = response.Username,
+            };
+
+            var options = new CookieOptions()
+            {
+                HttpOnly = true
+            };
+
+            Response.Cookies.Append(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, response.RefreshTokenString, options);
+
+            return CreatedAtAction(nameof(RegisterUser), resp);
+        }
+        catch (UserAlreadyExistsException exception)
+        {
+            return Conflict(exception.Message);
+        }
     }
     #endregion
 }

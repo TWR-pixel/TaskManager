@@ -51,7 +51,7 @@ public sealed class AuthenticateUserRequestHandler :
     public override async Task<AuthenticateUserResponse> Handle(AuthenticateUserRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await _userRepo.SingleOrDefaultAsync(new GetUserByEmailLoginWithRoleSpecification(request.EmailLogin), cancellationToken)
-                          ?? throw new EntityNotFoundException("User not found by id. Try register new user."); // get refresh token from db
+                          ?? throw new EntityNotFoundException($"User not found with email '{request.EmailLogin}', try register. "); // get refresh token from db
 
         
         var claims = _claimsFactory.CreateDefault(queryResult.Id,

@@ -16,6 +16,8 @@ public sealed class GetTaskColumnByIdRequest : RequestBase<GetTaskColumnByIdResp
 public sealed class GetTaskColumnByIdResponse : ResponseBase
 {
     public required int TaskColumnId { get; set; }
+    public required string Name { get; set; }
+    public string? Description { get; set; }
 
     public required IEnumerable<UserTasksColumnResponse> Tasks { get; set; }
 
@@ -31,14 +33,9 @@ public sealed class GetTaskColumnByIdResponse : ResponseBase
     }
 }
 
-public sealed class GetTaskColumnByIdRequestHandler : RequestHandlerBase<GetTaskColumnByIdRequest, GetTaskColumnByIdResponse>
+public sealed class GetTaskColumnByIdRequestHandler(EfRepositoryBase<TaskColumnEntity> taskColumnsRepo) : RequestHandlerBase<GetTaskColumnByIdRequest, GetTaskColumnByIdResponse>
 {
-    private readonly EfRepositoryBase<TaskColumnEntity> _taskColumnsRepo;
-
-    public GetTaskColumnByIdRequestHandler(EfRepositoryBase<TaskColumnEntity> taskColumnsRepo)
-    {
-        _taskColumnsRepo = taskColumnsRepo;
-    }
+    private readonly EfRepositoryBase<TaskColumnEntity> _taskColumnsRepo = taskColumnsRepo;
 
     public override async Task<GetTaskColumnByIdResponse> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
@@ -50,6 +47,8 @@ public sealed class GetTaskColumnByIdRequestHandler : RequestHandlerBase<GetTask
             var nullTasksInColumnResponse = new GetTaskColumnByIdResponse
             {
                 TaskColumnId = request.TaskColumnId,
+                Name = queryResult.Name,
+                Description = queryResult.Description,
                 Tasks = []
             };
 
@@ -59,7 +58,9 @@ public sealed class GetTaskColumnByIdRequestHandler : RequestHandlerBase<GetTask
         var response = new GetTaskColumnByIdResponse()
         {
             TaskColumnId = queryResult.Id,
-            Tasks = queryResult.TasksInColumn.Select(t => new GetTaskColumnByIdResponse.UserTasksColumnResponse
+            Name = queryResult.Name,
+            Description = queryResult.Description,
+            Tasks = queryResult.TasksInColumn.Select(static t => new GetTaskColumnByIdResponse.UserTasksColumnResponse // i dont like it
             {
                 Title = t.Title,
                 Content = t.Content,

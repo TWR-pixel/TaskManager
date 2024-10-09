@@ -13,6 +13,9 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserE
         builder.Property(t => t.Id)
             .HasColumnName("id");
 
+        builder.Property(u => u.RefreshToken)
+            .HasColumnName("refresh_token");
+
         builder.Property(u => u.EmailLogin)
             .HasColumnName("email_login")
             .IsRequired()

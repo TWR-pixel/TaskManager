@@ -38,7 +38,7 @@ public sealed class UserTasksController(IMediatorFacade mediator) : ApiControlle
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UpdateTaskResponse>> PatchTask([FromBody] UpdateTaskRequest request,
+    public async Task<ActionResult<UpdateTaskResponse>> UpdateTask([FromBody] UpdateTaskRequest request,
                                                                               CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);

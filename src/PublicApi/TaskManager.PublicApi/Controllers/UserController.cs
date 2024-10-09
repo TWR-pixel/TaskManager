@@ -57,39 +57,7 @@ public sealed class UserController(IMediatorFacade mediator) : ApiControllerBase
         return Ok(result);
     }
 
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<RegisterUserModelResponse>> RegisterUser([FromBody] RegisterUserRequest request,
-                                                                 CancellationToken cancellationToken)
-    {
-        try
-        {
-            var response = await Mediator.SendAsync(request, cancellationToken);
 
-            var resp = new RegisterUserModelResponse()
-            {
-                AccessTokenString = response.AccessTokenString,
-                RoleId = response.RoleId,
-                RoleName = response.RoleName,
-                UserId = response.UserId,
-                Username = response.Username,
-            };
-
-            var options = new CookieOptions()
-            {
-                HttpOnly = true
-            };
-
-            Response.Cookies.Append(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, response.RefreshTokenString, options);
-
-            return CreatedAtAction(nameof(RegisterUser), resp);
-        }
-        catch (UserAlreadyExistsException exception)
-        {
-            return Conflict(exception.Message);
-        }
-    }
 
     #endregion
 }
