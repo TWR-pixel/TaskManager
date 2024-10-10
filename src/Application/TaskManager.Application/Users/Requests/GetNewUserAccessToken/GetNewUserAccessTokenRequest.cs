@@ -35,7 +35,7 @@ public sealed class GetNewUserAccessTokenRequestHandler : RequestHandlerBase<Get
     {
         var queryResult = await _usersRepo
             .SingleOrDefaultAsync(new GetUserByRefreshToken(request.RefreshToken), cancellationToken);
-
+        
         if (queryResult is null)
             throw new NullReferenceException(nameof(queryResult));
 

@@ -4,9 +4,9 @@ namespace TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtToke
 
 public sealed class JwtRefreshTokenGenerator : IJwtRefreshTokenGenerator
 {
-    public string GenerateRefreshToken()
+    public string GenerateRefreshToken(int stringLength = 128)
     {
-        var value = RandomNumberGenerator.GetHexString(128);
+        var value = RandomNumberGenerator.GetHexString(stringLength);
 
         return value;
     }
