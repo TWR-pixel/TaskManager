@@ -3,7 +3,7 @@ using TaskManager.Core.Entities.Users;
 
 namespace TaskManager.Data.User.Specifications;
 
-public abstract class IncludeUserRoleSpecificationBase : Specification<UserEntity>
+public abstract class IncludeUserRoleSpecificationBase : SingleResultSpecification<UserEntity>
 {
     protected IncludeUserRoleSpecificationBase()
     {

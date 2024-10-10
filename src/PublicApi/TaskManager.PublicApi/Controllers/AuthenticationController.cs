@@ -26,7 +26,7 @@ public sealed class AuthenticationController : ApiControllerBase
     /// <param name="request"></param> without refresh token use it method
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<UserLoginResponse>> LoginUser([FromBody] AuthenticateUserRequest request,
                                                                                       CancellationToken cancellationToken)
