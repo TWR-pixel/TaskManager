@@ -13,14 +13,8 @@ public sealed class TaskManagerDbContext : DbContext
     public DbSet<UserTaskEntity> UserTasks { get; set; }
     public DbSet<RoleEntity> UserRoles { get; set; }
 
-    public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options) : base(options)
-    {
-        Database.EnsureCreated();
-    }
+    public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options) : base(options) => Database.EnsureCreated();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
 }

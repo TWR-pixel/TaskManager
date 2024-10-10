@@ -19,4 +19,8 @@
     <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Models\Request\" />
+  </ItemGroup>
+
 </Project>

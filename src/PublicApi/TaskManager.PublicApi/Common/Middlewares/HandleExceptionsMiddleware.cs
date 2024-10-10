@@ -2,11 +2,11 @@
 using TaskManager.Application.Common;
 using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 
-namespace TaskManager.PublicApi.Middlewares;
+namespace TaskManager.PublicApi.Common.Middlewares;
 
-public sealed class HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMiddleware> logger) : IMiddleware
+public sealed class HandleExceptionsMiddleware(ILogger<HandleExceptionsMiddleware> logger) : IMiddleware
 {
-    private readonly ILogger<HandleAllExceptionsMiddleware> _logger = logger;
+    private readonly ILogger<HandleExceptionsMiddleware> _logger = logger;
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -24,7 +24,7 @@ public sealed class HandleAllExceptionsMiddleware(ILogger<HandleAllExceptionsMid
                 Detail = entityNotFoundException.Message,
                 Status = StatusCodes.Status404NotFound,
             };
-            
+
             context.Response.StatusCode = StatusCodes.Status404NotFound;
 
             await context.Response.WriteAsJsonAsync(problemDetails);
