@@ -1,4 +1,14 @@
-
 services:
-    server:
-        build: .
+  task-manager-backend:
+    image: ${DOCKER_REGISTRY}task-manager-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:80
+  proxy:
+    image: nginx:latest
+    volumes:
+      - ./-task-manager-backend/nginx.info:/etc/nginx/nginx.info
+    ports:
+      - 80:80

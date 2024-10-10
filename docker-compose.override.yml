@@ -1,0 +1,6 @@
+services:
+  task-manager-backend:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"

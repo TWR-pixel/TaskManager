@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Common.Security.Authentication;
 using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Application.Users.Requests.GetNewUserAccessToken;
@@ -80,7 +79,7 @@ public sealed class AuthenticationController : ApiControllerBase
 
         if (isRefreshTokenInRequest == false)
         {
-            return NotFound("cookie with name 'RefreshToken' not found");
+            return Unauthorized("cookie with name 'RefreshToken' not found");
         }
 
         _userManager.Logout();
