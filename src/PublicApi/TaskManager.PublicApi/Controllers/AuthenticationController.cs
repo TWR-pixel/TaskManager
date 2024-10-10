@@ -1,16 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Common.Security.Authentication;
 using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Application.Users.Requests.GetNewUserAccessToken;
 using TaskManager.Application.Users.Requests.RegisterUserRequests;
 using TaskManager.PublicApi.Common;
+using TaskManager.PublicApi.Common.Authentication;
+using TaskManager.PublicApi.Common.Models.Response;
 
 namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-public sealed class AuthenticationController(IMediatorFacade mediator) : ApiControllerBase(mediator)
+public sealed class AuthenticationController : ApiControllerBase
 {
     #region
+    private readonly IUserSignInManager _userManager;
+
+    public AuthenticationController(IMediatorFacade mediator) : base(mediator)
+    {
+        _userManager = new UserSignInManager(HttpContext);
+    }
 
     /// <summary>
     /// Returns new accessToken with refresh token in httpOnly cookies, if refresh token not found, it creates in cookies
@@ -18,14 +28,14 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
     /// <param name="request"></param> without refresh token use it method
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost] 
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<UserLoginResponse>> LoginUser([FromBody] AuthenticateUserRequest request,
                                                                                       CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 
-        var resultResponse = new UserLoginResponse()
+        var userLoginResponse = new UserLoginResponse()
         {
             AccessTokenString = result.AccessTokenString,
             RoleId = result.RoleId,
@@ -34,22 +44,10 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
             UserName = result.UserName,
         };
 
-        var getTokenValue = HttpContext.Request.Cookies.TryGetValue(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, out string? tokenValue);
+        _userManager.Login(result.RefreshTokenString);
 
-        if (tokenValue != result.RefreshTokenString)
-        {
-            Response.Cookies.Delete(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME);
 
-            var cookieOptions = new CookieOptions()
-            {
-                HttpOnly = true
-            }; 
-
-            Response.Cookies.Append(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, result.RefreshTokenString, cookieOptions);
-        }
-
-        return Ok(resultResponse);
-
+        return Ok(userLoginResponse);
     }
 
     /// <summary>
@@ -61,7 +59,7 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<GetNewUserAccessTokenResponse>> UpdateUserAccessTokenByRefreshToken(CancellationToken cancellationToken)
     {
-        var isRefreshTokenInRequest= Request.Cookies.TryGetValue(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, out string? value);
+        var isRefreshTokenInRequest = Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? value);
 
         if (!isRefreshTokenInRequest || string.IsNullOrWhiteSpace(value))
             return Unauthorized();
@@ -78,14 +76,14 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult Logout()
     {
-        var isRefreshTokenInRequest = Request.Cookies.TryGetValue(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, out string? value);
+        var isRefreshTokenInRequest = Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? value);
 
         if (isRefreshTokenInRequest == false)
         {
             return NotFound("cookie with name 'RefreshToken' not found");
         }
 
-        Response.Cookies.Delete(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME);
+        _userManager.Logout();
 
         return Ok();
     }
@@ -108,13 +106,8 @@ public sealed class AuthenticationController(IMediatorFacade mediator) : ApiCont
                 UserId = response.UserId,
                 Username = response.Username,
             };
-
-            var options = new CookieOptions()
-            {
-                HttpOnly = true
-            };
-
-            Response.Cookies.Append(AuthConstants.AUTH_REFRESH_TOKEN_COOKIE_NAME, response.RefreshTokenString, options);
+            
+            _userManager.CreateRefreshToken(response.RefreshTokenString);
 
             return CreatedAtAction(nameof(RegisterUser), resp);
         }

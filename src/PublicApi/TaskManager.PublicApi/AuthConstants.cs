@@ -4,5 +4,5 @@ namespace TaskManager.PublicApi;
 
 public static class AuthConstants
 {
-    public static string AUTH_REFRESH_TOKEN_COOKIE_NAME = "RefreshToken" + new JwtAuthenticationOptions().Issuer;
+    public static string REFRESH_TOKEN_COOKIE_NAME = "RefreshToken" + new JwtAuthenticationOptions().Issuer;
 }
