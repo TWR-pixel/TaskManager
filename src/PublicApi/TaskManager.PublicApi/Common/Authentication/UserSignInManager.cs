@@ -1,45 +1,37 @@
-﻿using TaskManager.Application.Common.Security.Authentication;
-
-namespace TaskManager.PublicApi.Common.Authentication;
+﻿namespace TaskManager.PublicApi.Common.Authentication;
 
 public sealed class UserSignInManager : IUserSignInManager
 {
-    private readonly HttpContext _httpContext;
 
-    public UserSignInManager(HttpContext httpContext)
+    public void Login(string refreshToken, HttpContext context)
     {
-        _httpContext = httpContext;
-    }
-
-    public void Login(string refreshToken)
-    {
-        _httpContext.Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? tokenValue);
+        context.Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? tokenValue);
 
         if (tokenValue != refreshToken)
         {
-            _httpContext.Response.Cookies.Delete(AuthConstants.REFRESH_TOKEN_COOKIE_NAME);
+            context.Response.Cookies.Delete(AuthConstants.REFRESH_TOKEN_COOKIE_NAME);
 
             var cookieOptions = new CookieOptions()
             {
                 HttpOnly = true
             };
 
-            _httpContext.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieOptions);
+            context.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieOptions);
         }
     }
 
-    public void Logout()
+    public void Logout(HttpContext context)
     {
-        _httpContext.Response.Cookies.Delete(AuthConstants.REFRESH_TOKEN_COOKIE_NAME);
+        context.Response.Cookies.Delete(AuthConstants.REFRESH_TOKEN_COOKIE_NAME);
     }
 
-    public void CreateRefreshToken(string refreshToken)
+    public void CreateRefreshToken(string refreshToken, HttpContext context)
     {
         var options = new CookieOptions()
         {
             HttpOnly = true
         };
 
-        _httpContext.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, options);
+        context.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, options);
     }
 }
