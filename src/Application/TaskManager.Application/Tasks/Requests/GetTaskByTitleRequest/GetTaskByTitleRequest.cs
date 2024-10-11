@@ -25,7 +25,7 @@ public sealed class GetTaskByTitleRequestHandler : RequestHandlerBase<GetTaskByT
 
     public override async Task<GetTaskByTitleResponse> Handle(GetTaskByTitleRequest request, CancellationToken cancellationToken)
     {
-        var result = await _tasksRepo.SingleOrDefaultAsync(new FindTaskByTitleSpecificationQuery(request.Title), cancellationToken);
+        var result = await _tasksRepo.SingleOrDefaultAsync(new GetTaskByTitleSpecification(request.Title), cancellationToken);
 
         var response = new GetTaskByTitleResponse();
 
