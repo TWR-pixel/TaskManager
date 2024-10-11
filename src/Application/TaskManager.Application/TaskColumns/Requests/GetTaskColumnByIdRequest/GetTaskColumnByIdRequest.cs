@@ -2,6 +2,7 @@
 using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Data;
+using TaskManager.Data.TaskColumn.Specifications;
 
 namespace TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
 
@@ -39,9 +40,10 @@ public sealed class GetTaskColumnByIdRequestHandler(EfRepositoryBase<TaskColumnE
 
     public override async Task<GetTaskColumnByIdResponse> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await _taskColumnsRepo.GetByIdAsync(request.TaskColumnId, cancellationToken)
+        var queryResult = await _taskColumnsRepo
+            .SingleOrDefaultAsync(new GetTaskColumnByIdWithTasksSpecification(request.TaskColumnId), cancellationToken)
             ?? throw new EntityNotFoundException($"User task column with id {request.TaskColumnId} not found");
-
+        
         if (queryResult.TasksInColumn is null)
         {
             var nullTasksInColumnResponse = new GetTaskColumnByIdResponse

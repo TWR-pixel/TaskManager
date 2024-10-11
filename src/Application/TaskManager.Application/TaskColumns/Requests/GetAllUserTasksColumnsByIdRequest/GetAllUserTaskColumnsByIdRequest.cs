@@ -2,6 +2,7 @@
 using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
+using TaskManager.Data.TaskColumn.Specifications;
 
 namespace TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest;
 
@@ -38,7 +39,8 @@ public sealed class GetAllUserTaskColumnsByIdRequestHandler
     public async override Task<GetAllUserTaskColumnsByIdResponse> Handle(GetAllUserTaskColumnsByIdRequest request,
                                                                                       CancellationToken cancellationToken)
     {
-        var queryResult = await _usersRepo.GetByIdAsync(request.UserId, cancellationToken)
+        var queryResult = await _usersRepo
+            .SingleOrDefaultAsync(new GetAllTaskColumnsWithTasksByIdSpec(request.UserId), cancellationToken)
             ?? throw new EntityNotFoundException($"User with id {request.UserId} not found");
 
         if (queryResult.TaskColumns is null)

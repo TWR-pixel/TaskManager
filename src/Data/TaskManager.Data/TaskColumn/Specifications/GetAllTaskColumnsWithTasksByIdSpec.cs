@@ -3,7 +3,7 @@ using TaskManager.Core.Entities.Users;
 
 namespace TaskManager.Data.TaskColumn.Specifications;
 
-public sealed class GetAllTaskColumnsWithTasksByIdSpec : Specification<UserEntity>
+public sealed class GetAllTaskColumnsWithTasksByIdSpec : SingleResultSpecification<UserEntity>
 {
     public GetAllTaskColumnsWithTasksByIdSpec(int userId)
     {
