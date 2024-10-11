@@ -26,6 +26,7 @@ builder.Services.AddTransient<HandleExceptionsMiddleware>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors();
 
 #region swaggerGen
 builder.Services.AddSwaggerGen(c =>
@@ -120,6 +121,7 @@ builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
+
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -131,6 +133,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -141,5 +144,17 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(builder => builder
+         .AllowAnyOrigin()
+         .AllowAnyMethod()
+         .AllowAnyHeader());
+
+
+    Console.WriteLine("development environment");
+}
 
 app.Run();

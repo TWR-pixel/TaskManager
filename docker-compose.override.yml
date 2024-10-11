@@ -3,4 +3,17 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "80"
+      - "59404:80"
+      - "44392:44392"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    proxy:
+      image: nginx:latest
+      volumes: 
+        - ./task-manager-backend/nginx.info:/etc/nginx/nginx.info
+        - ./task-manager-backend/nginx.info:/etc/nginx/nginx.info
+        - ./task-manager-backend/cert.crt:/etc/nginx/cert.crt
+        - ./task-manager-backend/cert.rsa:/etc/nginx/cert.rsa
+      ports:
+        - "5001:44392"
