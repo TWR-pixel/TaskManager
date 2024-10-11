@@ -8,6 +8,6 @@ public sealed class GetTaskByTitleSpecification : SingleResultSpecification<User
     public GetTaskByTitleSpecification(string taskTitle)
     {
         Query
-            .Where(t => t.Title.Equals(taskTitle, StringComparison.CurrentCultureIgnoreCase));
+            .Where(t => t.Title.ToUpper() == taskTitle.ToUpper());
     }
 }

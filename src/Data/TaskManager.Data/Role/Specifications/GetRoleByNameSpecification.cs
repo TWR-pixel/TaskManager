@@ -8,6 +8,6 @@ public sealed class GetRoleByNameSpecification : SingleResultSpecification<RoleE
     public GetRoleByNameSpecification(string roleName)
     {
         Query
-            .Where(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase));
+            .Where(r => r.Name.ToUpper() == roleName.ToUpper());
     }
 }
