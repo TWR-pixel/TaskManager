@@ -120,6 +120,7 @@ builder.Services.AddMemoryCache();
 #endregion
 
 var app = builder.Build();
+app.UseRouting();
 
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
@@ -149,9 +150,12 @@ app.MapControllers();
 if (app.Environment.IsDevelopment())
 {
     app.UseCors(builder => builder
-         .AllowAnyOrigin()
+         .WithOrigins("https://localhost:7048", "http://localhost:5224")
          .AllowAnyMethod()
-         .AllowAnyHeader());
+         .AllowAnyHeader()
+         .SetIsOriginAllowed(origin => true)
+         .AllowCredentials()// allow any origin
+);
 
 
     Console.WriteLine("development environment");
