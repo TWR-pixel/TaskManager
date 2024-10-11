@@ -1,8 +1,8 @@
-﻿namespace TaskManager.Application.Common.Security.Authentication;
+﻿namespace TaskManager.PublicApi.Common.Authentication;
 
 public interface IUserSignInManager
 {
-    public void Login(string refreshToken);
-    public void Logout();
-    public void CreateRefreshToken(string refreshToken);
+    public void Login(string refreshToken, HttpContext context);
+    public void Logout(HttpContext context);
+    public void CreateRefreshToken(string refreshToken, HttpContext context);
 }

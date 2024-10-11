@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Common.Security.Authentication;
 using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Application.Users.Requests.GetNewUserAccessToken;
 using TaskManager.Application.Users.Requests.RegisterUserRequests;
@@ -16,9 +15,9 @@ public sealed class AuthenticationController : ApiControllerBase
     #region
     private readonly IUserSignInManager _userManager;
 
-    public AuthenticationController(IMediatorFacade mediator) : base(mediator)
+    public AuthenticationController(IMediatorFacade mediator, IUserSignInManager userManager) : base(mediator)
     {
-        _userManager = new UserSignInManager(HttpContext);
+        _userManager = userManager;
     }
 
     /// <summary>
@@ -27,7 +26,7 @@ public sealed class AuthenticationController : ApiControllerBase
     /// <param name="request"></param> without refresh token use it method
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<UserLoginResponse>> LoginUser([FromBody] AuthenticateUserRequest request,
                                                                                       CancellationToken cancellationToken)
@@ -43,8 +42,7 @@ public sealed class AuthenticationController : ApiControllerBase
             UserName = result.UserName,
         };
 
-        _userManager.Login(result.RefreshTokenString);
-
+        _userManager.Login(result.RefreshTokenString, HttpContext);
 
         return Ok(userLoginResponse);
     }
@@ -82,7 +80,7 @@ public sealed class AuthenticationController : ApiControllerBase
             return Unauthorized("cookie with name 'RefreshToken' not found");
         }
 
-        _userManager.Logout();
+        _userManager.Logout(HttpContext);
 
         return Ok();
     }
@@ -105,8 +103,8 @@ public sealed class AuthenticationController : ApiControllerBase
                 UserId = response.UserId,
                 Username = response.Username,
             };
-            
-            _userManager.CreateRefreshToken(response.RefreshTokenString);
+
+            _userManager.CreateRefreshToken(response.RefreshTokenString, HttpContext);
 
             return CreatedAtAction(nameof(RegisterUser), resp);
         }

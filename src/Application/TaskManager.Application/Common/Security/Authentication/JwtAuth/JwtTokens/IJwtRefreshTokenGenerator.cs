@@ -2,5 +2,5 @@
 
 public interface IJwtRefreshTokenGenerator
 {
-    public string GenerateRefreshToken();
+    public string GenerateRefreshToken(int stringLength = 128);
 }

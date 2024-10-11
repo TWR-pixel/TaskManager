@@ -16,6 +16,7 @@ using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
 using TaskManager.PublicApi.Common;
+using TaskManager.PublicApi.Common.Authentication;
 using TaskManager.PublicApi.Common.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+#region swaggerGen
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -54,6 +56,7 @@ builder.Services.AddSwaggerGen(c =>
     }
   });
 });
+#endregion
 
 var connectionString = builder.Configuration.GetConnectionString("Sqlite");
 
@@ -79,6 +82,7 @@ builder.Services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
 builder.Services.AddScoped<ISymmetricSecurityKeysGenerator, SymmetricSecurityKeysGenerator>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IJwtRefreshTokenGenerator, JwtRefreshTokenGenerator>();
+builder.Services.AddScoped<IUserSignInManager, UserSignInManager>();
 
 builder.Services.AddOptions<JwtAuthenticationOptions>().BindConfiguration(nameof(JwtAuthenticationOptions),
     o => o.ErrorOnUnknownConfiguration = true);

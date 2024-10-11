@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using TaskManager.Core.Entities.Users;
 
-namespace TaskManager.Data.User.Specifications;
+namespace TaskManager.Data.TaskColumn.Specifications;
 
 public sealed class GetAllTaskColumnsWithTasksByIdSpec : Specification<UserEntity>
 {

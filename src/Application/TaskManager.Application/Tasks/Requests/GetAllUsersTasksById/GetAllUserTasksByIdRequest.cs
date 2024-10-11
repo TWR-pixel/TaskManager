@@ -2,7 +2,7 @@
 using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Data;
-using TaskManager.Data.User.Specifications;
+using TaskManager.Data.Task.Specifications;
 
 namespace TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
 

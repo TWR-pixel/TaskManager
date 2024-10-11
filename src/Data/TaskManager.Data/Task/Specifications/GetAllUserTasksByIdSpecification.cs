@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using TaskManager.Core.Entities.Users;
 
-namespace TaskManager.Data.User.Specifications;
+namespace TaskManager.Data.Task.Specifications;
 
 public sealed class GetAllUserTasksByIdSpecification : SingleResultSpecification<UserEntity>
 {
@@ -11,7 +11,7 @@ public sealed class GetAllUserTasksByIdSpecification : SingleResultSpecification
     /// <param name="userId"></param>
     /// <param name="includeTasks"></param>
     /// <param name="includeTaskColumns"></param>
-    public GetAllUserTasksByIdSpecification(int userId, bool includeTasks = false, bool includeTaskColumns = false)
+    public GetAllUserTasksByIdSpecification(int userId)
     {
         Query.Where(t => t.Id == userId)
             .Include(t => t.Tasks);
