@@ -150,7 +150,7 @@ app.MapControllers();
 if (app.Environment.IsDevelopment())
 {
     app.UseCors(builder => builder
-         .WithOrigins("https://localhost:7048", "http://localhost:5224")
+         .WithOrigins("https://localhost:7048", "http://localhost:5224", "http://localhost:3000", "https://localhost:3000")
          .AllowAnyMethod()
          .AllowAnyHeader()
          .SetIsOriginAllowed(origin => true)
