@@ -1,12 +1,12 @@
-﻿using TaskManager.Application.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Hashers;
-using TaskManager.Core.Entities.Users;
-using TaskManager.Data;
+using TaskManager.Core.Entities.Common;
 
 namespace TaskManager.Application.Users.Requests.UpdateUserByIdRequest;
 
-public sealed class UpdateUserByIdRequest : RequestBase<UpdateUserByIdResponse>
+public sealed record UpdateUserByIdRequest : RequestBase<UpdateUserByIdResponse>
 {
     public required int UserId { get; set; }
     public string? Username { get; set; }
@@ -15,27 +15,34 @@ public sealed class UpdateUserByIdRequest : RequestBase<UpdateUserByIdResponse>
 
 }
 
-public sealed class UpdateUserByIdResponse : ResponseBase
+public sealed record UpdateUserByIdResponse : ResponseBase
 {
+    [SetsRequiredMembers]
+    public UpdateUserByIdResponse(int userId, string username, string userEmail)
+    {
+        UserId = userId;
+        Username = username;
+        UserEmail = userEmail;
+    }
+
     public required int UserId { get; set; }
     public required string Username { get; set; }
     public required string UserEmail { get; set; }
+
 }
 
 public sealed class UpdateUserByIdRequetHandler : RequestHandlerBase<UpdateUserByIdRequest, UpdateUserByIdResponse>
 {
-    private readonly EfRepositoryBase<UserEntity> _usersRepo;
     private readonly IPasswordHasher _passwordHasher;
 
-    public UpdateUserByIdRequetHandler(EfRepositoryBase<UserEntity> usersRepo, IPasswordHasher passwordHasher)
+    public UpdateUserByIdRequetHandler(IUnitOfWork unitOfWork, IPasswordHasher passwordHasher) : base(unitOfWork)
     {
-        _usersRepo = usersRepo;
         _passwordHasher = passwordHasher;
     }
 
     public override async Task<UpdateUserByIdResponse> Handle(UpdateUserByIdRequest request, CancellationToken cancellationToken)
     {
-        var userEntity = await _usersRepo.GetByIdAsync(request.UserId, cancellationToken)
+        var userEntity = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
             ?? throw new EntityNotFoundException($"User with id {request.UserId} not found");
 
         if (request.Username != null)
@@ -53,14 +60,9 @@ public sealed class UpdateUserByIdRequetHandler : RequestHandlerBase<UpdateUserB
             userEntity.PasswordSalt = salt;
         }
 
-        var response = new UpdateUserByIdResponse
-        {
-            UserEmail = userEntity.EmailLogin,
-            UserId = request.UserId,
-            Username = userEntity.Username,
-        };
+        var response = new UpdateUserByIdResponse(userEntity.Id, userEntity.Username, userEntity.EmailLogin);
 
-        await _usersRepo.UpdateAsync(userEntity, cancellationToken);
+        await UnitOfWork.Users.UpdateAsync(userEntity, cancellationToken);
 
         return response;
     }

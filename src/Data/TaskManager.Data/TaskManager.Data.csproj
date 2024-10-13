@@ -12,8 +12,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\TaskManager.Core.Interfaces\TaskManager.Core.Interfaces.csproj" />
-  </ItemGroup>
-
 </Project>

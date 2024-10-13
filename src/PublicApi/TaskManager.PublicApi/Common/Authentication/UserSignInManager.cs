@@ -13,7 +13,9 @@ public sealed class UserSignInManager : IUserSignInManager
 
             var cookieOptions = new CookieOptions()
             {
-                HttpOnly = true
+                HttpOnly = true,
+                Secure = true,
+                IsEssential = true,
             };
 
             context.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieOptions);
@@ -27,11 +29,14 @@ public sealed class UserSignInManager : IUserSignInManager
 
     public void CreateRefreshToken(string refreshToken, HttpContext context)
     {
-        var options = new CookieOptions()
+        var cookieOptions = new CookieOptions()
         {
-            HttpOnly = true
+            HttpOnly = true,
+            Secure = true,
+            IsEssential = true,
         };
 
-        context.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, options);
+
+        context.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieOptions);
     }
 }

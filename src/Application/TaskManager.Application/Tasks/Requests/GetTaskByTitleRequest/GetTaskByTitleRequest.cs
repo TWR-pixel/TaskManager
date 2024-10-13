@@ -1,33 +1,37 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Tasks;
-using TaskManager.Data;
-using TaskManager.Data.Task.Specifications;
+﻿using System.Diagnostics.CodeAnalysis;
+using TaskManager.Application.Common;
+using TaskManager.Application.Common.Requests;
+using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Tasks.Specifications;
 
 namespace TaskManager.Application.Tasks.Requests.GetTaskByTitleRequest;
 
-public sealed class GetTaskByTitleRequest : RequestBase<GetTaskByTitleResponse>
+public sealed record GetTaskByTitleRequest : RequestBase<GetTaskByTitleResponse>
 {
     public required string Title { get; set; }
 }
 
-public sealed class GetTaskByTitleResponse : ResponseBase
+public sealed record GetTaskByTitleResponse : ResponseBase
 {
-}
-
-public sealed class GetTaskByTitleRequestHandler : RequestHandlerBase<GetTaskByTitleRequest, GetTaskByTitleResponse>
-{
-    private readonly EfRepositoryBase<UserTaskEntity> _tasksRepo;
-
-    public GetTaskByTitleRequestHandler(EfRepositoryBase<UserTaskEntity> tasksRepo)
+    [SetsRequiredMembers]
+    public GetTaskByTitleResponse(string title, string? description)
     {
-        _tasksRepo = tasksRepo;
+        Title = title;
+        Description = description;
     }
 
+    public required string Title { get; set; }
+    public string? Description { get; set; }
+}
+
+public sealed class GetTaskByTitleRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<GetTaskByTitleRequest, GetTaskByTitleResponse>(unitOfWork)
+{
     public override async Task<GetTaskByTitleResponse> Handle(GetTaskByTitleRequest request, CancellationToken cancellationToken)
     {
-        var result = await _tasksRepo.SingleOrDefaultAsync(new GetTaskByTitleSpecification(request.Title), cancellationToken);
+        var result = await UnitOfWork.UserTasks.SingleOrDefaultAsync(new GetTaskByTitleSpecification(request.Title), cancellationToken)
+            ?? throw new EntityNotFoundException($"User task with title '{request.Title} not found");
 
-        var response = new GetTaskByTitleResponse();
+        var response = new GetTaskByTitleResponse(result.Title, result.Content);
 
         return response;
     }

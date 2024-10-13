@@ -11,10 +11,13 @@ using TaskManager.Application.Common.Security.Authentication.JwtClaims;
 using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Common.Security.Hashers.BCrypt;
 using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
+using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
-using TaskManager.Data;
+using TaskManager.Infastructure;
+using TaskManager.Infastructure.Common;
 using TaskManager.PublicApi.Common;
 using TaskManager.PublicApi.Common.Authentication;
 using TaskManager.PublicApi.Common.Middlewares;
@@ -28,7 +31,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors();
 
-#region swaggerGen
+#region swaggerGen configuration
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -67,11 +70,13 @@ builder.Services.AddDbContext<TaskManagerDbContext>(d =>
 });
 
 #region Add entityframework repositories
-builder.Services.AddScoped<EfRepositoryBase<UserEntity>, EfRepository<UserEntity>>();
-builder.Services.AddScoped<EfRepositoryBase<RoleEntity>, EfRepository<RoleEntity>>();
-builder.Services.AddScoped<EfRepositoryBase<UserTaskEntity>, EfRepository<UserTaskEntity>>();
-builder.Services.AddScoped<EfRepositoryBase<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
+builder.Services.AddScoped<IRepositoryBaseCore<UserEntity>, EfRepository<UserEntity>>();
+builder.Services.AddScoped<IRepositoryBaseCore<RoleEntity>, EfRepository<RoleEntity>>();
+builder.Services.AddScoped<IRepositoryBaseCore<UserTaskEntity>, EfRepository<UserTaskEntity>>();
+builder.Services.AddScoped<IRepositoryBaseCore<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
 #endregion
+
+builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
 builder.Services.AddMediator();
 builder.Services.AddScoped<IMediatorFacade, MediatorFacade>();
@@ -85,8 +90,8 @@ builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IJwtRefreshTokenGenerator, JwtRefreshTokenGenerator>();
 builder.Services.AddScoped<IUserSignInManager, UserSignInManager>();
 
-builder.Services.AddOptions<JwtAuthenticationOptions>().BindConfiguration(nameof(JwtAuthenticationOptions),
-    o => o.ErrorOnUnknownConfiguration = true);
+builder.Services.AddOptions<JwtAuthenticationOptions>()
+    .BindConfiguration(nameof(JwtAuthenticationOptions),o => o.ErrorOnUnknownConfiguration = true);
 
 var validIssuer = builder.Configuration["JwtAuthenticationOptions:Issuer"];
 var validAudience = builder.Configuration["JwtAuthenticationOptions:Audience"];
@@ -120,8 +125,6 @@ builder.Services.AddMemoryCache();
 #endregion
 
 var app = builder.Build();
-app.UseRouting();
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -137,40 +140,39 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 
+app.UseHttpsRedirection();
+app.UseRouting();
+
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-
 if (app.Environment.IsDevelopment())
 {
     app.UseCors(builder => builder
-         .WithOrigins("https://localhost:7048", "http://localhost:5224", "http://localhost:3000", "https://localhost:3000")
+         .WithOrigins("https://localhost:7048", "http://localhost:5224", "https://localhost:3000", "https://localhost:3000")
          .AllowAnyMethod()
          .AllowAnyHeader()
          .SetIsOriginAllowed(origin => true)
-         .AllowCredentials()// allow any origin
+         .AllowCredentials()// allow any 
 );
 
 
     Console.WriteLine("development environment");
 }
+
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

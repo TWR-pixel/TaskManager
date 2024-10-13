@@ -1,29 +1,34 @@
-﻿using TaskManager.Application.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Data;
-using TaskManager.Data.TaskColumn.Specifications;
+using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.TaskColumns.Specifications;
+using static TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest.GetTaskColumnByIdResponse;
 
 namespace TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
 
 /// <summary>
 /// Returns all tasks in column
 /// </summary>
-public sealed class GetTaskColumnByIdRequest : RequestBase<GetTaskColumnByIdResponse>
+/// <param name="TaskColumnId"></param>
+public sealed record GetTaskColumnByIdRequest(int TaskColumnId) : RequestBase<GetTaskColumnByIdResponse>;
+
+public sealed record GetTaskColumnByIdResponse(int TaskColumnId,
+                                               string Name,
+                                               string? Description,
+                                               IEnumerable<UserTasksColumnResponse> Tasks) : ResponseBase
 {
-    public required int TaskColumnId { get; set; }
-}
-
-public sealed class GetTaskColumnByIdResponse : ResponseBase
-{
-    public required int TaskColumnId { get; set; }
-    public required string Name { get; set; }
-    public string? Description { get; set; }
-
-    public required IEnumerable<UserTasksColumnResponse> Tasks { get; set; }
-
-    public sealed class UserTasksColumnResponse
+    public sealed record UserTasksColumnResponse
     {
+        [SetsRequiredMembers]
+        public UserTasksColumnResponse(bool isCompleted, bool isInProgress, string title, string content)
+        {
+            IsCompleted = isCompleted;
+            IsInProgress = isInProgress;
+            Title = title;
+            Content = content;
+        }
+
         public required string Title { get; set; }
         public required string Content { get; set; }
 
@@ -34,42 +39,27 @@ public sealed class GetTaskColumnByIdResponse : ResponseBase
     }
 }
 
-public sealed class GetTaskColumnByIdRequestHandler(EfRepositoryBase<TaskColumnEntity> taskColumnsRepo) : RequestHandlerBase<GetTaskColumnByIdRequest, GetTaskColumnByIdResponse>
+public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) 
+    : RequestHandlerBase<GetTaskColumnByIdRequest, GetTaskColumnByIdResponse>(unitOfWork)
 {
-    private readonly EfRepositoryBase<TaskColumnEntity> _taskColumnsRepo = taskColumnsRepo;
-
     public override async Task<GetTaskColumnByIdResponse> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await _taskColumnsRepo
+        var queryResult = await UnitOfWork.UserTaskColumns
             .SingleOrDefaultAsync(new GetTaskColumnByIdWithTasksSpecification(request.TaskColumnId), cancellationToken)
             ?? throw new EntityNotFoundException($"User task column with id {request.TaskColumnId} not found");
-        
-        if (queryResult.TasksInColumn is null)
-        {
-            var nullTasksInColumnResponse = new GetTaskColumnByIdResponse
-            {
-                TaskColumnId = request.TaskColumnId,
-                Name = queryResult.Name,
-                Description = queryResult.Description,
-                Tasks = []
-            };
 
-            return nullTasksInColumnResponse;
-        }
+        queryResult.TasksInColumn ??= [];
 
-        var response = new GetTaskColumnByIdResponse()
-        {
-            TaskColumnId = queryResult.Id,
-            Name = queryResult.Name,
-            Description = queryResult.Description,
-            Tasks = queryResult.TasksInColumn.Select(static t => new GetTaskColumnByIdResponse.UserTasksColumnResponse // i dont like it
+        var response = new GetTaskColumnByIdResponse
+        (
+            queryResult.Id,
+            queryResult.Name,
+            queryResult.Description,
+            queryResult.TasksInColumn.Select(static t =>
             {
-                Title = t.Title,
-                Content = t.Content,
-                IsCompleted = t.IsCompleted,
-                IsInProgress = t.IsInProgress,
+                return new UserTasksColumnResponse(t.IsCompleted, t.IsInProgress, t.Title, t.Content);
             })
-        };
+        );
 
         return response;
     }

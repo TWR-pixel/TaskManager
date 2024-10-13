@@ -1,5 +1,4 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 
 namespace TaskManager.Application.Common.Security.Authentication;
 

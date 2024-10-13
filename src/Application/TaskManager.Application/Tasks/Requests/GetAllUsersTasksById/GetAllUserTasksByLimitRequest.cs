@@ -1,24 +1,22 @@
 ﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Tasks;
-using TaskManager.Data;
+using TaskManager.Core.Entities.Common;
 
 namespace TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
 
-public sealed class GetAllUserTasksByLimitRequest : RequestBase<GetAllUserTasksByLimitResponse>
+public sealed record GetAllUserTasksByLimitRequest : RequestBase<GetAllUserTasksByLimitResponse>
 {
 }
 
-public sealed class GetAllUserTasksByLimitResponse : ResponseBase
+public sealed record GetAllUserTasksByLimitResponse : ResponseBase
 {
 }
 
-public sealed class GetAllUserTasksByLimitRequestHandler(EfRepositoryBase<UserTaskEntity> userTasksRepo) : RequestHandlerBase<GetAllUserTasksByLimitRequest, GetAllUserTasksByLimitResponse>
+public sealed class GetAllUserTasksByLimitRequestHandler(IUnitOfWork unitOfWork)
+    : RequestHandlerBase<GetAllUserTasksByLimitRequest, GetAllUserTasksByLimitResponse>(unitOfWork)
 {
-    private readonly EfRepositoryBase<UserTaskEntity> _userTasksRepo = userTasksRepo;
-
     public override async Task<GetAllUserTasksByLimitResponse> Handle(GetAllUserTasksByLimitRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await _userTasksRepo.ListAsync(cancellationToken);
+        var queryResult = await UnitOfWork.UserTasks.ListAsync(cancellationToken);
 
         throw new NotImplementedException();
     }

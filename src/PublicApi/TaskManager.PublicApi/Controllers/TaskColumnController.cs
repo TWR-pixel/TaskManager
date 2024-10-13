@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.TaskColumns.Requests.AddAndSaveTaskColumnRequests;
+using TaskManager.Application.TaskColumns.Requests.CreateTaskColumnRequest;
 using TaskManager.Application.TaskColumns.Requests.DeleteTaskColumnRequests;
 using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest;
 using TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
@@ -12,6 +12,7 @@ namespace TaskManager.PublicApi.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/task-columns")]
+[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControllerBase(mediator)
 {
     #region HTTP methods
@@ -22,7 +23,7 @@ public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControll
                                                                          CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
-        
+
         return Created(nameof(Create), result);
     }
 

@@ -1,4 +1,6 @@
-﻿using TaskManager.Core.Entities.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 
@@ -6,6 +8,22 @@ namespace TaskManager.Core.Entities.Users;
 
 public sealed class UserEntity : EntityBase
 {
+    [SetsRequiredMembers]
+    public UserEntity(RoleEntity role, string emailLogin, string username, string passwordHash, string passwordSalt, string refreshToken)
+    {
+        Role = role;
+        EmailLogin = emailLogin;
+        Username = username;
+        PasswordHash = passwordHash;
+        PasswordSalt = passwordSalt;
+        RefreshToken = refreshToken;
+    }
+
+    public UserEntity()
+    {
+        
+    }
+
     public required string EmailLogin { get; set; }
     public required string Username { get; set; }
     public required string PasswordHash { get; set; }

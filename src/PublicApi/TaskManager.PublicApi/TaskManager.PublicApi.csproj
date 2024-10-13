@@ -16,11 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
+    <Folder Include="Common\Models\Request\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Models\Request\" />
+    <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
+    <ProjectReference Include="..\..\Core\TaskManager.Core.Entities\TaskManager.Core.Entities.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure\TaskManager.Infastructure.csproj" />
   </ItemGroup>
 
 </Project>

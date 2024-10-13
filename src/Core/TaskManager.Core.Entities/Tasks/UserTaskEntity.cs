@@ -6,11 +6,31 @@ namespace TaskManager.Core.Entities.Tasks;
 
 public sealed class UserTaskEntity : EntityBase
 {
+    public UserTaskEntity(bool isCompleted,
+                          bool isInProgress,
+                          UserEntity owner,
+                          TaskColumnEntity taskColumn,
+                          string title,
+                          string content)
+    {
+        IsCompleted = isCompleted;
+        IsInProgress = isInProgress;
+        Owner = owner;
+        TaskColumn = taskColumn;
+        Title = title;
+        Content = content;
+    }
+
+    public UserTaskEntity()
+    {
+        
+    }
+
     public required string Title { get; set; }
     public required string Content { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? DoTo {  get; set; }
+    public DateOnly? DoTo { get; set; }
 
     public required bool IsCompleted { get; set; }
     public required bool IsInProgress { get; set; }
