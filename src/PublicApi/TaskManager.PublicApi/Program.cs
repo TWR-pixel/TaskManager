@@ -126,6 +126,18 @@ builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(builder => builder
+         .WithOrigins("https://localhost:7048", "http://localhost:5224", "https://localhost:3000", "https://localhost:3000")
+         .AllowAnyMethod()
+         .AllowAnyHeader()
+         .SetIsOriginAllowed(origin => true)
+         .AllowCredentials()// allow any 
+);
+    Console.WriteLine("development environment");
+}
+
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 
 app.UseHttpsRedirection();
