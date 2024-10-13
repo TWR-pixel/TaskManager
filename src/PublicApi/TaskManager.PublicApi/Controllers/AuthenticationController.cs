@@ -46,7 +46,7 @@ public sealed class AuthenticationController : ApiControllerBase
 
         return Ok(userLoginResponse);
     }
-
+    // получать данные с сервера, которые по запросу: саму задачу, токен, колонку
     /// <summary>
     /// Returns new user token with refresh token
     /// </summary>
@@ -56,9 +56,9 @@ public sealed class AuthenticationController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<GetNewUserAccessTokenResponse>> UpdateUserAccessTokenByRefreshToken(CancellationToken cancellationToken)
     {
-        var isRefreshTokenInRequest = Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? value);
+        var isRefreshTokenInCookie = Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? value);
 
-        if (!isRefreshTokenInRequest || string.IsNullOrWhiteSpace(value))
+        if (!isRefreshTokenInCookie || string.IsNullOrWhiteSpace(value))
             return Unauthorized();
 
         var mediatorRequest = new GetNewUserAccessTokenRequest() { RefreshToken = value };

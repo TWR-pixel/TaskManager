@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Common;
 using TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
-using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Application.Users.Requests.DeleteUserByIdRequest;
 using TaskManager.Application.Users.Requests.GetUserByIdRequest;
-using TaskManager.Application.Users.Requests.RegisterUserRequests;
 using TaskManager.Application.Users.Requests.UpdateUserByIdRequest;
 using TaskManager.PublicApi.Common;
 

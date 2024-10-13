@@ -2,6 +2,6 @@
 
 namespace TaskManager.Application.Common.Requests;
 
-public abstract class RequestBase<TResponse> : IRequest<TResponse> where TResponse : class
+public abstract record RequestBase<TResponse> : IRequest<TResponse> where TResponse : class
 {
 }

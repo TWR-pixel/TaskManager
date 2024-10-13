@@ -1,5 +1,4 @@
-﻿using MediatR;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 
 namespace TaskManager.PublicApi.Common;
 

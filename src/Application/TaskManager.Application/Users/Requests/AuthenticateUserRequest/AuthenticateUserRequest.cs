@@ -1,23 +1,35 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 using TaskManager.Application.Common.Security.Authentication.JwtClaims;
-using TaskManager.Core.Entities.Users;
-using TaskManager.Data;
-using TaskManager.Data.User.Specifications;
+using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 
-public sealed class AuthenticateUserRequest :
-    RequestBase<AuthenticateUserResponse>
+public sealed record AuthenticateUserRequest(string EmailLogin, string Password) :
+    RequestBase<AuthenticateUserResponse>;
+
+public sealed record AuthenticateUserResponse : ResponseBase
 {
-    public required string EmailLogin { get; set; }
-    public required string Password { get; set; }
-}
-public sealed class AuthenticateUserResponse : ResponseBase
-{
+    [SetsRequiredMembers]
+    public AuthenticateUserResponse(string accessTokenString,
+                                    string refreshTokenString,
+                                    int userId,
+                                    string userName,
+                                    int roleId,
+                                    string roleName)
+    {
+        AccessTokenString = accessTokenString;
+        RefreshTokenString = refreshTokenString;
+        UserId = userId;
+        UserName = userName;
+        RoleId = roleId;
+        RoleName = roleName;
+    }
+
     public required string AccessTokenString { get; set; }
     public required string RefreshTokenString { get; set; }
 
@@ -33,27 +45,21 @@ public sealed class AuthenticateUserRequestHandler :
 {
     private readonly IJwtSecurityTokenFactory _jwtSecurityTokenFactory;
     private readonly IJwtClaimsFactory _claimsFactory;
-    private readonly IMemoryCache _memoryCache;
-
-    private readonly EfRepositoryBase<UserEntity> _userRepo;
 
     public AuthenticateUserRequestHandler(IJwtSecurityTokenFactory jwtSecurityTokenFactory,
-                                          EfRepositoryBase<UserEntity> userRepo,
-                                          IJwtClaimsFactory claimsFactory,
-                                          IMemoryCache memoryCache)
+                                          IUnitOfWork unitOfWork,
+                                          IJwtClaimsFactory claimsFactory) : base(unitOfWork)
     {
         _jwtSecurityTokenFactory = jwtSecurityTokenFactory;
-        _userRepo = userRepo;
         _claimsFactory = claimsFactory;
-        _memoryCache = memoryCache;
     }
 
     public override async Task<AuthenticateUserResponse> Handle(AuthenticateUserRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await _userRepo.SingleOrDefaultAsync(new GetUserByEmailLoginWithRoleSpecification(request.EmailLogin), cancellationToken)
+        var queryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailLoginWithRoleSpecification(request.EmailLogin), cancellationToken)
                           ?? throw new EntityNotFoundException($"User not found with email '{request.EmailLogin}', try register. "); // get refresh token from db
 
-        
+
         var claims = _claimsFactory.CreateDefault(queryResult.Id,
                                                   queryResult.Role.Id,
                                                   queryResult.Username,
@@ -61,15 +67,12 @@ public sealed class AuthenticateUserRequestHandler :
 
         var token = _jwtSecurityTokenFactory.CreateSecurityToken(claims);
 
-        var response = new AuthenticateUserResponse()
-        {
-            AccessTokenString = new JwtSecurityTokenHandler().WriteToken(token),
-            RoleId = queryResult.Role.Id,
-            RoleName = queryResult.Role.Name,
-            UserId = queryResult.Id,
-            UserName = queryResult.Username,
-            RefreshTokenString = queryResult.RefreshToken
-        };
+        var response = new AuthenticateUserResponse(new JwtSecurityTokenHandler().WriteToken(token),
+                                                    queryResult.RefreshToken,
+                                                    queryResult.Id,
+                                                    queryResult.Username,
+                                                    queryResult.Role.Id,
+                                                    queryResult.Role.Name);
 
         return response;
     }

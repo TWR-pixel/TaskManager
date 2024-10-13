@@ -1,26 +1,42 @@
-﻿using TaskManager.Application.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Data;
+using TaskManager.Core.Entities.Common;
 
 namespace TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
 
 /// <summary>
 /// returns new object with task column and it's user tasks.
 /// </summary>
-public sealed class GetUserTasksByColumnIdRequest : RequestBase<GetUserTasksByColumnIdResponse>
+public sealed record GetUserTasksByColumnIdRequest : RequestBase<GetUserTasksByColumnIdResponse>
 {
     public required int TaskColumnId { get; set; }
 }
 
-public sealed class GetUserTasksByColumnIdResponse : ResponseBase
+public sealed record GetUserTasksByColumnIdResponse : ResponseBase
 {
     public required string TaskColumnName { get; set; }
 
     public required IEnumerable<UserTasksInColumnResponse> AllTasksInColumn { get; set; }
 
-    public sealed class UserTasksInColumnResponse
+    public sealed record UserTasksInColumnResponse
     {
+        [SetsRequiredMembers]
+        public UserTasksInColumnResponse(int userTaskId,
+                                         string userTaskTitle,
+                                         string userTaskContent,
+                                         bool isInProgress,
+                                         bool isCompleted,
+                                         DateTime createdAt)
+        {
+            UserTaskId = userTaskId;
+            UserTaskTitle = userTaskTitle;
+            UserTaskContent = userTaskContent;
+            IsInProgress = isInProgress;
+            IsCompleted = isCompleted;
+            CreatedAt = createdAt;
+        }
+
         public required int UserTaskId { get; set; }
         public required string UserTaskTitle { get; set; }
         public required string UserTaskContent { get; set; }
@@ -33,42 +49,29 @@ public sealed class GetUserTasksByColumnIdResponse : ResponseBase
 
 public sealed class GetUserTasksByColumnIdRequestHandler : RequestHandlerBase<GetUserTasksByColumnIdRequest, GetUserTasksByColumnIdResponse>
 {
-    private readonly EfRepositoryBase<TaskColumnEntity> _columnsRepo;
-
-    public GetUserTasksByColumnIdRequestHandler(EfRepositoryBase<TaskColumnEntity> columnsRepo)
+    public GetUserTasksByColumnIdRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
-        _columnsRepo = columnsRepo;
     }
 
     public override async Task<GetUserTasksByColumnIdResponse> Handle(GetUserTasksByColumnIdRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await _columnsRepo.GetByIdAsync(request.TaskColumnId, cancellationToken)
+        var queryResult = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.TaskColumnId, cancellationToken)
             ?? throw new EntityNotFoundException($"Task column with id {request.TaskColumnId} not found");
 
-        if (queryResult.TasksInColumn is null)
-        {
-            var nullTasksInColumnResponse = new GetUserTasksByColumnIdResponse
-            {
-                TaskColumnName = queryResult.Name,
-                AllTasksInColumn = [],
-            };
-
-            return nullTasksInColumnResponse;
-        }
+        queryResult.TasksInColumn ??= []; // if null initialize empty array
 
         var response = new GetUserTasksByColumnIdResponse
         {
             TaskColumnName = queryResult.Name,
 
-            AllTasksInColumn = queryResult.TasksInColumn.Select(t => new GetUserTasksByColumnIdResponse.UserTasksInColumnResponse
-            {
-                CreatedAt = t.CreatedAt,
-                IsCompleted = t.IsCompleted,
-                IsInProgress = t.IsInProgress,
-                UserTaskContent = t.Content,
-                UserTaskId = t.Id,
-                UserTaskTitle = t.Title,
-            })
+            AllTasksInColumn = queryResult.TasksInColumn.Select(
+                static t => new GetUserTasksByColumnIdResponse.UserTasksInColumnResponse(
+                    t.Id,
+                    t.Title,
+                    t.Content,
+                    t.IsInProgress,
+                    t.IsCompleted,
+                    t.CreatedAt))
         };
 
         return response;

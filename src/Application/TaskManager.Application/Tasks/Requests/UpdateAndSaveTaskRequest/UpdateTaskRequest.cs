@@ -1,44 +1,54 @@
 ﻿using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Tasks;
-using TaskManager.Data;
+using TaskManager.Core.Entities.Common;
 
 namespace TaskManager.Application.Tasks.Requests.UpdateAndSaveTaskRequest;
 
-public sealed class UpdateTaskRequest : RequestBase<UpdateTaskResponse>
-{
-    public required int UpdatingTaskId { get; set; }
-    public string? Title { get; set; }
-    public string? Content { get; set; }
-    public bool? IsCompleted { get; set; }
-    public bool? IsInProgress { get; set; }
-}
+public sealed record UpdateTaskRequest(int UpdatingTaskId,
+                                       int? ColumnId = null,
+                                       string? Title = null,
+                                       string? Content = null,
+                                       bool? IsCompleted = null,
+                                       bool? IsInProgress = null) : RequestBase<UpdateTaskResponse>;
 
-public sealed class UpdateTaskResponse : ResponseBase
+public sealed record UpdateTaskResponse : ResponseBase
 {
-    public string? Title { get; set; }
-    public string? Content { get; set; }
-    public bool? IsCompleted { get; set; }
-    public bool? IsInProgress { get; set; }
+    public UpdateTaskResponse(string? title, string? content, bool? isCompleted, bool? isInProgress)
+    {
+        Title = title;
+        Content = content;
+        IsCompleted = isCompleted;
+        IsInProgress = isInProgress;
+    }
+
+    public string? Title { get; set; } = null;
+    public string? Content { get; set; } = null;
+    public bool? IsCompleted { get; set; } = null;
+    public bool? IsInProgress { get; set; } = null;
 }
 
 public sealed class UpdateTaskRequestHandler
     : RequestHandlerBase<UpdateTaskRequest, UpdateTaskResponse>
 {
-    private readonly EfRepositoryBase<UserTaskEntity> _taskRepo;
-
-    public UpdateTaskRequestHandler(EfRepositoryBase<UserTaskEntity> taskRepo)
+    public UpdateTaskRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
-        _taskRepo = taskRepo;
     }
 
     public override async Task<UpdateTaskResponse> Handle(UpdateTaskRequest request, CancellationToken cancellationToken)
     {
-        var entityForUpdate = await _taskRepo.GetByIdAsync(request.UpdatingTaskId, cancellationToken)
+        var entityForUpdate = await UnitOfWork.UserTasks.GetByIdAsync(request.UpdatingTaskId, cancellationToken)
             ?? throw new EntityNotFoundException($"Task by id {request.UpdatingTaskId} not found. ");
 
         if (request.Title != null)
             entityForUpdate.Title = request.Title;
+
+        if (request.ColumnId != null)
+        {
+            var columnEntity = await UnitOfWork.UserTaskColumns.GetByIdAsync((int)request.ColumnId, cancellationToken)
+                ?? throw new EntityNotFoundException($"Task column by id {request.ColumnId} not found. ");
+        
+            entityForUpdate.TaskColumn = columnEntity;
+        }
 
         if (request.Content != null)
             entityForUpdate.Content = request.Content;
@@ -50,15 +60,12 @@ public sealed class UpdateTaskRequestHandler
             entityForUpdate.IsInProgress = (bool)request.IsInProgress;
 
 
-        await _taskRepo.UpdateAsync(entityForUpdate, cancellationToken);
+        await UnitOfWork.UserTasks.UpdateAsync(entityForUpdate, cancellationToken);
 
-        var response = new UpdateTaskResponse()
-        {
-            Content = request.Content,
-            Title = request.Title,
-            IsCompleted = request.IsCompleted,
-            IsInProgress = request.IsInProgress,
-        };
+        var response = new UpdateTaskResponse(request.Title,
+                                              request.Content,
+                                              request.IsInProgress,
+                                              request.IsInProgress);
 
         return response;
     }

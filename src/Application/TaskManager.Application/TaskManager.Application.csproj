@@ -7,31 +7,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\Security\Authentication\Abstractions\**" />
     <Compile Remove="Users\Requests\AddAndSaveRequest\**" />
     <Compile Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <Compile Remove="Users\Requests\UpdateAndSaveRequest\**" />
+    <EmbeddedResource Remove="Common\Security\Authentication\Abstractions\**" />
     <EmbeddedResource Remove="Users\Requests\AddAndSaveRequest\**" />
     <EmbeddedResource Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <EmbeddedResource Remove="Users\Requests\UpdateAndSaveRequest\**" />
+    <None Remove="Common\Security\Authentication\Abstractions\**" />
     <None Remove="Users\Requests\AddAndSaveRequest\**" />
     <None Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <None Remove="Users\Requests\UpdateAndSaveRequest\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\TaskManager.Data\TaskManager.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Security\Authentication\Abstractions\" />
     <Folder Include="Users\Requests\AuthenticateUserRequest\Validators\" />
     <Folder Include="Users\Requests\RegisterUserRequests\Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\TaskManager.Core.Entities\TaskManager.Core.Entities.csproj" />
   </ItemGroup>
 
 </Project>

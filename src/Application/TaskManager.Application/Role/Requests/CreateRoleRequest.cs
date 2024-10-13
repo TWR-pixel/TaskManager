@@ -1,36 +1,41 @@
-﻿using TaskManager.Application.Common.Requests;
+﻿using System.Diagnostics.CodeAnalysis;
+using TaskManager.Application.Common.Requests;
+using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.Users;
-using TaskManager.Data;
-
 namespace TaskManager.Application.Role.Requests;
 
-public sealed class CreateRoleRequest : RequestBase<CreateRoleResponse>
+public sealed record CreateRoleRequest : RequestBase<CreateRoleResponse>
 {
     public required string Name { get; set; }
 }
 
-public sealed class CreateRoleResponse : ResponseBase
+public sealed record CreateRoleResponse : ResponseBase
 {
+    [SetsRequiredMembers]
+    public CreateRoleResponse(string name)
+    {
+        Name = name;
+    }
+
     public required string Name { get; set; }
 }
 
 public sealed class CreateRoleRequestHandler
     : RequestHandlerBase<CreateRoleRequest, CreateRoleResponse>
 {
-    private readonly EfRepositoryBase<RoleEntity> _roleRepo;
-
-    public CreateRoleRequestHandler(EfRepositoryBase<RoleEntity> roleRepo)
+    public CreateRoleRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
-        _roleRepo = roleRepo;
     }
 
     public override async Task<CreateRoleResponse> Handle(CreateRoleRequest request, CancellationToken cancellationToken)
     {
-        var role = new RoleEntity { Name = request.Name };
+        var role = new RoleEntity(request.Name);
 
-        await _roleRepo.AddAsync(role, cancellationToken);
+        await UnitOfWork.Roles.AddAsync(role, cancellationToken);
+        await UnitOfWork.SaveChangesAsync(cancellationToken);
 
-        var response = new CreateRoleResponse { Name = request.Name };
+        var response = new CreateRoleResponse(role.Name);
 
         return response;
     }
