@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D9601ACB-0390-4B9D-B3D9-BE47FE5FCF75}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublicApi", "PublicApi", "{FE0589C6-0E12-4846-8633-C2414FDA10B2}"
-	ProjectSection(SolutionItems) = preProject
-		src\Infastructure\TaskManager.Infastructure.PostgreSql\TaskManagerDbContext.cs = src\Infastructure\TaskManager.Infastructure.PostgreSql\TaskManagerDbContext.cs
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{EBDB93FA-CCCC-4EC0-8015-213BD8DFA5AE}"
 EndProject
@@ -26,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infastructure", "Infastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.Sqlite", "src\Infastructure\TaskManager.Infastructure\TaskManager.Infastructure.Sqlite.csproj", "{CCF84CE2-9F4B-4D18-82B7-B0780CFAB750}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infastructure.PostgreSql", "src\Infastructure\TaskManager.Infastructure.PostgreSql\TaskManager.Infastructure.PostgreSql.csproj", "{7DE554BF-5CF3-4819-BCDF-4897D58C2D87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.PostgreSql", "src\Infastructure\TaskManager.Infastructure.PostgreSql\TaskManager.Infastructure.PostgreSql.csproj", "{7DE554BF-5CF3-4819-BCDF-4897D58C2D87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infastructure.EntityConfigurations", "src\Infastructure\TaskManager.Infastructure.EntityConfigurations\TaskManager.Infastructure.EntityConfigurations.csproj", "{9DF6B228-0967-446B-BB79-9EE5CB1E5EA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.EntityConfigurations", "src\Infastructure\TaskManager.Infastructure.EntityConfigurations\TaskManager.Infastructure.EntityConfigurations.csproj", "{9DF6B228-0967-446B-BB79-9EE5CB1E5EA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
