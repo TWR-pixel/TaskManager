@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.TaskColumns.Requests.CreateTaskColumnRequest;
 using TaskManager.Application.TaskColumns.Requests.DeleteTaskColumnRequests;
 using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest;
+using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
 using TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
 using TaskManager.Application.TaskColumns.Requests.UpdateTaskColumnByIdRequest;
 using TaskManager.PublicApi.Common;

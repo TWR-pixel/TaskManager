@@ -8,7 +8,7 @@ using TaskManager.Infastructure.EntityConfigurations.User;
 using TaskManager.Infastructure.EntityConfigurations.UserTask;
 using TaskManager.Infastructure.EntityConfigurations.UserTaskColumn;
 
-namespace TaskManager.Infastructure.Sqlite;
+namespace TaskManager.Infastructure.PostgreSql;
 
 public sealed class TaskManagerDbContext : DbContext
 {
@@ -17,8 +17,8 @@ public sealed class TaskManagerDbContext : DbContext
     public DbSet<UserTaskEntity> UserTasks { get; set; }
     public DbSet<RoleEntity> UserRoles { get; set; }
 
-    public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options) : base(options) 
-        => Database.EnsureCreated();
+    public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options)
+        : base(options) => Database.EnsureCreated();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,6 +26,7 @@ public sealed class TaskManagerDbContext : DbContext
         modelBuilder.ApplyConfiguration(new TaskEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new TaskColumnEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
+
 
         base.OnModelCreating(modelBuilder);
     }

@@ -9,6 +9,8 @@ public sealed class GetAllTaskColumnsWithTasksByIdSpec : SingleResultSpecificati
     {
         Query
             .Where(u => u.Id == userId)
-            .Include(u => u.TaskColumns);
+            .Include(u => u.TaskColumns)!
+                .ThenInclude(t => t.TasksInColumn);
+
     }
 }

@@ -30,7 +30,6 @@ builder.Services.AddTransient<HandleExceptionsMiddleware>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddCors();
-builder.WebHost.UseUrls("https://localhost:7047");
 
 #region swaggerGen configuration
 builder.Services.AddSwaggerGen(c =>
@@ -124,18 +123,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 #endregion
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors(builder => builder
-         .WithOrigins("https://localhost:7048", "http://localhost:5224", "https://localhost:3000", "https://localhost:3000")
-         .AllowAnyMethod()
-         .AllowAnyHeader()
-         .SetIsOriginAllowed(origin => true)
-         .AllowCredentials()// allow any 
-);
-    Console.WriteLine("development environment");
-}
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 
