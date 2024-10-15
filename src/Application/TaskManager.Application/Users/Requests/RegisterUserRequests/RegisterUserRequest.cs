@@ -106,9 +106,9 @@ public sealed class RegisterUserRequestHandler
         #region Default columns adding
         var defaultColumns = new List<TaskColumnEntity>()
         {
-            new(userEntity, "Завершенные"),
             new(userEntity, "Нужно сделать"),
-            new(userEntity,"В процессе")
+            new(userEntity,"В процессе"),
+            new(userEntity, "Завершенные"),
         };
         #endregion
 

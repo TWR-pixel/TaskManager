@@ -36,8 +36,14 @@ public sealed class GetAllUserTaskColumnsByIdRequestHandler
                 new UserTasksColumnsResponse(u.Id,
                                              u.Name,
                                              u.Description ?? "Empty",
-                                             u.TasksInColumn?.Select(t =>
-                                                new UserTaskResponse(t.Title, t.Content))))
+                                             u.TasksInColumn?.Select(t => new UserTaskResponse(t.Title,
+                                                                                               t.Content,
+                                                                                               t.IsInProgress,
+                                                                                               t.IsCompleted,
+                                                                                               t.CreatedAt,
+                                                                                               t.DoTo))
+                                             )
+                )
         };
 
         return response;
