@@ -20,6 +20,6 @@ public sealed class GetUserTaskColumnByTitleRequestHandler
 
     public override Task<GetUserTaskColumnByTitleResponse> Handle(GetUserTaskColumnByTitleRequest request, CancellationToken cancellationToken)
     {
-
+        throw new NotImplementedException();
     }
 }
