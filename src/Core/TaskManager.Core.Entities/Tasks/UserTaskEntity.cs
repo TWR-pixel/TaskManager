@@ -1,4 +1,4 @@
-﻿using TaskManager.Core.Entities.Common;
+﻿using TaskManager.Core.Entities.Common.Entities;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
 

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Common.Requests;
 

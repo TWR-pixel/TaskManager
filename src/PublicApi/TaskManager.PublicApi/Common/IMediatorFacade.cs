@@ -5,5 +5,5 @@ namespace TaskManager.PublicApi.Common;
 public interface IMediatorFacade
 {
     public Task<TResponse> SendAsync<TResponse>
-        (RequestBase<TResponse> request, CancellationToken cancellationToken = default) where TResponse : class;
+        (RequestBase<TResponse> request, CancellationToken cancellationToken = default) where TResponse : ResponseBase;
 }

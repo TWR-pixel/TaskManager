@@ -1,12 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
-using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 using TaskManager.Application.Common.Security.Authentication.JwtClaims;
 using TaskManager.Application.Common.Security.Hashers;
-using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
-using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.Roles.Specifications;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
@@ -81,13 +80,14 @@ public sealed class RegisterUserRequestHandler
 
         var passwordSalt = _passwordHasher.GenerateSalt();
         var passwordHash = _passwordHasher.HashPassword(request.Password, passwordSalt);
+        var refreshToken = _jwtRefreshTokenGenerator.GenerateRefreshToken();
 
         var userEntity = new UserEntity(roleEntity,
                                         request.Email,
                                         request.Username,
                                         passwordHash,
                                         passwordSalt,
-                                        _jwtRefreshTokenGenerator.GenerateRefreshToken());
+                                        refreshToken);
 
         userEntity = await UnitOfWork.Users.AddAsync(userEntity, cancellationToken);
 
@@ -106,7 +106,7 @@ public sealed class RegisterUserRequestHandler
         #region Default columns adding
         var defaultColumns = new List<TaskColumnEntity>()
         {
-            new(userEntity, "Завершенные"), 
+            new(userEntity, "Завершенные"),
             new(userEntity, "Нужно сделать"),
             new(userEntity,"В процессе")
         };

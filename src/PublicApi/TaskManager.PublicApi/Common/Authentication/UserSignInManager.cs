@@ -2,7 +2,6 @@
 
 public sealed class UserSignInManager : IUserSignInManager
 {
-
     public void Login(string refreshToken, HttpContext context)
     {
         context.Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? tokenValue);
@@ -16,16 +15,14 @@ public sealed class UserSignInManager : IUserSignInManager
                 HttpOnly = true,
                 Secure = true,
                 IsEssential = true,
+                SameSite = SameSiteMode.None,
             };
 
             context.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieOptions);
         }
     }
 
-    public void Logout(HttpContext context)
-    {
-        context.Response.Cookies.Delete(AuthConstants.REFRESH_TOKEN_COOKIE_NAME);
-    }
+    public void Logout(HttpContext context) => context.Response.Cookies.Delete(AuthConstants.REFRESH_TOKEN_COOKIE_NAME);
 
     public void CreateRefreshToken(string refreshToken, HttpContext context)
     {
@@ -34,8 +31,8 @@ public sealed class UserSignInManager : IUserSignInManager
             HttpOnly = true,
             Secure = true,
             IsEssential = true,
+            SameSite = SameSiteMode.None
         };
-
 
         context.Response.Cookies.Append(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, refreshToken, cookieOptions);
     }

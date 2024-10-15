@@ -11,13 +11,14 @@ using TaskManager.Application.Common.Security.Authentication.JwtClaims;
 using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Common.Security.Hashers.BCrypt;
 using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
-using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Common.Repositories;
+using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
-using TaskManager.Infastructure;
-using TaskManager.Infastructure.Common;
+using TaskManager.Infastructure.Sqlite;
+using TaskManager.Infastructure.Sqlite.Common;
 using TaskManager.PublicApi.Common;
 using TaskManager.PublicApi.Common.Authentication;
 using TaskManager.PublicApi.Common.Middlewares;
@@ -28,8 +29,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<HandleExceptionsMiddleware>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors();
+builder.WebHost.UseUrls("https://localhost:7047");
 
 #region swaggerGen configuration
 builder.Services.AddSwaggerGen(c =>
@@ -62,11 +63,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 #endregion
 
-var connectionString = builder.Configuration.GetConnectionString("Sqlite");
+var sqliteConnectionStr = builder.Configuration.GetConnectionString("Sqlite");
 
 builder.Services.AddDbContext<TaskManagerDbContext>(d =>
 {
-    d.UseSqlite(connectionString);
+    d.UseSqlite(sqliteConnectionStr);
 });
 
 #region Add entityframework repositories
@@ -81,7 +82,7 @@ builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 builder.Services.AddMediator();
 builder.Services.AddScoped<IMediatorFacade, MediatorFacade>();
 
-#region Add authentication services
+#region authentication services
 
 builder.Services.AddScoped<IJwtClaimsFactory, JwtClaimsFactory>();
 builder.Services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
@@ -91,7 +92,7 @@ builder.Services.AddScoped<IJwtRefreshTokenGenerator, JwtRefreshTokenGenerator>(
 builder.Services.AddScoped<IUserSignInManager, UserSignInManager>();
 
 builder.Services.AddOptions<JwtAuthenticationOptions>()
-    .BindConfiguration(nameof(JwtAuthenticationOptions),o => o.ErrorOnUnknownConfiguration = true);
+    .BindConfiguration(nameof(JwtAuthenticationOptions), o => o.ErrorOnUnknownConfiguration = true);
 
 var validIssuer = builder.Configuration["JwtAuthenticationOptions:Issuer"];
 var validAudience = builder.Configuration["JwtAuthenticationOptions:Audience"];
@@ -118,8 +119,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
-builder.Services.AddMemoryCache();
 #endregion
 
 #endregion
@@ -140,28 +139,35 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+//app.UseHsts();
+
 app.UseRouting();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(builder => builder
+         .WithOrigins(
+        "http://localhost:3000",
+         "https://localhost:3000",
+         "https://localhost:443",
+         "http://localhost:443",
+         "https://localhost",
+         "http://localhost",
+         "https://localhost:7048")
+         .AllowAnyHeader()
+         .AllowAnyMethod()
+         .AllowCredentials()
+         .SetIsOriginAllowed(origin => true)
+         );
+
+    Console.WriteLine("development environment");
+}
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors(builder => builder
-         .WithOrigins("https://localhost:7048", "http://localhost:5224", "https://localhost:3000", "https://localhost:3000")
-         .AllowAnyMethod()
-         .AllowAnyHeader()
-         .SetIsOriginAllowed(origin => true)
-         .AllowCredentials()// allow any 
-);
-
-
-    Console.WriteLine("development environment");
-}
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskManager.Core.Entities.Users;
 
-namespace TaskManager.Infastructure.User;
+namespace TaskManager.Infastructure.EntityConfigurations.User;
 
 public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserEntity>
 {

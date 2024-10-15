@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 using TaskManager.Application.Common.Security.Authentication.JwtClaims;
-using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.GetNewUserAccessToken;

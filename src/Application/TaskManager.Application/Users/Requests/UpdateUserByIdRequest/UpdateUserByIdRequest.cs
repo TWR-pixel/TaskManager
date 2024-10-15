@@ -2,7 +2,8 @@
 using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Hashers;
-using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Core.Entities.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Users.Requests.UpdateUserByIdRequest;
 

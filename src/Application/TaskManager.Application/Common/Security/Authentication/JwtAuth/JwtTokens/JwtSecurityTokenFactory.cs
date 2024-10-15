@@ -29,13 +29,11 @@ public sealed class JwtSecurityTokenFactory(IOptions<JwtAuthenticationOptions> a
         var key = _symmetricSecurityKeysGenerator.CreateSecurityKey(_authOptions.Value.SecurityKey); // generate new security key 
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // algorithm info
 
-        var token = new JwtSecurityToken(
-            _authOptions.Value.Issuer,
-            _authOptions.Value.Audience,
-            claims,
-            expires: DateTime.UtcNow.AddMinutes(_authOptions.Value.ExpiresTokenMinutes),
-            signingCredentials: signingCredentials
-            );
+        var token = new JwtSecurityToken(_authOptions.Value.Issuer,
+                                         _authOptions.Value.Audience,
+                                         claims,
+                                         expires: DateTime.UtcNow.AddMinutes(_authOptions.Value.ExpiresTokenMinutes),
+                                         signingCredentials: signingCredentials);
 
         return token;
     }
