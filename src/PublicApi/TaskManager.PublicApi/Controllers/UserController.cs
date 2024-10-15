@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Common;
 using TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
 using TaskManager.Application.Users.Requests.DeleteUserByIdRequest;
 using TaskManager.Application.Users.Requests.GetUserByIdRequest;
 using TaskManager.Application.Users.Requests.UpdateUserByIdRequest;
+using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.PublicApi.Common;
 
 namespace TaskManager.PublicApi.Controllers;

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
+    <ProjectReference Include="..\TaskManager.Infastructure.EntityConfigurations\TaskManager.Infastructure.EntityConfigurations.csproj" />
   </ItemGroup>
 
 </Project>

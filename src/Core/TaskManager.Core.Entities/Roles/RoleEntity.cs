@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Common.Entities;
 
 namespace TaskManager.Core.Entities.Roles;
 

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskManager.Core.Entities.Roles;
 
-namespace TaskManager.Infastructure.Role;
+namespace TaskManager.Infastructure.EntityConfigurations.Role;
 
 public sealed class RoleEntityTypeConfiguration : IEntityTypeConfiguration<RoleEntity>
 {

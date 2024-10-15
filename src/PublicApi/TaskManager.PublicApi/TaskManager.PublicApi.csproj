@@ -22,7 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
     <ProjectReference Include="..\..\Core\TaskManager.Core.Entities\TaskManager.Core.Entities.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.EntityConfigurations\TaskManager.Infastructure.EntityConfigurations.csproj" />
     <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure\TaskManager.Infastructure.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure\TaskManager.Infastructure.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>

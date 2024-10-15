@@ -3,17 +3,12 @@ using TaskManager.Application.Common.Requests;
 
 namespace TaskManager.PublicApi.Common;
 
-public sealed class MediatorFacade : IMediatorFacade
+public sealed class MediatorFacade(IMediator mediator) : IMediatorFacade
 {
-    private readonly IMediator _mediator;
+    private readonly IMediator _mediator = mediator;
 
-    public MediatorFacade(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    public async Task<TResponse> SendAsync<TResponse>
-        (RequestBase<TResponse> request, CancellationToken cancellationToken = default) where TResponse : class
+    public async Task<TResponse> SendAsync<TResponse>(RequestBase<TResponse> request,
+                                                      CancellationToken cancellationToken = default) where TResponse : ResponseBase
     {
         return await _mediator.Send(request, cancellationToken);
     }

@@ -1,10 +1,11 @@
-﻿using TaskManager.Core.Entities.Common;
+﻿using TaskManager.Core.Entities.Common.Repositories;
+using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
 
-namespace TaskManager.Infastructure.Common;
+namespace TaskManager.Infastructure.Sqlite.Common;
 
 public sealed class EfUnitOfWork : IUnitOfWork
 {

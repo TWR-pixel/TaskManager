@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskManager.Core.Entities.TaskColumns;
 
-namespace TaskManager.Infastructure.UserTaskColumn;
+namespace TaskManager.Infastructure.EntityConfigurations.UserTaskColumn;
 
 public sealed class TaskColumnEntityTypeConfiguration : IEntityTypeConfiguration<TaskColumnEntity>
 {

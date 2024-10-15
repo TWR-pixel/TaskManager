@@ -9,14 +9,17 @@
   <ItemGroup>
     <Compile Remove="Common\Security\Authentication\Abstractions\**" />
     <Compile Remove="Users\Requests\AddAndSaveRequest\**" />
+    <Compile Remove="Users\Requests\AuthenticateUserRequest\Validators\**" />
     <Compile Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <Compile Remove="Users\Requests\UpdateAndSaveRequest\**" />
     <EmbeddedResource Remove="Common\Security\Authentication\Abstractions\**" />
     <EmbeddedResource Remove="Users\Requests\AddAndSaveRequest\**" />
+    <EmbeddedResource Remove="Users\Requests\AuthenticateUserRequest\Validators\**" />
     <EmbeddedResource Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <EmbeddedResource Remove="Users\Requests\UpdateAndSaveRequest\**" />
     <None Remove="Common\Security\Authentication\Abstractions\**" />
     <None Remove="Users\Requests\AddAndSaveRequest\**" />
+    <None Remove="Users\Requests\AuthenticateUserRequest\Validators\**" />
     <None Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <None Remove="Users\Requests\UpdateAndSaveRequest\**" />
   </ItemGroup>
@@ -29,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Requests\AuthenticateUserRequest\Validators\" />
     <Folder Include="Users\Requests\RegisterUserRequests\Validators\" />
   </ItemGroup>
 

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TaskManager.Core.Entities.Tasks;
 
-namespace TaskManager.Infastructure.UserTask;
+namespace TaskManager.Infastructure.EntityConfigurations.UserTask;
 
 public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<UserTaskEntity>
 {

@@ -2,6 +2,7 @@
 using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 using TaskManager.Application.Users.Requests.GetNewUserAccessToken;
 using TaskManager.Application.Users.Requests.RegisterUserRequests;
+using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.PublicApi.Common;
 using TaskManager.PublicApi.Common.Authentication;
 using TaskManager.PublicApi.Common.Models.Response;
@@ -33,14 +34,7 @@ public sealed class AuthenticationController : ApiControllerBase
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 
-        var userLoginResponse = new UserLoginResponse()
-        {
-            AccessTokenString = result.AccessTokenString,
-            RoleId = result.RoleId,
-            RoleName = result.RoleName,
-            UserId = result.UserId,
-            UserName = result.UserName,
-        };
+        var userLoginResponse = (UserLoginResponse)result;
 
         _userManager.Login(result.RefreshTokenString, HttpContext);
 
@@ -95,14 +89,7 @@ public sealed class AuthenticationController : ApiControllerBase
         {
             var response = await Mediator.SendAsync(request, cancellationToken);
 
-            var resp = new RegisterUserModelResponse()
-            {
-                AccessTokenString = response.AccessTokenString,
-                RoleId = response.RoleId,
-                RoleName = response.RoleName,
-                UserId = response.UserId,
-                Username = response.Username,
-            };
+            var resp = (RegisterUserModelResponse)response;
 
             _userManager.CreateRefreshToken(response.RefreshTokenString, HttpContext);
 

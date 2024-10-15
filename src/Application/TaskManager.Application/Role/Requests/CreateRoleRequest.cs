@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Common;
+using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.Roles;
-using TaskManager.Core.Entities.Users;
 namespace TaskManager.Application.Role.Requests;
 
 public sealed record CreateRoleRequest : RequestBase<CreateRoleResponse>
@@ -21,13 +20,9 @@ public sealed record CreateRoleResponse : ResponseBase
     public required string Name { get; set; }
 }
 
-public sealed class CreateRoleRequestHandler
-    : RequestHandlerBase<CreateRoleRequest, CreateRoleResponse>
+public sealed class CreateRoleRequestHandler(IUnitOfWork unitOfWork)
+        : RequestHandlerBase<CreateRoleRequest, CreateRoleResponse>(unitOfWork)
 {
-    public CreateRoleRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
-    {
-    }
-
     public override async Task<CreateRoleResponse> Handle(CreateRoleRequest request, CancellationToken cancellationToken)
     {
         var role = new RoleEntity(request.Name);

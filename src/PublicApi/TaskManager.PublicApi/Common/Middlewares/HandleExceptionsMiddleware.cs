@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Common;
-using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
+using TaskManager.Core.Entities.Common.Exceptions;
 
 namespace TaskManager.PublicApi.Common.Middlewares;
 
