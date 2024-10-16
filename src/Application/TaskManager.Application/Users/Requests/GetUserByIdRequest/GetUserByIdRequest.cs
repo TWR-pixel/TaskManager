@@ -1,8 +1,7 @@
-﻿using TaskManager.Application.Common;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.Users.Specifications;
+using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.GetUserByIdRequest;
 
@@ -21,7 +20,7 @@ public sealed class GetUserByIdRequestHandler(IUnitOfWork unitOfWork) : RequestH
     public override async Task<GetUserByIdResponse> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.Users
-            .SingleOrDefaultAsync(new GetUserByIdSpecification(request.UserId), cancellationToken)
+            .SingleOrDefaultAsync(new ReadUserByIdSpecification(request.UserId), cancellationToken)
                 ?? throw new EntityNotFoundException($"User with id '{request.UserId}' not found");
         
         var response = new GetUserByIdResponse(queryResult.Username,

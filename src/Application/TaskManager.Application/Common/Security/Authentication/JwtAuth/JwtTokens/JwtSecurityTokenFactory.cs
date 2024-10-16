@@ -32,7 +32,7 @@ public sealed class JwtSecurityTokenFactory(IOptions<JwtAuthenticationOptions> a
         var token = new JwtSecurityToken(_authOptions.Value.Issuer,
                                          _authOptions.Value.Audience,
                                          claims,
-                                         expires: DateTime.UtcNow.AddMinutes(_authOptions.Value.ExpiresTokenMinutes),
+                                         expires: DateTime.UtcNow.AddHours(_authOptions.Value.ExpiresTokenHours),
                                          signingCredentials: signingCredentials);
 
         return token;

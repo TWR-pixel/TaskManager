@@ -1,5 +1,4 @@
-﻿using TaskManager.Application.Common;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 
@@ -28,13 +27,9 @@ public sealed record UpdateTaskResponse : ResponseBase
     public bool? IsInProgress { get; set; } = null;
 }
 
-public sealed class UpdateTaskRequestHandler
-    : RequestHandlerBase<UpdateTaskRequest, UpdateTaskResponse>
+public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
+        : RequestHandlerBase<UpdateTaskRequest, UpdateTaskResponse>(unitOfWork)
 {
-    public UpdateTaskRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
-    {
-    }
-
     public override async Task<UpdateTaskResponse> Handle(UpdateTaskRequest request, CancellationToken cancellationToken)
     {
         var entityForUpdate = await UnitOfWork.UserTasks.GetByIdAsync(request.UpdatingTaskId, cancellationToken)

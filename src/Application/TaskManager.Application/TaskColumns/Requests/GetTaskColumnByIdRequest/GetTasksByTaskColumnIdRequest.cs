@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
@@ -9,21 +8,21 @@ namespace TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
 /// <summary>
 /// returns new object with task column and it's user tasks.
 /// </summary>
-public sealed record GetUserTasksByColumnIdRequest : RequestBase<GetUserTasksByColumnIdResponse>
+public sealed record GetTasksByTaskColumnIdRequest : RequestBase<GetTasksByColumnIdResponse>
 {
     public required int TaskColumnId { get; set; }
 }
 
-public sealed record GetUserTasksByColumnIdResponse : ResponseBase
+public sealed record GetTasksByColumnIdResponse : ResponseBase
 {
     public required string TaskColumnName { get; set; }
 
-    public required IEnumerable<UserTasksInColumnResponse> AllTasksInColumn { get; set; }
+    public required IEnumerable<TasksInColumnResponse> AllTasksInColumn { get; set; }
 
-    public sealed record UserTasksInColumnResponse
+    public sealed record TasksInColumnResponse
     {
         [SetsRequiredMembers]
-        public UserTasksInColumnResponse(int userTaskId,
+        public TasksInColumnResponse(int userTaskId,
                                          string userTaskTitle,
                                          string userTaskContent,
                                          bool isInProgress,
@@ -48,25 +47,25 @@ public sealed record GetUserTasksByColumnIdResponse : ResponseBase
     }
 }
 
-public sealed class GetUserTasksByColumnIdRequestHandler : RequestHandlerBase<GetUserTasksByColumnIdRequest, GetUserTasksByColumnIdResponse>
+public sealed class GetTasksByTaskColumnIdRequestHandler : RequestHandlerBase<GetTasksByTaskColumnIdRequest, GetTasksByColumnIdResponse>
 {
-    public GetUserTasksByColumnIdRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
+    public GetTasksByTaskColumnIdRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 
-    public override async Task<GetUserTasksByColumnIdResponse> Handle(GetUserTasksByColumnIdRequest request, CancellationToken cancellationToken)
+    public override async Task<GetTasksByColumnIdResponse> Handle(GetTasksByTaskColumnIdRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.TaskColumnId, cancellationToken)
             ?? throw new EntityNotFoundException($"Task column with id {request.TaskColumnId} not found");
 
         queryResult.TasksInColumn ??= []; // if null initialize empty array
 
-        var response = new GetUserTasksByColumnIdResponse
+        var response = new GetTasksByColumnIdResponse
         {
             TaskColumnName = queryResult.Name,
 
             AllTasksInColumn = queryResult.TasksInColumn.Select(
-                static t => new GetUserTasksByColumnIdResponse.UserTasksInColumnResponse(
+                static t => new GetTasksByColumnIdResponse.TasksInColumnResponse(
                     t.Id,
                     t.Title,
                     t.Content,
@@ -74,7 +73,7 @@ public sealed class GetUserTasksByColumnIdRequestHandler : RequestHandlerBase<Ge
                     t.IsCompleted,
                     t.CreatedAt))
         };
-
+         
         return response;
     }
 }

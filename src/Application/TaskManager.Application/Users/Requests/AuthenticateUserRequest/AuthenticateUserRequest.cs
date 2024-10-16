@@ -5,7 +5,7 @@ using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 using TaskManager.Application.Common.Security.Authentication.JwtClaims;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.Users.Specifications;
+using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.AuthenticateUserRequest;
 
@@ -56,7 +56,7 @@ public sealed class AuthenticateUserRequestHandler :
 
     public override async Task<AuthenticateUserResponse> Handle(AuthenticateUserRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailLoginWithRoleSpecification(request.EmailLogin), cancellationToken)
+        var queryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpecification(request.EmailLogin), cancellationToken)
                           ?? throw new EntityNotFoundException($"User not found with email '{request.EmailLogin}', try register. "); // get refresh token from db
 
 

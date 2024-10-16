@@ -41,7 +41,7 @@ public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControll
     [HttpGet("all")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GetAllUserTaskColumnsByIdResponse>> GetAllUserTaskColumns([FromQuery] GetAllUserTaskColumnsByIdRequest request,
+    public async Task<ActionResult<GetAllUserTaskColumnsByIdWithTasksResponse>> GetAllUserTaskColumns([FromQuery] GetAllUserTaskColumnsByIdWithRequest request,
                                                                                                 CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);

@@ -6,10 +6,10 @@ using TaskManager.Application.Common.Security.Authentication.JwtClaims;
 using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.Roles.Specifications;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
-using TaskManager.Core.Entities.Users.Specifications;
+using TaskManager.Core.UseCases.Roles.Specifications;
+using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.RegisterUserRequests;
 
@@ -70,12 +70,12 @@ public sealed class RegisterUserRequestHandler
     public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
     {
         var user = await UnitOfWork.Users
-            .SingleOrDefaultAsync(new GetUserByEmailLoginWithRoleSpecification(request.Email), cancellationToken);
+            .SingleOrDefaultAsync(new ReadUserByEmailSpecification(request.Email), cancellationToken);
 
         if (user != null)
             throw new UserAlreadyExistsException($"User with email '{request.Email}' already exists");
 
-        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new GetRoleByNameSpecification("User"), cancellationToken)
+        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new ReadRoleByNameSpecification("User"), cancellationToken)
             ?? throw new EntityNotFoundException($"Role with name 'User' not found");
 
         var passwordSalt = _passwordHasher.GenerateSalt();

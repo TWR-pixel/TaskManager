@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.Tasks.Specifications;
+using TaskManager.Core.UseCases.Tasks.Specifications;
 
 namespace TaskManager.Application.Tasks.Requests.GetTaskByTitleRequest;
 
@@ -29,7 +28,7 @@ public sealed class GetTaskByTitleRequestHandler(IUnitOfWork unitOfWork) : Reque
 {
     public override async Task<GetTaskByTitleResponse> Handle(GetTaskByTitleRequest request, CancellationToken cancellationToken)
     {
-        var result = await UnitOfWork.UserTasks.SingleOrDefaultAsync(new GetTaskByTitleSpecification(request.Title), cancellationToken)
+        var result = await UnitOfWork.UserTasks.SingleOrDefaultAsync(new ReadTaskByTitleSpecification(request.Title), cancellationToken)
             ?? throw new EntityNotFoundException($"User task with title '{request.Title} not found");
 
         var response = new GetTaskByTitleResponse(result.Title, result.Content);

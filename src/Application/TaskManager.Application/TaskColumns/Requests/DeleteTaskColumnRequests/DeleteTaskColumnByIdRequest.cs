@@ -1,5 +1,4 @@
-﻿using TaskManager.Application.Common;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 
@@ -14,13 +13,9 @@ public sealed record DeleteTaskColumnByIdResponse : ResponseBase
 {
 }
 
-public sealed class DeleteTaskColumnByIdRequestHandler
-: RequestHandlerBase<DeleteTaskColumnByIdRequest, DeleteTaskColumnByIdResponse>
+public sealed class DeleteTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
+: RequestHandlerBase<DeleteTaskColumnByIdRequest, DeleteTaskColumnByIdResponse>(unitOfWork)
 {
-    public DeleteTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
-    {
-    }
-
     public override async Task<DeleteTaskColumnByIdResponse> Handle(DeleteTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
         var entity = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.TaskColumnId, cancellationToken)

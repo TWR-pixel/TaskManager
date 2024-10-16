@@ -2,7 +2,7 @@
 using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.TaskColumns.Specifications;
+using TaskManager.Core.UseCases.TaskColumns.Specifications;
 using static TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest.GetTaskColumnByIdResponse;
 
 namespace TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
@@ -45,7 +45,7 @@ public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
     public override async Task<GetTaskColumnByIdResponse> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.UserTaskColumns
-            .SingleOrDefaultAsync(new GetTaskColumnByIdWithTasksSpecification(request.TaskColumnId), cancellationToken)
+            .SingleOrDefaultAsync(new GetTaskColumnsByIdWithTasksSpecification(request.TaskColumnId), cancellationToken)
             ?? throw new EntityNotFoundException($"User task column with id {request.TaskColumnId} not found");
 
         queryResult.TasksInColumn ??= [];

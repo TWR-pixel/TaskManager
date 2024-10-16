@@ -60,7 +60,7 @@ public sealed class UserTasksController(IMediatorFacade mediator) : ApiControlle
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GetUserTaskByIdResponse>> GetById([FromQuery] GetUserTaskByIdRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<GetTaskByIdResponse>> GetById([FromQuery] GetTaskByIdRequest request, CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 

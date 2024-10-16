@@ -1,21 +1,20 @@
-﻿using TaskManager.Application.Common;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Tasks.Requests.GetTaskByIdRequet;
 
-public sealed record GetUserTaskByIdRequest(int TaskId) : RequestBase<GetUserTaskByIdResponse>;
-public sealed record GetUserTaskByIdResponse(string Title, string Content, bool IsCompleted, bool IsInProgress, DateTime CreatedAt, DateOnly? DoTo = null) : ResponseBase;
+public sealed record GetTaskByIdRequest(int TaskId) : RequestBase<GetTaskByIdResponse>;
+public sealed record GetTaskByIdResponse(string Title, string Content, bool IsCompleted, bool IsInProgress, DateTime CreatedAt, DateOnly? DoTo = null) : ResponseBase;
 
-public sealed class GetUserTaskByIdRequetHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<GetUserTaskByIdRequest, GetUserTaskByIdResponse>(unitOfWork)
+public sealed class GetTaskByIdRequetHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<GetTaskByIdRequest, GetTaskByIdResponse>(unitOfWork)
 {
-    public override async Task<GetUserTaskByIdResponse> Handle(GetUserTaskByIdRequest request, CancellationToken cancellationToken)
+    public override async Task<GetTaskByIdResponse> Handle(GetTaskByIdRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.UserTasks.GetByIdAsync(request.TaskId, cancellationToken)
             ?? throw new EntityNotFoundException($"Task not found by id '{request.TaskId}");
 
-        var response = new GetUserTaskByIdResponse(queryResult.Title,
+        var response = new GetTaskByIdResponse(queryResult.Title,
                                                queryResult.Content,
                                                queryResult.IsCompleted,
                                                queryResult.IsInProgress,

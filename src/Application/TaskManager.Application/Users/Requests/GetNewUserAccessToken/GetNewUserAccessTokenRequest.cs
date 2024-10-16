@@ -4,7 +4,7 @@ using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
 using TaskManager.Application.Common.Security.Authentication.JwtClaims;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.Users.Specifications;
+using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.GetNewUserAccessToken;
 
@@ -40,7 +40,7 @@ public sealed class GetNewUserAccessTokenRequestHandler : RequestHandlerBase<Get
     public override async Task<GetNewUserAccessTokenResponse> Handle(GetNewUserAccessTokenRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.Users
-            .SingleOrDefaultAsync(new GetUserByRefreshToken(request.RefreshToken), cancellationToken);
+            .SingleOrDefaultAsync(new ReadUserByRefreshToken(request.RefreshToken), cancellationToken);
 
         if (queryResult is null)
             throw new NullReferenceException(nameof(queryResult));

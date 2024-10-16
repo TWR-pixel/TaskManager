@@ -1,6 +1,7 @@
 ﻿using Ardalis.Specification;
+using TaskManager.Core.Entities.Users;
 
-namespace TaskManager.Core.Entities.Users.Specifications;
+namespace TaskManager.Core.UseCases.Users.Specifications;
 
 public sealed class GetAllUserTasksByLimitSpecification : Specification<UserEntity>
 {

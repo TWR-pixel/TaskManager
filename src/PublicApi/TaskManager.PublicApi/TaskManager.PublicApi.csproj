@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -23,7 +23,7 @@
     <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
     <ProjectReference Include="..\..\Core\TaskManager.Core.Entities\TaskManager.Core.Entities.csproj" />
     <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.EntityConfigurations\TaskManager.Infastructure.EntityConfigurations.csproj" />
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure\TaskManager.Infastructure.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infastructure.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>

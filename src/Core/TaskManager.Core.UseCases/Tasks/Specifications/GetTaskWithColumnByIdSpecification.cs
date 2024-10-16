@@ -1,6 +1,7 @@
 ﻿using Ardalis.Specification;
+using TaskManager.Core.Entities.Tasks;
 
-namespace TaskManager.Core.Entities.Tasks.Specifications;
+namespace TaskManager.Core.UseCases.Tasks.Specifications;
 
 public sealed class GetTaskWithColumnByIdSpecification : SingleResultSpecification<UserTaskEntity>
 {

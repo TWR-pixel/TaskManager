@@ -2,20 +2,20 @@
 
 namespace TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
 
-public sealed record UserTasksColumnsResponse
+public sealed record UserTaskColumnsResponse
 {
     [SetsRequiredMembers]
-    public UserTasksColumnsResponse(int id, string name, string content, IEnumerable<UserTaskResponse>? userTasksInColumn)
+    public UserTaskColumnsResponse(int id, string name, string content, IEnumerable<UserTaskResponse>? tasks)
     {
         Id = id;
         Name = name;
         Content = content;
-        UserTasksInColumn = userTasksInColumn;
+        Tasks = tasks;
     }
 
     public required int Id { get; set; }
     public required string Name { get; set; }
     public required string Content { get; set; }
 
-    public IEnumerable<UserTaskResponse>? UserTasksInColumn { get; set; }
+    public IEnumerable<UserTaskResponse>? Tasks { get; set; }
 }

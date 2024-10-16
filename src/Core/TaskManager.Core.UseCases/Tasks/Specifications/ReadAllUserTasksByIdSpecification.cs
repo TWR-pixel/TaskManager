@@ -1,9 +1,9 @@
 ﻿using Ardalis.Specification;
 using TaskManager.Core.Entities.Users;
 
-namespace TaskManager.Core.Entities.Tasks.Specifications;
+namespace TaskManager.Core.UseCases.Tasks.Specifications;
 
-public sealed class GetAllUserTasksByIdSpecification : SingleResultSpecification<UserEntity>
+public sealed class ReadAllUserTasksByIdSpecification : SingleResultSpecification<UserEntity>
 {
     /// <summary>
     /// Returns new user with his tasks
@@ -11,9 +11,11 @@ public sealed class GetAllUserTasksByIdSpecification : SingleResultSpecification
     /// <param name="userId"></param>
     /// <param name="includeTasks"></param>
     /// <param name="includeTaskColumns"></param>
-    public GetAllUserTasksByIdSpecification(int userId)
+    public ReadAllUserTasksByIdSpecification(int userId)
     {
-        Query.Where(t => t.Id == userId)
+        Query
+            .AsNoTracking()
+            .Where(t => t.Id == userId)
             .Include(t => t.Tasks);
     }
 }

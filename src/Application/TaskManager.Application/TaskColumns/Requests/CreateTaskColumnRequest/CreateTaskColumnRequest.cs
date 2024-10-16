@@ -1,5 +1,4 @@
-﻿using TaskManager.Application.Common;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.TaskColumns;
@@ -22,27 +21,18 @@ public sealed record CreateTaskColumnRequest(int UserId, string Name, string? De
 /// <param name="Description"></param>
 public sealed record CreateTaskColumnResponse(int Id, string Name, string? Description) : ResponseBase;
 
-public sealed class CreateTaskColumnRequestHandler : RequestHandlerBase<CreateTaskColumnRequest, CreateTaskColumnResponse>
+public sealed class CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork)
+    : RequestHandlerBase<CreateTaskColumnRequest, CreateTaskColumnResponse>(unitOfWork)
 {
-    public CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
-    {
-    }
-
     public override async Task<CreateTaskColumnResponse> Handle(CreateTaskColumnRequest request, CancellationToken cancellationToken)
     {
         var userEntity = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
-            ?? throw new EntityNotFoundException("user not found by id " + request.UserId);
+            ?? throw new EntityNotFoundException($"User with id '{request.UserId}' not found");
 
-        var entity = new TaskColumnEntity
-        {
-            Name = request.Name,
-            Description = request.Description,
-            Owner = userEntity
-        };
+        var entity = new TaskColumnEntity(userEntity, request.Name, request.Description);
 
         var queryResult = await UnitOfWork.UserTaskColumns.AddAsync(entity, cancellationToken);
         await UnitOfWork.SaveChangesAsync(cancellationToken);
-
 
         var response = new CreateTaskColumnResponse(queryResult.Id, queryResult.Name, queryResult.Description);
 

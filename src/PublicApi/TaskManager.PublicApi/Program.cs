@@ -25,10 +25,9 @@ using TaskManager.PublicApi.Common.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddTransient<HandleExceptionsMiddleware>();
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddCors();
 
 #region swaggerGen configuration
@@ -100,8 +99,6 @@ var issuerSigningKey = builder.Configuration["JwtAuthenticationOptions:SecurityK
 if (string.IsNullOrWhiteSpace(issuerSigningKey))
     throw new NullReferenceException(nameof(issuerSigningKey) + " is null or empty");
 
-builder.Services.AddAuthentication();
-
 #region configure jwt bearer authentication scheme
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -126,42 +123,21 @@ var app = builder.Build();
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 
-//app.UseHttpsRedirection();
-//app.UseHsts();
+app.UseHttpsRedirection();
+app.UseHsts();
 
 app.UseRouting();
 
 if (app.Environment.IsDevelopment())
-{
-    app.UseCors(builder => builder
-         .WithOrigins(
-        "http://localhost:3000",
-         "https://localhost:3000",
-         "https://localhost:443",
-         "http://localhost:443",
-         "https://localhost",
-         "http://localhost",
-         "https://localhost:7048")
-         .AllowAnyHeader()
-         .AllowAnyMethod()
-         .AllowCredentials()
-         .SetIsOriginAllowed(origin => true)
-         );
+    app.UseDevelopment();
 
-    Console.WriteLine("development environment");
-}
+if (app.Environment.IsProduction())
+    app.UseProduction();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseAuthentication();
 app.UseAuthorization();

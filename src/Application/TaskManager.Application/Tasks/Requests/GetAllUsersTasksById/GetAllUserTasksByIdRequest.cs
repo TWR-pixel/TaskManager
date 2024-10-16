@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.Tasks.Specifications;
+using TaskManager.Core.UseCases.Tasks.Specifications;
 
 namespace TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
 
@@ -57,7 +56,7 @@ public sealed class GetAllUserTasksByIdRequestHandler(IUnitOfWork unitOfWork)
 {
     public override async Task<GetAllUserTasksByIdResponse> Handle(GetAllUserTasksByIdRequest request, CancellationToken cancellationToken)
     {
-        var userQueryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new GetAllUserTasksByIdSpecification(request.UserId), cancellationToken)
+        var userQueryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadAllUserTasksByIdSpecification(request.UserId), cancellationToken)
             ?? throw new EntityNotFoundException($"User with id {request.UserId} not found");
 
         userQueryResult.Tasks ??= [];

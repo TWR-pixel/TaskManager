@@ -10,7 +10,8 @@ public sealed record UserTaskResponse
                             bool isInProgress,
                             bool isCompleted,
                             DateTime createdAt,
-                            DateOnly? doTo)
+                            DateOnly? doTo,
+                            int id)
     {
         Name = name;
         Content = content;
@@ -18,8 +19,10 @@ public sealed record UserTaskResponse
         IsCompleted = isCompleted;
         CreatedAt = createdAt;
         DoTo = doTo;
+        Id = id;
     }
 
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required string Content { get; set; }
     public required bool IsInProgress { get; set; }

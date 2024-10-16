@@ -21,11 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infastructure", "Infastructure", "{EF77468F-D4D7-41D4-8351-6E35AAAB5182}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.Sqlite", "src\Infastructure\TaskManager.Infastructure\TaskManager.Infastructure.Sqlite.csproj", "{CCF84CE2-9F4B-4D18-82B7-B0780CFAB750}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.PostgreSql", "src\Infastructure\TaskManager.Infastructure.PostgreSql\TaskManager.Infastructure.PostgreSql.csproj", "{7DE554BF-5CF3-4819-BCDF-4897D58C2D87}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.EntityConfigurations", "src\Infastructure\TaskManager.Infastructure.EntityConfigurations\TaskManager.Infastructure.EntityConfigurations.csproj", "{9DF6B228-0967-446B-BB79-9EE5CB1E5EA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.Sqlite", "src\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infastructure.Sqlite.csproj", "{112129CE-CF8E-4B80-ACF1-2FB55C0199BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Core.UseCases", "src\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj", "{B8AA6B86-EE9D-4357-BBBA-B485F073E233}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +51,6 @@ Global
 		{C5671450-36B6-4A2A-9EB5-F3F728A83323}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5671450-36B6-4A2A-9EB5-F3F728A83323}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5671450-36B6-4A2A-9EB5-F3F728A83323}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCF84CE2-9F4B-4D18-82B7-B0780CFAB750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCF84CE2-9F4B-4D18-82B7-B0780CFAB750}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCF84CE2-9F4B-4D18-82B7-B0780CFAB750}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCF84CE2-9F4B-4D18-82B7-B0780CFAB750}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7DE554BF-5CF3-4819-BCDF-4897D58C2D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7DE554BF-5CF3-4819-BCDF-4897D58C2D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DE554BF-5CF3-4819-BCDF-4897D58C2D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,6 +59,14 @@ Global
 		{9DF6B228-0967-446B-BB79-9EE5CB1E5EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF6B228-0967-446B-BB79-9EE5CB1E5EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF6B228-0967-446B-BB79-9EE5CB1E5EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{112129CE-CF8E-4B80-ACF1-2FB55C0199BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{112129CE-CF8E-4B80-ACF1-2FB55C0199BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{112129CE-CF8E-4B80-ACF1-2FB55C0199BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{112129CE-CF8E-4B80-ACF1-2FB55C0199BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8AA6B86-EE9D-4357-BBBA-B485F073E233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8AA6B86-EE9D-4357-BBBA-B485F073E233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8AA6B86-EE9D-4357-BBBA-B485F073E233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8AA6B86-EE9D-4357-BBBA-B485F073E233}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,9 +80,10 @@ Global
 		{02FA1F59-E406-415F-BF9A-580F0EE64A53} = {05E3F6CA-4A01-477B-8EA9-A1AF6E3CF70B}
 		{C5671450-36B6-4A2A-9EB5-F3F728A83323} = {05E3F6CA-4A01-477B-8EA9-A1AF6E3CF70B}
 		{EF77468F-D4D7-41D4-8351-6E35AAAB5182} = {D9601ACB-0390-4B9D-B3D9-BE47FE5FCF75}
-		{CCF84CE2-9F4B-4D18-82B7-B0780CFAB750} = {EF77468F-D4D7-41D4-8351-6E35AAAB5182}
 		{7DE554BF-5CF3-4819-BCDF-4897D58C2D87} = {EF77468F-D4D7-41D4-8351-6E35AAAB5182}
 		{9DF6B228-0967-446B-BB79-9EE5CB1E5EA0} = {EF77468F-D4D7-41D4-8351-6E35AAAB5182}
+		{112129CE-CF8E-4B80-ACF1-2FB55C0199BB} = {EF77468F-D4D7-41D4-8351-6E35AAAB5182}
+		{B8AA6B86-EE9D-4357-BBBA-B485F073E233} = {EBDB93FA-CCCC-4EC0-8015-213BD8DFA5AE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D21E1920-7EA2-41F3-AA5D-A598681BB756}
