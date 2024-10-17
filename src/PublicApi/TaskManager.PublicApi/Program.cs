@@ -5,12 +5,12 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TaskManager.Application.Common.Extensions;
-using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
-using TaskManager.Application.Common.Security.Authentication.JwtAuth.Options;
-using TaskManager.Application.Common.Security.Authentication.JwtClaims;
-using TaskManager.Application.Common.Security.Hashers;
-using TaskManager.Application.Common.Security.Hashers.BCrypt;
-using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
+using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.JwtTokens;
+using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.Options;
+using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtClaims;
+using TaskManager.Application.Users.Requests.Common.Security.Hashers;
+using TaskManager.Application.Users.Requests.Common.Security.Hashers.BCrypt;
+using TaskManager.Application.Users.Requests.Common.Security.SymmetricSecurityKeys;
 using TaskManager.Core.Entities.Common.Repositories;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.Roles;
@@ -123,6 +123,11 @@ var app = builder.Build();
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
 app.UseHttpsRedirection();
 app.UseHsts();
 
@@ -133,11 +138,6 @@ if (app.Environment.IsDevelopment())
 
 if (app.Environment.IsProduction())
     app.UseProduction();
-
-app.UseForwardedHeaders(new ForwardedHeadersOptions
-{
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-});
 
 app.UseAuthentication();
 app.UseAuthorization();

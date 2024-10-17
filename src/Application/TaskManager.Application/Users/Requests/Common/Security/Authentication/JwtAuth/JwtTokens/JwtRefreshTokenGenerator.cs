@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
+namespace TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.JwtTokens;
 
 public sealed class JwtRefreshTokenGenerator : IJwtRefreshTokenGenerator
 {

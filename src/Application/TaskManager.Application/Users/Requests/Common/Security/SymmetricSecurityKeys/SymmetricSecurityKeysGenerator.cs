@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace TaskManager.Application.Common.Security.SymmetricSecurityKeys;
+namespace TaskManager.Application.Users.Requests.Common.Security.SymmetricSecurityKeys;
 
 public sealed class SymmetricSecurityKeysGenerator : ISymmetricSecurityKeysGenerator
 {

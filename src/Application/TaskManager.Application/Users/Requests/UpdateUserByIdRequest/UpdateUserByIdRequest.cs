@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TaskManager.Application.Common;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Hashers;
+using TaskManager.Application.Users.Requests.Common.Security.Hashers;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 

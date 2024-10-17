@@ -40,44 +40,44 @@ public sealed class AuthenticationController : ApiControllerBase
 
         return Ok(userLoginResponse);
     }
-    // получать данные с сервера, которые по запросу: саму задачу, токен, колонку
-    /// <summary>
-    /// Returns new user token with refresh token
-    /// </summary>
-    /// <returns></returns>
-    [HttpPost("update-user-access-token")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GetNewUserAccessTokenResponse>> UpdateUserAccessTokenByRefreshToken(CancellationToken cancellationToken)
-    {
-        var isRefreshTokenInCookie = Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? value);
+    //// получать данные с сервера, которые по запросу: саму задачу, токен, колонку
+    ///// <summary>
+    ///// Returns new user token with refresh token
+    ///// </summary>
+    ///// <returns></returns>
+    //[HttpPost("update-user-access-token")]
+    //[ProducesResponseType(StatusCodes.Status200OK)]
+    //[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    //public async Task<ActionResult<GetNewUserAccessTokenResponse>> UpdateUserAccessTokenByRefreshToken(CancellationToken cancellationToken)
+    //{
+    //    var isRefreshTokenInCookie = Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? value);
 
-        if (!isRefreshTokenInCookie || string.IsNullOrWhiteSpace(value))
-            return Unauthorized();
+    //    if (!isRefreshTokenInCookie || string.IsNullOrWhiteSpace(value))
+    //        return Unauthorized();
 
-        var mediatorRequest = new GetNewUserAccessTokenRequest() { RefreshToken = value };
+    //    var mediatorRequest = new GetNewUserAccessTokenRequest() { RefreshToken = value };
 
-        var result = await Mediator.SendAsync(mediatorRequest, cancellationToken);
+    //    var result = await Mediator.SendAsync(mediatorRequest, cancellationToken);
 
-        return Ok(result);
-    }
+    //    return Ok(result);
+    //}
 
-    [HttpPost("logout")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult Logout()
-    {
-        var isRefreshTokenInRequest = Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? value);
+    //[HttpPost("logout")]
+    //[ProducesResponseType(StatusCodes.Status200OK)]
+    //[ProducesResponseType(StatusCodes.Status404NotFound)]
+    //public ActionResult Logout()
+    //{
+    //    var isRefreshTokenInRequest = Request.Cookies.TryGetValue(AuthConstants.REFRESH_TOKEN_COOKIE_NAME, out string? value);
 
-        if (isRefreshTokenInRequest == false)
-        {
-            return Unauthorized("cookie with name 'RefreshToken' not found");
-        }
+    //    if (isRefreshTokenInRequest == false)
+    //    {
+    //        return Unauthorized("cookie with name 'RefreshToken' not found");
+    //    }
 
-        _userManager.Logout(HttpContext);
+    //    _userManager.Logout(HttpContext);
 
-        return Ok();
-    }
+    //    return Ok();
+    //}
 
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]

@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Application.Common.Security.Authentication.JwtAuth.Options;
+﻿namespace TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.Options;
 
 public class JwtAuthenticationOptions
 {

@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
-using TaskManager.Application.Common.Security.Authentication.JwtClaims;
-using TaskManager.Application.Common.Security.Hashers;
+using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.JwtTokens;
+using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtClaims;
+using TaskManager.Application.Users.Requests.Common.Security.Hashers;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.TaskColumns;
@@ -75,7 +75,7 @@ public sealed class RegisterUserRequestHandler
         if (user != null)
             throw new UserAlreadyExistsException($"User with email '{request.Email}' already exists");
 
-        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new ReadRoleByNameSpecification("User"), cancellationToken)
+        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new GetRoleByNameSpecification("User"), cancellationToken)
             ?? throw new EntityNotFoundException($"Role with name 'User' not found");
 
         var passwordSalt = _passwordHasher.GenerateSalt();

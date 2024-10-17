@@ -1,6 +1,7 @@
-﻿using Hash = BCrypt.Net;
+﻿using TaskManager.Application.Users.Requests.Common.Security.Hashers;
+using Hash = BCrypt.Net;
 
-namespace TaskManager.Application.Common.Security.Hashers.BCrypt;
+namespace TaskManager.Application.Users.Requests.Common.Security.Hashers.BCrypt;
 
 public sealed class BCryptPasswordHasher : IPasswordHasher
 {

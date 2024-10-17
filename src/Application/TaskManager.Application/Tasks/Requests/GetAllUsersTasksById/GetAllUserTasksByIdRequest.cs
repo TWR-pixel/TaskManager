@@ -30,7 +30,8 @@ public sealed record GetAllUserTasksByIdResponse : ResponseBase
                                     bool isCompleted,
                                     bool isInProgress,
                                     DateTime createdAt,
-                                    DateOnly? doTo)
+                                    DateOnly? doTo,
+                                    int id)
         {
             Title = title;
             Content = content;
@@ -38,8 +39,10 @@ public sealed record GetAllUserTasksByIdResponse : ResponseBase
             IsInProgress = isInProgress;
             CreatedAt = createdAt;
             DoTo = doTo;
+            Id = id;
         }
 
+        public required int Id { get; set; }
         public required string Title { get; set; }
         public required string Content { get; set; }
 
@@ -73,7 +76,8 @@ public sealed class GetAllUserTasksByIdRequestHandler(IUnitOfWork unitOfWork)
                 t.IsCompleted,
                 t.IsInProgress,
                 t.CreatedAt,
-                t.DoTo))
+                t.DoTo,
+                t.Id))
         };
 
         return response;

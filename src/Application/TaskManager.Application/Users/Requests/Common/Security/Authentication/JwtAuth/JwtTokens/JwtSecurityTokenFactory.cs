@@ -2,10 +2,10 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using TaskManager.Application.Common.Security.Authentication.JwtAuth.Options;
-using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
+using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.Options;
+using TaskManager.Application.Users.Requests.Common.Security.SymmetricSecurityKeys;
 
-namespace TaskManager.Application.Common.Security.Authentication.JwtAuth.JwtTokens;
+namespace TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.JwtTokens;
 
 /// <summary>
 /// Generate new tokens for JWT authentication

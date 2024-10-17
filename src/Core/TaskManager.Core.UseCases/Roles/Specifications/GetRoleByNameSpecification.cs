@@ -3,12 +3,11 @@ using TaskManager.Core.Entities.Roles;
 
 namespace TaskManager.Core.UseCases.Roles.Specifications;
 
-public sealed class ReadRoleByNameSpecification : SingleResultSpecification<RoleEntity>
+public sealed class GetRoleByNameSpecification : SingleResultSpecification<RoleEntity>
 {
-    public ReadRoleByNameSpecification(string roleName)
+    public GetRoleByNameSpecification(string roleName)
     {
         Query
-            .AsNoTracking()
             .Where(r => r.Name.ToUpper() == roleName.ToUpper());
     }
 }
