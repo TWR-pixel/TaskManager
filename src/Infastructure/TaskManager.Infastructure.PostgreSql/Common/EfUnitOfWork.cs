@@ -1,9 +1,9 @@
-﻿using TaskManager.Core.Entities.Common.Repositories;
-using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.Roles;
+﻿using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
+using TaskManager.Core.UseCases.Common.Repositories;
+using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Infastructure.PostgreSql.Common;
 
@@ -11,16 +11,16 @@ public sealed class EfUnitOfWork : IUnitOfWork
 {
     private readonly TaskManagerDbContext _dbContext;
 
-    public IRepositoryBaseCore<UserTaskEntity> UserTasks { get; init; }
-    public IRepositoryBaseCore<TaskColumnEntity> UserTaskColumns { get; init; }
-    public IRepositoryBaseCore<RoleEntity> Roles { get; init; }
-    public IRepositoryBaseCore<UserEntity> Users { get; init; }
+    public IRepositoryBase<UserTaskEntity> UserTasks { get; init; }
+    public IRepositoryBase<TaskColumnEntity> UserTaskColumns { get; init; }
+    public IRepositoryBase<RoleEntity> Roles { get; init; }
+    public IRepositoryBase<UserEntity> Users { get; init; }
 
     public EfUnitOfWork(TaskManagerDbContext dbContext,
-                        IRepositoryBaseCore<UserTaskEntity> userTasks,
-                        IRepositoryBaseCore<TaskColumnEntity> userTaskColumns,
-                        IRepositoryBaseCore<RoleEntity> roles,
-                        IRepositoryBaseCore<UserEntity> users)
+                        IRepositoryBase<UserTaskEntity> userTasks,
+                        IRepositoryBase<TaskColumnEntity> userTaskColumns,
+                        IRepositoryBase<RoleEntity> roles,
+                        IRepositoryBase<UserEntity> users)
     {
         _dbContext = dbContext;
         UserTasks = userTasks;

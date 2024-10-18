@@ -5,18 +5,18 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TaskManager.Application.Common.Extensions;
-using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.JwtTokens;
-using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.Options;
-using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtClaims;
-using TaskManager.Application.Users.Requests.Common.Security.Hashers;
-using TaskManager.Application.Users.Requests.Common.Security.Hashers.BCrypt;
-using TaskManager.Application.Users.Requests.Common.Security.SymmetricSecurityKeys;
-using TaskManager.Core.Entities.Common.Repositories;
-using TaskManager.Core.Entities.Common.UnitOfWorks;
+using TaskManager.Application.Users.Requests.Identity.Common.Security.Auth.Jwt.Claims;
+using TaskManager.Application.Users.Requests.Identity.Common.Security.Auth.Jwt.Options;
+using TaskManager.Application.Users.Requests.Identity.Common.Security.Auth.Jwt.Tokens;
+using TaskManager.Application.Users.Requests.Identity.Common.Security.Hashers;
+using TaskManager.Application.Users.Requests.Identity.Common.Security.Hashers.BCrypt;
+using TaskManager.Application.Users.Requests.Identity.Common.Security.SymmetricSecurityKeys;
 using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
+using TaskManager.Core.UseCases.Common.Repositories;
+using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Infastructure.Sqlite;
 using TaskManager.Infastructure.Sqlite.Common;
 using TaskManager.PublicApi.Common;
@@ -63,16 +63,13 @@ builder.Services.AddSwaggerGen(c =>
 
 var sqliteConnectionStr = builder.Configuration.GetConnectionString("Sqlite");
 
-builder.Services.AddDbContext<TaskManagerDbContext>(d =>
-{
-    d.UseSqlite(sqliteConnectionStr);
-});
+builder.Services.AddDbContext<TaskManagerDbContext>(d => d.UseSqlite(sqliteConnectionStr));
 
 #region Add entityframework repositories
-builder.Services.AddScoped<IRepositoryBaseCore<UserEntity>, EfRepository<UserEntity>>();
-builder.Services.AddScoped<IRepositoryBaseCore<RoleEntity>, EfRepository<RoleEntity>>();
-builder.Services.AddScoped<IRepositoryBaseCore<UserTaskEntity>, EfRepository<UserTaskEntity>>();
-builder.Services.AddScoped<IRepositoryBaseCore<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
+builder.Services.AddScoped<IRepositoryBase<UserEntity>, EfRepository<UserEntity>>();
+builder.Services.AddScoped<IRepositoryBase<RoleEntity>, EfRepository<RoleEntity>>();
+builder.Services.AddScoped<IRepositoryBase<UserTaskEntity>, EfRepository<UserTaskEntity>>();
+builder.Services.AddScoped<IRepositoryBase<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
 #endregion
 
 builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();

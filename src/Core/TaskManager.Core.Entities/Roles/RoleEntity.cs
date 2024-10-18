@@ -7,10 +7,8 @@ public sealed class RoleEntity : EntityBase
 {
     public required string Name { get; set; }
 
-    public RoleEntity()
-    {
+    public RoleEntity() { }
 
-    }
 
     [SetsRequiredMembers]
     public RoleEntity(string name)

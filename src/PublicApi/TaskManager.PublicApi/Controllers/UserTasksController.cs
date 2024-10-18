@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Tasks.Requests.AddAndSaveTaskRequest;
-using TaskManager.Application.Tasks.Requests.DeleteTaskByIdRequest;
-using TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
-using TaskManager.Application.Tasks.Requests.GetTaskByIdRequet;
-using TaskManager.Application.Tasks.Requests.UpdateAndSaveTaskRequest;
+using TaskManager.Application.Tasks.Requests.Create;
+using TaskManager.Application.Tasks.Requests.DeleteById;
+using TaskManager.Application.Tasks.Requests.GetAllById;
+using TaskManager.Application.Tasks.Requests.GetById;
+using TaskManager.Application.Tasks.Requests.UpdateById;
 using TaskManager.PublicApi.Common;
 
 namespace TaskManager.PublicApi.Controllers;

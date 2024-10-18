@@ -1,15 +1,11 @@
-﻿using TaskManager.Application.Common;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.Entities.Common.UnitOfWorks;
+using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
-namespace TaskManager.Application.Users.Requests.DeleteUserByIdRequest;
+namespace TaskManager.Application.Users.Requests.DeleteById;
 
 public sealed record DeleteUserByIdRequest(int UserId) : RequestBase<DeleteUserByIdResponse>;
-
-public sealed record DeleteUserByIdResponse : ResponseBase
-{
-}
+public sealed record DeleteUserByIdResponse : ResponseBase;
 
 public sealed class DeleteUserByIdRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<DeleteUserByIdRequest, DeleteUserByIdResponse>(unitOfWork)
 {

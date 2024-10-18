@@ -1,4 +1,4 @@
-﻿using TaskManager.Application.Users.Requests.AuthenticateUserRequest;
+﻿using TaskManager.Application.Users.Requests.Identity.Authenticate;
 
 namespace TaskManager.PublicApi.Common.Models.Response;
 
@@ -14,10 +14,10 @@ public sealed class UserLoginResponse
 
     public static implicit operator UserLoginResponse(AuthenticateUserResponse response) => new()
     {
-        AccessTokenString = response.AccessTokenString,
+        AccessTokenString = response.AccessToken,
         RoleId = response.RoleId,
         RoleName = response.RoleName,
         UserId = response.UserId,
-        UserName = response.UserName,
+        UserName = response.AccessToken,
     };
 }

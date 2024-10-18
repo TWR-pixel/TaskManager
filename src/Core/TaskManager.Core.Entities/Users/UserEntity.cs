@@ -24,10 +24,7 @@ public sealed class UserEntity : EntityBase
         RefreshToken = refreshToken;
     }
 
-    public UserEntity()
-    {
-        
-    }
+    public UserEntity() { }
 
     public required string EmailLogin { get; set; }
     public required string Username { get; set; }

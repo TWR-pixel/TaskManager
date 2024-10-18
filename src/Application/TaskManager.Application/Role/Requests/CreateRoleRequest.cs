@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.Roles;
+using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Role.Requests;
 

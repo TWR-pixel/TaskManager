@@ -15,11 +15,7 @@ public sealed class TaskColumnEntity : EntityBase
         Description = description;
     }
 
-    public TaskColumnEntity()
-    {
-        
-    }
-
+    public TaskColumnEntity() { }
     public required string Name { get; set; }
     public string? Description { get; set; }
     public IEnumerable<UserTaskEntity>? TasksInColumn { get; set; }

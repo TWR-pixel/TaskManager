@@ -18,12 +18,5 @@ public sealed class RoleController(IMediatorFacade mediator) : ApiControllerBase
 
         return CreatedAtAction(nameof(Create), response);
     }
-
-    //[HttpGet]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //public async Task<ActionResult> GetByIdAsync()
-    //{
-    //    return Ok();
-    //}
     #endregion
 }

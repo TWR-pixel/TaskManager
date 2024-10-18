@@ -27,7 +27,6 @@ public sealed class TaskManagerDbContext : DbContext
         modelBuilder.ApplyConfiguration(new TaskColumnEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
 
-
         base.OnModelCreating(modelBuilder);
     }
 }
