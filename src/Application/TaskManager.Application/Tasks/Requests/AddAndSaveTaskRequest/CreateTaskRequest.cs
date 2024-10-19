@@ -21,6 +21,7 @@ public sealed record CreateTaskRequest : RequestBase<CreateTaskResponse>
 public sealed record CreateTaskResponse : ResponseBase
 {
     public required int CreatedTaskId { get; set; }
+    public required int ColumnId { get; set; }
     public required string Title { get; set; }
     public required string Content { get; set; }
 }
@@ -51,6 +52,7 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
         var response = new CreateTaskResponse
         {
             CreatedTaskId = queryResult.Id,
+            ColumnId = taskColumn.Id,
             Content = queryResult.Content,
             Title = queryResult.Title,
         };
