@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Role.Requests;
-using TaskManager.PublicApi.Common;
+using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Route("api/roles")]
-public sealed class RoleController(IMediatorFacade mediator) : ApiControllerBase(mediator)
+public sealed class RoleController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
     #region HTTP methods
     [HttpPost]

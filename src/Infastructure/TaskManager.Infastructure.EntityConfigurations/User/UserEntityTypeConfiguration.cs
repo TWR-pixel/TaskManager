@@ -13,9 +13,6 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserE
         builder.Property(t => t.Id)
             .HasColumnName("id");
 
-        builder.Property(u => u.RefreshToken)
-            .HasColumnName("refresh_token");
-
         builder.Property(u => u.EmailLogin)
             .HasColumnName("email_login")
             .IsRequired()
@@ -38,10 +35,9 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserE
             .IsRequired()
             .HasMaxLength(512);
 
-        builder.HasIndex(u => u.RefreshToken);
-
-        builder.Property(u => u.RefreshToken)
-            .IsRequired();
+        builder.Property(u => u.IsEmailConfirmed)
+            .HasColumnName("is_email_confirmed")
+            .IsRequired(true);
 
         builder.Property("RoleId")
             .HasColumnName("role_id")

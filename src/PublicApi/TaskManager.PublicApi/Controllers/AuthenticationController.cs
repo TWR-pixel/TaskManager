@@ -1,19 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Users.Requests.Identity.Authenticate;
-using TaskManager.Application.Users.Requests.Identity.Register;
-using TaskManager.PublicApi.Common;
-using TaskManager.PublicApi.Common.Authentication;
+using TaskManager.Application.Users.Requests.Authenticate;
+using TaskManager.Application.Users.Requests.Register;
 using TaskManager.PublicApi.Common.Models.Response;
+using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-public sealed class AuthenticationController(IMediatorFacade mediator, IUserSignInManager userManager) : ApiControllerBase(mediator)
+public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
     #region
-    private readonly IUserSignInManager _userManager = userManager;
-
     /// <summary>
     /// Returns new accessToken with refresh token in httpOnly cookies, if refresh token not found, it creates in cookies
     /// </summary>
@@ -81,7 +78,6 @@ public sealed class AuthenticationController(IMediatorFacade mediator, IUserSign
         var resp = (RegisterUserModelResponse)response;
 
         return CreatedAtAction(nameof(RegisterUser), resp);
-
     }
     #endregion
 }

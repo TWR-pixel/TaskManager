@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.PublicApi.Common;
+using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
-public abstract class ApiControllerBase(IMediatorFacade mediator) : ControllerBase
+public abstract class ApiControllerBase(IMediatorWrapper mediator) : ControllerBase
 {
-    private readonly IMediatorFacade _mediator = mediator;
+    private readonly IMediatorWrapper _mediator = mediator;
 
-    protected IMediatorFacade Mediator => _mediator;
+    protected IMediatorWrapper Mediator => _mediator;
 }

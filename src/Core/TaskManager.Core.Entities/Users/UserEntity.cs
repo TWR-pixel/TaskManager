@@ -13,15 +13,13 @@ public sealed class UserEntity : EntityBase
                       string emailLogin,
                       string username,
                       string passwordHash,
-                      string passwordSalt,
-                      string refreshToken)
+                      string passwordSalt)
     {
         Role = role;
         EmailLogin = emailLogin;
         Username = username;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
-        RefreshToken = refreshToken;
     }
 
     public UserEntity() { }
@@ -30,7 +28,7 @@ public sealed class UserEntity : EntityBase
     public required string Username { get; set; }
     public required string PasswordHash { get; set; }
     public required string PasswordSalt { get; set; }
-    public required string RefreshToken { get; set; }
+    public bool IsEmailConfirmed { get; set; } = false;
 
     public IEnumerable<TaskColumnEntity>? TaskColumns { get; set; }
     public IEnumerable<UserTaskEntity>? Tasks { get; set; }

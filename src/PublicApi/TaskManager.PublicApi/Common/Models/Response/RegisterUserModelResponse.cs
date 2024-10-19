@@ -1,4 +1,4 @@
-﻿using TaskManager.Application.Users.Requests.Identity.Register;
+﻿using TaskManager.Application.Users.Requests.Register;
 
 namespace TaskManager.PublicApi.Common.Models.Response;
 

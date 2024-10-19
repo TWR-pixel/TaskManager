@@ -5,14 +5,14 @@ using TaskManager.Application.Users.Requests.DeleteById;
 using TaskManager.Application.Users.Requests.GetById;
 using TaskManager.Application.Users.Requests.UpdateById;
 using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.PublicApi.Common;
+using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Authorize]
 [Route("api/users")]
-public sealed class UserController(IMediatorFacade mediator) : ApiControllerBase(mediator)
+public sealed class UserController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
     #region HTTP methods
     [HttpGet]

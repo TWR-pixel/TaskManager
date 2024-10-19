@@ -13,7 +13,14 @@ public sealed record CreateTaskRequest(int UserId,
                                        bool IsCompleted = false,
                                        bool IsInProgress = true) : RequestBase<CreateTaskResponse>;
 
-public sealed record CreateTaskResponse(int Id, string Title, string Content) : ResponseBase;
+public sealed record CreateTaskResponse(int Id,
+                                        int UserId,
+                                        int ColumnId,
+                                        string Title,
+                                        string Content,
+                                        DateOnly? DoTo,
+                                        bool IsCompleted,
+                                        bool IsInProgress) : ResponseBase;
 
 public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<CreateTaskRequest, CreateTaskResponse>(unitOfWork)
 {
@@ -35,7 +42,14 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
 
         var queryResult = await UnitOfWork.UserTasks.AddAsync(taskEntity, cancellationToken);
 
-        var response = new CreateTaskResponse(queryResult.Id, queryResult.Title, queryResult.Content);
+        var response = new CreateTaskResponse(taskEntity.Id,
+                                              request.UserId,
+                                              request.ColumnId,
+                                              request.Title,
+                                              request.Content,
+                                              request.DoTo,
+                                              request.IsCompleted,
+                                              request.IsInProgress);
 
         return response;
     }

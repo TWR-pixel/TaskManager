@@ -9,6 +9,7 @@ public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<UserT
     public void Configure(EntityTypeBuilder<UserTaskEntity> builder)
     {
         builder.ToTable("tasks");
+        builder.HasIndex(t => t.CreatedAt);
 
         builder.Property(t => t.Id)
             .HasColumnName("id");
@@ -30,6 +31,14 @@ public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<UserT
         builder.Property(t => t.IsInProgress)
             .HasColumnName("is_in_progress")
             .IsRequired();
+
+        builder.Property(t => t.CreatedAt)
+            .HasColumnName("created_at")
+            .IsRequired();
+
+        builder.Property(t => t.DoTo)
+            .HasColumnName("do_to")
+            .IsRequired(false);
 
         builder.Property("OwnerId")
             .HasColumnName("owner_id")

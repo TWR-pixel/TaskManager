@@ -1,7 +1,7 @@
-﻿using TaskManager.PublicApi.Common;
+﻿using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
-public sealed class AccountController(IMediatorFacade mediator) : ApiControllerBase(mediator)
+public sealed class AccountController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
 }

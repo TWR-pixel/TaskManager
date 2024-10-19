@@ -6,7 +6,7 @@ using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdReq
 using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
 using TaskManager.Application.TaskColumns.Requests.GetById;
 using TaskManager.Application.TaskColumns.Requests.UpdateById;
-using TaskManager.PublicApi.Common;
+using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -14,7 +14,7 @@ namespace TaskManager.PublicApi.Controllers;
 [Authorize]
 [Route("api/task-columns")]
 [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControllerBase(mediator)
+public sealed class TaskColumnController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
     #region HTTP methods
     [HttpPost]
@@ -40,7 +40,7 @@ public sealed class TaskColumnController(IMediatorFacade mediator) : ApiControll
     [HttpGet("all")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GetAllUserTaskColumnsByIdWithTasksResponse>> GetAllUserTaskColumns([FromQuery] GetAllUserTaskColumnsByIdWithRequest request,
+    public async Task<ActionResult<GetAllUserTaskColumnsByIdWithTasksResponse>> GetAllUserTaskColumns([FromQuery] GetAllUserTaskColumnsByIdWithTasksRequest request,
                                                                                                       CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);

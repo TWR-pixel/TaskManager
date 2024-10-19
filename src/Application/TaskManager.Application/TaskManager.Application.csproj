@@ -7,19 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Users\Requests\Identity\Common\Security\Auth\Abstractions\**" />
+    <Compile Remove="Common\Security\Auth\Abstractions\**" />
     <Compile Remove="Users\Requests\AddAndSaveRequest\**" />
-    <Compile Remove="Users\Requests\Identity\Authenticate\Validators\**" />
+    <Compile Remove="Users\Requests\Authenticate\Validators\**" />
     <Compile Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <Compile Remove="Users\Requests\UpdateAndSaveRequest\**" />
-    <EmbeddedResource Remove="Users\Requests\Identity\Common\Security\Auth\Abstractions\**" />
+    <EmbeddedResource Remove="Common\Security\Auth\Abstractions\**" />
     <EmbeddedResource Remove="Users\Requests\AddAndSaveRequest\**" />
-    <EmbeddedResource Remove="Users\Requests\Identity\Authenticate\Validators\**" />
+    <EmbeddedResource Remove="Users\Requests\Authenticate\Validators\**" />
     <EmbeddedResource Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <EmbeddedResource Remove="Users\Requests\UpdateAndSaveRequest\**" />
-    <None Remove="Users\Requests\Identity\Common\Security\Auth\Abstractions\**" />
+    <None Remove="Common\Security\Auth\Abstractions\**" />
     <None Remove="Users\Requests\AddAndSaveRequest\**" />
-    <None Remove="Users\Requests\Identity\Authenticate\Validators\**" />
+    <None Remove="Users\Requests\Authenticate\Validators\**" />
     <None Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <None Remove="Users\Requests\UpdateAndSaveRequest\**" />
   </ItemGroup>
@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Requests\Identity\Register\Validators\" />
+    <Folder Include="Users\Requests\Register\Validators\" />
   </ItemGroup>
 
   <ItemGroup>
