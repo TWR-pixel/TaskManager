@@ -19,7 +19,7 @@ public sealed record CreateTaskRequest : RequestBase<CreateTaskResponse>
 }
 
 public sealed record CreateTaskResponse : ResponseBase
-{
+{ 
     public required int CreatedTaskId { get; set; }
     public required int ColumnId { get; set; }
     public required string Title { get; set; }

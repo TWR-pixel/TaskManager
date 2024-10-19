@@ -37,9 +37,9 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
                                                                                                t.IsCompleted,
                                                                                                t.CreatedAt,
                                                                                                t.DoTo,
-                                                                                               t.Id))
+                                                                                               t.Id)
                                              )
-                )
+                ))
         };
 
         return response;

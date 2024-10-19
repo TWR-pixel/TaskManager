@@ -31,7 +31,8 @@ public sealed record GetAllUserTasksByIdResponse : ResponseBase
                                     bool isInProgress,
                                     DateTime createdAt,
                                     DateOnly? doTo,
-                                    int id)
+                                    int id,
+                                    int columnId)
         {
             Title = title;
             Content = content;
@@ -40,6 +41,7 @@ public sealed record GetAllUserTasksByIdResponse : ResponseBase
             CreatedAt = createdAt;
             DoTo = doTo;
             Id = id;
+            ColumnId = columnId;
         }
 
         public required int Id { get; set; }
@@ -49,8 +51,9 @@ public sealed record GetAllUserTasksByIdResponse : ResponseBase
         public required bool IsCompleted { get; set; }
         public required bool IsInProgress { get; set; }
         public required DateTime CreatedAt { get; set; }
+        public required int ColumnId { get; set; }
         public DateOnly? DoTo { get; set; }
-
+        
     }
 }
 
@@ -77,7 +80,8 @@ public sealed class GetAllUserTasksByIdRequestHandler(IUnitOfWork unitOfWork)
                 t.IsInProgress,
                 t.CreatedAt,
                 t.DoTo,
-                t.Id))
+                t.Id,
+                t.TaskColumn.Id))
         };
 
         return response;
