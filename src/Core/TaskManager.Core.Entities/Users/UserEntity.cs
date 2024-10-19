@@ -13,13 +13,15 @@ public sealed class UserEntity : EntityBase
                       string emailLogin,
                       string username,
                       string passwordHash,
-                      string passwordSalt)
+                      string passwordSalt,
+                      bool isEmailConfirmed = false)
     {
         Role = role;
         EmailLogin = emailLogin;
         Username = username;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
+        IsEmailConfirmed = isEmailConfirmed;
     }
 
     public UserEntity() { }

@@ -31,7 +31,7 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
 
         var taskColumn = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.ColumnId, cancellationToken)
             ?? throw new EntityNotFoundException("Column not found by id " + request.ColumnId);
-
+        
         var taskEntity = new UserTaskEntity(request.IsCompleted,
                                             request.IsInProgress,
                                             userOwner,

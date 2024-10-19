@@ -42,6 +42,19 @@ public sealed class HandleExceptionsMiddleware(ILogger<HandleExceptionsMiddlewar
 
             await context.Response.WriteAsJsonAsync(alreadyExistsProblemDetails);
         }
+        catch (NotRightCodeException ex)
+        {
+            var notRightCode = new ProblemDetails()
+            {
+                Title = "Not right code from email",
+                Detail = ex.Message,
+                Status = StatusCodes.Status400BadRequest
+            };
+
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            await context.Response.WriteAsJsonAsync(notRightCode);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);

@@ -8,22 +8,22 @@ using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.Authenticate;
 
-public sealed record AuthenticateUserRequest(string EmailLogin, string Password) :
-    RequestBase<AuthenticateUserResponse>;
+public sealed record LoginUserRequest(string EmailLogin, string Password) :
+    RequestBase<LoginUserResponse>;
 
-public sealed record AuthenticateUserResponse(string AccessToken,
+public sealed record LoginUserResponse(string AccessToken,
                                               int UserId,
                                               string Username,
                                               int RoleId,
                                               string RoleName) : ResponseBase;
 
-public sealed class AuthenticateUserRequestHandler :
-    RequestHandlerBase<AuthenticateUserRequest, AuthenticateUserResponse>
+public sealed class LoginUserRequestHandler :
+    RequestHandlerBase<LoginUserRequest, LoginUserResponse>
 {
     private readonly IJwtSecurityTokenFactory _jwtSecurityTokenFactory;
     private readonly IJwtClaimsFactory _claimsFactory;
 
-    public AuthenticateUserRequestHandler(IJwtSecurityTokenFactory jwtSecurityTokenFactory,
+    public LoginUserRequestHandler(IJwtSecurityTokenFactory jwtSecurityTokenFactory,
                                           IUnitOfWork unitOfWork,
                                           IJwtClaimsFactory claimsFactory) : base(unitOfWork)
     {
@@ -31,10 +31,13 @@ public sealed class AuthenticateUserRequestHandler :
         _claimsFactory = claimsFactory;
     }
 
-    public override async Task<AuthenticateUserResponse> Handle(AuthenticateUserRequest request, CancellationToken cancellationToken)
+    public override async Task<LoginUserResponse> Handle(LoginUserRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpecification(request.EmailLogin), cancellationToken)
                           ?? throw new EntityNotFoundException($"User not found with email '{request.EmailLogin}', try register. "); // get refresh token from db
+
+        if (!queryResult.IsEmailConfirmed)
+            throw new EmailNotConfirmedException($"User with email '{request.EmailLogin}' didn't confirmed email.");
 
         var claims = _claimsFactory.CreateDefault(queryResult.Id,
                                                   queryResult.Role.Id,
@@ -43,7 +46,7 @@ public sealed class AuthenticateUserRequestHandler :
 
         var token = _jwtSecurityTokenFactory.CreateSecurityToken(claims);
 
-        var response = new AuthenticateUserResponse(new JwtSecurityTokenHandler().WriteToken(token),
+        var response = new LoginUserResponse(new JwtSecurityTokenHandler().WriteToken(token),
                                                     queryResult.Id,
                                                     queryResult.Username,
                                                     queryResult.Role.Id,

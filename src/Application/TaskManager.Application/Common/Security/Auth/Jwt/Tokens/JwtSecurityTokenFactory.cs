@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using TaskManager.Application.Common.Security.Auth.Jwt.Options;
@@ -9,9 +10,9 @@ namespace TaskManager.Application.Common.Security.Auth.Jwt.Tokens;
 /// <summary>
 /// Generate new tokens for JWT authentication
 /// </summary>
-public sealed class JwtSecurityTokenFactory(JwtAuthenticationOptions authOptions) : IJwtSecurityTokenFactory
+public sealed class JwtSecurityTokenFactory(IOptions<JwtAuthenticationOptions> authOptions) : IJwtSecurityTokenFactory
 {
-    private readonly JwtAuthenticationOptions _authOptions = authOptions; // options from appsettings.json
+    private readonly JwtAuthenticationOptions _authOptions = authOptions.Value; // options from appsettings.json
 
     /// <summary>
     /// Generates token

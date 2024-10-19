@@ -32,7 +32,6 @@ public sealed class CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork)
         var entity = new TaskColumnEntity(userEntity, request.Name, request.Description);
 
         var queryResult = await UnitOfWork.UserTaskColumns.AddAsync(entity, cancellationToken);
-        await UnitOfWork.SaveChangesAsync(cancellationToken);
 
         var response = new CreateTaskColumnResponse(queryResult.Id, queryResult.Name, queryResult.Description);
 

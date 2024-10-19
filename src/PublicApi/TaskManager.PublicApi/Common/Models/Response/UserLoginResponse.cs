@@ -12,7 +12,7 @@ public sealed class UserLoginResponse
     public required int RoleId { get; set; }
     public required string RoleName { get; set; }
 
-    public static implicit operator UserLoginResponse(AuthenticateUserResponse response) => new()
+    public static implicit operator UserLoginResponse(LoginUserResponse response) => new()
     {
         AccessTokenString = response.AccessToken,
         RoleId = response.RoleId,

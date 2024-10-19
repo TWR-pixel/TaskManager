@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
+using TaskManager.Application.Common.EmailSender;
 using TaskManager.Application.Common.Extensions;
 using TaskManager.Application.Common.Security.Auth.Jwt.Claims;
 using TaskManager.Application.Common.Security.Auth.Jwt.Options;
@@ -23,22 +26,12 @@ using TaskManager.PublicApi.Common.Middlewares;
 using TaskManager.PublicApi.Common.Wrappers;
 using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
-#region get environment variables
-var emailApiKey = EnvironmentWrapper.GetEnvironmentVariable("EMAIL_SENDER_API_KEY");
-var jwtSecretKey = EnvironmentWrapper.GetEnvironmentVariable("JWT_SECRET_KEY");
-
-if (string.IsNullOrWhiteSpace(emailApiKey))
-    throw new NullReferenceException("Environment variable 'EMAIL_API_KEY' not found, or it is empty");
-
-if (string.IsNullOrWhiteSpace(jwtSecretKey))
-    throw new NullReferenceException("Environment variable 'JWT_SECRET_KEY' not found, or it is empty");
-
-#endregion
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<HandleExceptionsMiddleware>();
 
+
+builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddCors();
 
@@ -92,25 +85,55 @@ builder.Services.AddScoped<IMediatorWrapper, MediatorWrapper>();
 #region authentication services
 
 builder.Services.AddScoped<IJwtClaimsFactory, JwtClaimsFactory>();
+builder.Services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
+
+#region get environment variables
+var emailApiKey = EnvironmentWrapper.GetEnvironmentVariable("EMAIL_SENDER_API_KEY");
+var jwtSecretKey = EnvironmentWrapper.GetEnvironmentVariable("JWT_SECRET_KEY");
+
+if (string.IsNullOrWhiteSpace(emailApiKey))
+    throw new NullReferenceException("Environment variable 'EMAIL_API_KEY' not found, or it is empty");
+
+if (string.IsNullOrWhiteSpace(jwtSecretKey))
+    throw new NullReferenceException("Environment variable 'JWT_SECRET_KEY' not found, or it is empty");
+
+#endregion
 
 var validIssuer = builder.Configuration["JwtAuthenticationOptions:Issuer"];
 var validAudience = builder.Configuration["JwtAuthenticationOptions:Audience"];
 var expiresTokenHours = builder.Configuration["JwtAuthenticationOptions:ExpiresTokenHours"];
 var expiresTokenMinutes = builder.Configuration["JwtAuthenticationOptions:ExpiresTokenMinutes"];
 
-builder.Services.AddScoped(typeof(IJwtSecurityTokenFactory),
-    i => new JwtSecurityTokenFactory(new JwtAuthenticationOptions
-    {
-        Audience = validAudience ?? "localhost",
-        Issuer = validAudience ?? "localhost",
-        ExpiresTokenHours = int.Parse(expiresTokenHours!),
-        ExpiresTokenMinutes = int.Parse(expiresTokenMinutes!),
-        SecretKey = jwtSecretKey
-    }));
+var emailFrom = builder.Configuration["EmailSenderOptions:EmailFrom"]!;
+var smtpAddress = builder.Configuration["EmailSenderOptions:SmtpAddress"]!;
+var smtpPort = int.Parse(builder.Configuration["EmailSenderOptions:Port"]!);
 
+builder.Services.Configure<EmailSenderOptions>(options =>
+{
+    options.From = emailFrom;
+    options.SmtpAddress = smtpAddress;
+    options.Port = smtpPort;
+    options.Password = emailApiKey;
+    options.SmtpClient = new SmtpClient(smtpAddress, smtpPort)
+    {
+        EnableSsl = true,
+        Credentials = new NetworkCredential(emailFrom, emailApiKey)
+    };
+});
+
+builder.Services.Configure<JwtAuthenticationOptions>(options =>
+{
+    options.Audience = validAudience ?? "localhost";
+    options.Issuer = validAudience ?? "localhost";
+    options.ExpiresTokenHours = int.Parse(expiresTokenHours!);
+    options.ExpiresTokenMinutes = int.Parse(expiresTokenMinutes!);
+    options.SecretKey = jwtSecretKey;
+});
+
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<ISymmetricSecurityKeysGenerator, SymmetricSecurityKeysGenerator>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
-builder.Services.AddScoped<IJwtRefreshTokenGenerator, JwtRefreshTokenGenerator>();
+
 
 #region configure jwt bearer authentication scheme
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

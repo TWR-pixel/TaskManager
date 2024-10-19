@@ -4,7 +4,6 @@ using TaskManager.Application.Tasks.Requests.GetAllById;
 using TaskManager.Application.Users.Requests.DeleteById;
 using TaskManager.Application.Users.Requests.GetById;
 using TaskManager.Application.Users.Requests.UpdateById;
-using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
@@ -21,16 +20,9 @@ public sealed class UserController(IMediatorWrapper mediator) : ApiControllerBas
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<GetAllUserTasksByIdResponse>> GetById([FromQuery] GetUserByIdRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var result = await Mediator.SendAsync(request, cancellationToken);
+        var result = await Mediator.SendAsync(request, cancellationToken);
 
-            return Ok(result);
-        }
-        catch (EntityNotFoundException notFoundException)
-        {
-            return NotFound(notFoundException.Message);
-        }
+        return Ok(result);
     }
 
     [HttpPut]

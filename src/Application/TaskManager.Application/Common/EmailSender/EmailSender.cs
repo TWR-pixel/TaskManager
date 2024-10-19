@@ -1,27 +1,27 @@
 ﻿using Microsoft.Extensions.Options;
-using System.Net;
 using System.Net.Mail;
 
 namespace TaskManager.Application.Common.EmailSender;
 
-public sealed class EmailSender
+public sealed class EmailSender : IEmailSender
 {
     public EmailSenderOptions Options { get; init; }
+
     private readonly SmtpClient _smtpClient;
 
-    public EmailSender(EmailSenderOptions options)
+    public EmailSender(IOptions<EmailSenderOptions> options)
     {
-        Options = options;
-
-        _smtpClient = new SmtpClient(options.SmtpAddress, options.Port)
-        {
-            EnableSsl = true,
-            Credentials = new NetworkCredential(options.From, options.Password)
-        };
+        Options = options.Value;
+        _smtpClient = options.Value.SmtpClient;
     }
 
-    public void Send(MailMessage message)
+    public async Task SendMailAsync(MailMessage message, CancellationToken cancellationToken)
     {
-       _smtpClient.Send(message);
+        await _smtpClient.SendMailAsync(message, cancellationToken);
+    }
+
+    public void SendAsync(MailMessage message, CancellationToken cancellationToken)
+    {
+        _smtpClient.SendAsync(message, cancellationToken);
     }
 }

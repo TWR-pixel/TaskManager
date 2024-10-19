@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Users.Requests.Authenticate;
+using TaskManager.Application.Users.Requests.ConfirmRegistration;
 using TaskManager.Application.Users.Requests.Register;
 using TaskManager.PublicApi.Common.Models.Response;
 using TaskManager.PublicApi.Common.Wrappers.Mediator;
@@ -19,7 +20,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     /// <returns></returns>
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<UserLoginResponse>> LoginUser([FromBody] AuthenticateUserRequest request,
+    public async Task<ActionResult<UserLoginResponse>> LoginUser([FromBody] LoginUserRequest request,
                                                                                       CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
@@ -78,6 +79,17 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
         var resp = (RegisterUserModelResponse)response;
 
         return CreatedAtAction(nameof(RegisterUser), resp);
+    }
+
+    [HttpPost("confirm-registration")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ConfirmRegistrationRequest>> ConfirmRegistration([FromBody] ConfirmRegistrationRequest request,
+                                                                                    CancellationToken cancellationToken)
+    {
+        var response = await Mediator.SendAsync(request, cancellationToken);
+
+        return Ok(response);
     }
     #endregion
 }

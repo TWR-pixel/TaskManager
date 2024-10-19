@@ -1,5 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Microsoft.Extensions.Caching.Memory;
+using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
+using System.Security.Cryptography;
+using TaskManager.Application.Common.EmailSender;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Auth.Jwt.Claims;
 using TaskManager.Application.Common.Security.Auth.Jwt.Tokens;
@@ -19,14 +23,12 @@ public sealed record RegisterUserResponse : ResponseBase
 {
     [SetsRequiredMembers]
     public RegisterUserResponse(string accessTokenString,
-                                string refreshTokenString,
                                 string username,
                                 int userId,
                                 string roleName,
                                 int roleId)
     {
         AccessTokenString = accessTokenString;
-        RefreshTokenString = refreshTokenString;
         Username = username;
         UserId = userId;
         RoleName = roleName;
@@ -34,7 +36,6 @@ public sealed record RegisterUserResponse : ResponseBase
     }
 
     public required string AccessTokenString { get; set; }
-    public required string RefreshTokenString { get; set; }
 
     public required string Username { get; set; }
     public required int UserId { get; set; }
@@ -49,17 +50,20 @@ public sealed class RegisterUserRequestHandler
     private readonly IJwtSecurityTokenFactory _jwtTokenFactory;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtClaimsFactory _claimsFactory;
-    private readonly IJwtRefreshTokenGenerator _jwtRefreshTokenGenerator;
+    private readonly IEmailSender _emailSender;
+    private readonly IMemoryCache _cache;
 
     public RegisterUserRequestHandler(IUnitOfWork unitOfWork, IJwtSecurityTokenFactory jwtTokenFactory,
                                       IPasswordHasher passwordHasher,
                                       IJwtClaimsFactory claimsFactory,
-                                      IJwtRefreshTokenGenerator jwtRefreshTokenGenerator) : base(unitOfWork)
+                                      IEmailSender emailSender,
+                                      IMemoryCache cache) : base(unitOfWork)
     {
         _jwtTokenFactory = jwtTokenFactory;
         _passwordHasher = passwordHasher;
         _claimsFactory = claimsFactory;
-        _jwtRefreshTokenGenerator = jwtRefreshTokenGenerator;
+        _emailSender = emailSender;
+        _cache = cache;
     }
 
     public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
@@ -75,7 +79,6 @@ public sealed class RegisterUserRequestHandler
 
         var passwordSalt = _passwordHasher.GenerateSalt();
         var passwordHash = _passwordHasher.HashPassword(request.Password, passwordSalt);
-        var refreshToken = _jwtRefreshTokenGenerator.GenerateRefreshToken();
 
         var userEntity = new UserEntity(roleEntity,
                                         request.Email,
@@ -91,11 +94,27 @@ public sealed class RegisterUserRequestHandler
         var accessTokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
         var response = new RegisterUserResponse(accessTokenString,
-                                                _jwtRefreshTokenGenerator.GenerateRefreshToken(),
                                                 userEntity.Username,
                                                 userEntity.Id,
                                                 userEntity.Role.Name,
                                                 userEntity.Role.Id);
+
+        var emailCode = RandomNumberGenerator.GetHexString(6, true);
+
+        var options = new MemoryCacheEntryOptions()
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(7), // 7 minutes alive
+            Priority = CacheItemPriority.High
+        };
+
+        _cache.Set(userEntity.Id.ToString(), emailCode, options);
+
+        var emailMsg = new MailMessage(_emailSender.Options.From,
+                                       request.Email,
+                                       "Confirm registration",
+                                       emailCode);
+
+        await _emailSender.SendMailAsync(emailMsg, cancellationToken);
 
         #region Default columns adding
         var defaultColumns = new List<TaskColumnEntity>()
