@@ -1,25 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Role.Requests;
 
-public sealed record CreateRoleRequest : RequestBase<CreateRoleResponse>
-{
-    public required string Name { get; set; }
-}
-
-public sealed record CreateRoleResponse : ResponseBase
-{
-    [SetsRequiredMembers]
-    public CreateRoleResponse(string name)
-    {
-        Name = name;
-    }
-
-    public required string Name { get; set; }
-}
+public sealed record CreateRoleRequest(string Name) : RequestBase<CreateRoleResponse>;
+public sealed record CreateRoleResponse(string Name) : ResponseBase;
 
 public sealed class CreateRoleRequestHandler(IUnitOfWork unitOfWork)
         : RequestHandlerBase<CreateRoleRequest, CreateRoleResponse>(unitOfWork)
@@ -29,7 +15,6 @@ public sealed class CreateRoleRequestHandler(IUnitOfWork unitOfWork)
         var role = new RoleEntity(request.Name);
 
         await UnitOfWork.Roles.AddAsync(role, cancellationToken);
-        await UnitOfWork.SaveChangesAsync(cancellationToken);
 
         var response = new CreateRoleResponse(role.Name);
 

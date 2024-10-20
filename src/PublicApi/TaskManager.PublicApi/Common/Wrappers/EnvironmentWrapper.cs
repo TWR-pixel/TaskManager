@@ -9,7 +9,7 @@ public static class EnvironmentWrapper
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public static string? GetEnvironmentVariable(string name)
+    public static string GetEnvironmentVariable(string name)
     {
         string? variable;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -26,6 +26,9 @@ public static class EnvironmentWrapper
         {
             variable = Environment.GetEnvironmentVariable(name);
         }
+
+        if (string.IsNullOrWhiteSpace(variable))
+            throw new NullReferenceException($"Environment variable '{name}' not found, or it is empty");
 
 
         return variable;

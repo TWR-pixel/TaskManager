@@ -1,4 +1,4 @@
-﻿using TaskManager.Application.Users.Requests.Authenticate;
+﻿using TaskManager.Application.Users.Requests.Login;
 
 namespace TaskManager.PublicApi.Common.Models.Response;
 

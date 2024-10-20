@@ -32,12 +32,13 @@ public sealed class GetAllUserTasksByIdRequestHandler(IUnitOfWork unitOfWork)
             userQueryResult.EmailLogin,
 
             userQueryResult.Tasks.Select(static t => new UserTaskByIdResponse(t.Title,
-                                                                              t.Content,
+                                                                              t.Description,
                                                                               t.IsCompleted,
                                                                               t.IsInProgress,
                                                                               t.CreatedAt,
-                                                                              t.DoTo,
-                                                                              t.Id))
+                                                                              t.CompletedAt,
+                                                                              t.Id,
+                                                                              t.TaskColumn.Id))
         );
 
         return response;

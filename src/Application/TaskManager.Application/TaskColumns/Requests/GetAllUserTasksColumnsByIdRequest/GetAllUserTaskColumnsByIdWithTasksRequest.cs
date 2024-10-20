@@ -20,9 +20,9 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
         var queryResult = await UnitOfWork.Users
             .SingleOrDefaultAsync(new ReadAllUserTaskColumnsWithTasksByIdSpec(request.UserId), cancellationToken)
                 ?? throw new EntityNotFoundException($"User with id {request.UserId} not found");
-        
-        queryResult.TaskColumns ??= [];
 
+        queryResult.TaskColumns ??= [];
+        
         var response = new GetAllUserTaskColumnsByIdWithTasksResponse
         {
             Username = queryResult.Username,
@@ -32,12 +32,13 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
                                              u.Name,
                                              u.Description ?? "", // if null return ''
                                              u.TasksInColumn?.Select(t => new UserTaskResponse(t.Title,
-                                                                                               t.Content,
+                                                                                               t.Description,
                                                                                                t.IsInProgress,
                                                                                                t.IsCompleted,
                                                                                                t.CreatedAt,
-                                                                                               t.DoTo,
-                                                                                               t.Id))
+                                                                                               t.CompletedAt,
+                                                                                               t.Id,
+                                                                                               t.TaskColumn.Id))
                                              )
                 )
         };

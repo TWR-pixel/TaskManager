@@ -10,24 +10,27 @@ public sealed record UserTaskResponse
                             bool isInProgress,
                             bool isCompleted,
                             DateTime createdAt,
-                            DateOnly? doTo,
-                            int id)
+                            DateOnly? completedAt,
+                            int id,
+                            int columnId)
     {
         Name = name;
-        Content = content;
+        Description = content;
         IsInProgress = isInProgress;
         IsCompleted = isCompleted;
         CreatedAt = createdAt;
-        DoTo = doTo;
+        CompletedAt = completedAt;
         Id = id;
+        ColumnId = columnId;
     }
 
     public required int Id { get; set; }
+    public required int ColumnId { get; set; }
     public required string Name { get; set; }
-    public required string Content { get; set; }
+    public required string Description { get; set; }
     public required bool IsInProgress { get; set; }
     public required bool IsCompleted { get; set; }
     public required DateTime CreatedAt { get; set; }
 
-    public DateOnly? DoTo { get; set; }
+    public DateOnly? CompletedAt { get; set; }
 }

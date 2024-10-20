@@ -7,12 +7,12 @@ namespace TaskManager.Application.Tasks.Requests.UpdateById;
 public sealed record UpdateTaskRequest(int UpdatingTaskId,
                                        int? ColumnId = null,
                                        string? Title = null,
-                                       string? Content = null,
+                                       string? Description = null,
                                        bool? IsCompleted = null,
                                        bool? IsInProgress = null) : RequestBase<UpdateTaskResponse>;
 
 public sealed record UpdateTaskResponse(string? Title = null,
-                                        string? Content = null,
+                                        string? Description = null,
                                         bool? IsCompleted = null,
                                         bool? IsInProgress = null) : ResponseBase;
 
@@ -35,8 +35,8 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
             entityForUpdate.TaskColumn = columnEntity;
         }
 
-        if (request.Content != null)
-            entityForUpdate.Content = request.Content;
+        if (request.Description != null)
+            entityForUpdate.Description = request.Description;
 
         if (request.IsCompleted != null)
             entityForUpdate.IsCompleted = (bool)request.IsCompleted;
@@ -48,7 +48,7 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
         await UnitOfWork.UserTasks.UpdateAsync(entityForUpdate, cancellationToken);
 
         var response = new UpdateTaskResponse(request.Title,
-                                              request.Content,
+                                              request.Description,
                                               request.IsInProgress,
                                               request.IsInProgress);
 

@@ -8,7 +8,6 @@ namespace TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 public interface IUnitOfWork
 {
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     public IRepositoryBase<UserTaskEntity> UserTasks { get; init; }
     public IRepositoryBase<TaskColumnEntity> UserTaskColumns { get; init; }
     public IRepositoryBase<RoleEntity> Roles { get; init; }

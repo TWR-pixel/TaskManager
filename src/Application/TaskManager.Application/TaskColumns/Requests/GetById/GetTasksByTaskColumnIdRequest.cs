@@ -22,28 +22,31 @@ public sealed record GetTasksByColumnIdResponse : ResponseBase
     public sealed record TasksInColumnResponse
     {
         [SetsRequiredMembers]
-        public TasksInColumnResponse(int userTaskId,
-                                         string userTaskTitle,
-                                         string userTaskContent,
+        public TasksInColumnResponse(int Id,
+                                         string title,
+                                         string description,
                                          bool isInProgress,
                                          bool isCompleted,
-                                         DateTime createdAt)
+                                         DateTime createdAt,
+                                         DateOnly? completedAt)
         {
-            UserTaskId = userTaskId;
-            UserTaskTitle = userTaskTitle;
-            UserTaskContent = userTaskContent;
+            this.Id = Id;
+            Title = title;
+            Description = description;
             IsInProgress = isInProgress;
             IsCompleted = isCompleted;
             CreatedAt = createdAt;
+            CompletedAt = completedAt;
         }
 
-        public required int UserTaskId { get; set; }
-        public required string UserTaskTitle { get; set; }
-        public required string UserTaskContent { get; set; }
+        public required int Id { get; set; }
+        public required string Title { get; set; }
+        public required string Description { get; set; }
         public required bool IsInProgress { get; set; }
         public required bool IsCompleted { get; set; }
 
         public required DateTime CreatedAt { get; set; }
+        public DateOnly? CompletedAt { get; set; }
     }
 }
 
@@ -68,10 +71,11 @@ public sealed class GetTasksByTaskColumnIdRequestHandler : RequestHandlerBase<Ge
                 static t => new GetTasksByColumnIdResponse.TasksInColumnResponse(
                     t.Id,
                     t.Title,
-                    t.Content,
+                    t.Description,
                     t.IsInProgress,
                     t.IsCompleted,
-                    t.CreatedAt))
+                    t.CreatedAt,
+                    t.CompletedAt))
         };
 
         return response;

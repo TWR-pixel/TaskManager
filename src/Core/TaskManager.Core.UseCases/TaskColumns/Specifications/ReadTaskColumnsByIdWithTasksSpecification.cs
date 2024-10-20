@@ -3,11 +3,12 @@ using TaskManager.Core.Entities.TaskColumns;
 
 namespace TaskManager.Core.UseCases.TaskColumns.Specifications;
 
-public sealed class GetTaskColumnsByIdWithTasksSpecification : SingleResultSpecification<TaskColumnEntity>
+public sealed class ReadTaskColumnsByIdWithTasksSpecification : SingleResultSpecification<TaskColumnEntity>
 {
-    public GetTaskColumnsByIdWithTasksSpecification(int taskColumnId)
+    public ReadTaskColumnsByIdWithTasksSpecification(int taskColumnId)
     {
         Query
+            .AsNoTracking()
             .Where(t => t.Id == taskColumnId)
             .Include(t => t.TasksInColumn);
     }

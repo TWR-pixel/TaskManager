@@ -1,12 +1,13 @@
 ﻿namespace TaskManager.Application.Tasks.Requests.GetAllById;
 
 public sealed record UserTaskByIdResponse(string Title,
-                                          string Content,
+                                          string Description,
                                           bool IsCompleted,
                                           bool IsInProgress,
                                           DateTime CreatedAt,
-                                          DateOnly? DoTo,
-                                          int Id)
+                                          DateOnly? CompletedAt,
+                                          int Id,
+                                          int ColumnId)
 {
 
 }

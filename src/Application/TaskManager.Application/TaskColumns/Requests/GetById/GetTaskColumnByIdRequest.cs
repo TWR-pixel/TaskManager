@@ -21,18 +21,20 @@ public sealed record GetTaskColumnByIdResponse(int TaskColumnId,
     public sealed record UserTasksColumnResponse
     {
         [SetsRequiredMembers]
-        public UserTasksColumnResponse(bool isCompleted, bool isInProgress, string title, string content)
+        public UserTasksColumnResponse(bool isCompleted, bool isInProgress, string title, string description, DateOnly? completedAt)
         {
             IsCompleted = isCompleted;
             IsInProgress = isInProgress;
             Title = title;
-            Content = content;
+            Description = description;
+            CompletedAt = completedAt;
         }
 
         public required string Title { get; set; }
-        public required string Content { get; set; }
+        public required string Description { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateOnly? CompletedAt { get; set; }
 
         public required bool IsCompleted { get; set; }
         public required bool IsInProgress { get; set; }
@@ -45,8 +47,8 @@ public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
     public override async Task<GetTaskColumnByIdResponse> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.UserTaskColumns
-            .SingleOrDefaultAsync(new GetTaskColumnsByIdWithTasksSpecification(request.TaskColumnId), cancellationToken)
-            ?? throw new EntityNotFoundException($"User task column with id {request.TaskColumnId} not found");
+            .SingleOrDefaultAsync(new ReadTaskColumnsByIdWithTasksSpecification(request.TaskColumnId), cancellationToken)
+                ?? throw new EntityNotFoundException($"User task column with id {request.TaskColumnId} not found");
 
         queryResult.TasksInColumn ??= [];
 
@@ -57,7 +59,7 @@ public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
             queryResult.Description,
             queryResult.TasksInColumn.Select(static t =>
             {
-                return new UserTasksColumnResponse(t.IsCompleted, t.IsInProgress, t.Title, t.Content);
+                return new UserTasksColumnResponse(t.IsCompleted, t.IsInProgress, t.Title, t.Description, t.CompletedAt);
             })
         );
 

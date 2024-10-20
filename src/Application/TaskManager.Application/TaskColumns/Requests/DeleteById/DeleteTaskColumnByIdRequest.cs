@@ -16,7 +16,6 @@ public sealed class DeleteTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
             ?? throw new EntityNotFoundException("task column not found by id " + request.TaskColumnId);
 
         await UnitOfWork.UserTaskColumns.DeleteAsync(entity, cancellationToken);
-        await UnitOfWork.SaveChangesAsync(cancellationToken);
 
         var response = new DeleteTaskColumnByIdResponse();
 

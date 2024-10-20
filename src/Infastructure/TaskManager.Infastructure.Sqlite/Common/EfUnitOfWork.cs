@@ -15,7 +15,7 @@ public sealed class EfUnitOfWork : IUnitOfWork
     public IRepositoryBase<TaskColumnEntity> UserTaskColumns { get; init; }
     public IRepositoryBase<RoleEntity> Roles { get; init; }
     public IRepositoryBase<UserEntity> Users { get; init; }
-    
+
     public EfUnitOfWork(TaskManagerDbContext dbContext,
                         IRepositoryBase<UserTaskEntity> userTasks,
                         IRepositoryBase<TaskColumnEntity> userTaskColumns,
@@ -29,9 +29,4 @@ public sealed class EfUnitOfWork : IUnitOfWork
         Users = users;
     }
 
-
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        return await _dbContext.SaveChangesAsync(cancellationToken);
-    }
 }

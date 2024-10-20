@@ -6,7 +6,7 @@ using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Users.Specifications;
 
-namespace TaskManager.Application.Users.Requests.Authenticate;
+namespace TaskManager.Application.Users.Requests.Login;
 
 public sealed record LoginUserRequest(string EmailLogin, string Password) :
     RequestBase<LoginUserResponse>;
@@ -35,10 +35,10 @@ public sealed class LoginUserRequestHandler :
     {
         var queryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpecification(request.EmailLogin), cancellationToken)
                           ?? throw new EntityNotFoundException($"User not found with email '{request.EmailLogin}', try register. "); // get refresh token from db
-
+        
         if (!queryResult.IsEmailConfirmed)
             throw new EmailNotConfirmedException($"User with email '{request.EmailLogin}' didn't confirmed email.");
-
+        
         var claims = _claimsFactory.CreateDefault(queryResult.Id,
                                                   queryResult.Role.Id,
                                                   queryResult.Username,

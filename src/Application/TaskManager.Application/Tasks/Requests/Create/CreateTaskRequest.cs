@@ -8,8 +8,8 @@ namespace TaskManager.Application.Tasks.Requests.Create;
 public sealed record CreateTaskRequest(int UserId,
                                        int ColumnId,
                                        string Title,
-                                       string Content,
-                                       DateOnly? DoTo,
+                                       string Description,
+                                       DateOnly? CompletedAt,
                                        bool IsCompleted = false,
                                        bool IsInProgress = true) : RequestBase<CreateTaskResponse>;
 
@@ -17,8 +17,8 @@ public sealed record CreateTaskResponse(int Id,
                                         int UserId,
                                         int ColumnId,
                                         string Title,
-                                        string Content,
-                                        DateOnly? DoTo,
+                                        string Description,
+                                        DateOnly? CompletedAt,
                                         bool IsCompleted,
                                         bool IsInProgress) : ResponseBase;
 
@@ -37,8 +37,8 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
                                             userOwner,
                                             taskColumn,
                                             request.Title,
-                                            request.Content,
-                                            request.DoTo);
+                                            request.Description,
+                                            request.CompletedAt);
 
         var queryResult = await UnitOfWork.UserTasks.AddAsync(taskEntity, cancellationToken);
 
@@ -46,8 +46,8 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
                                               request.UserId,
                                               request.ColumnId,
                                               request.Title,
-                                              request.Content,
-                                              request.DoTo,
+                                              request.Description,
+                                              request.CompletedAt,
                                               request.IsCompleted,
                                               request.IsInProgress);
 

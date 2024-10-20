@@ -6,7 +6,6 @@ using Microsoft.OpenApi.Models;
 using System.Net.Mail;
 using System.Net;
 using System.Text;
-using TaskManager.Application.Common.EmailSender;
 using TaskManager.Application.Common.Extensions;
 using TaskManager.Application.Common.Security.Auth.Jwt.Claims;
 using TaskManager.Application.Common.Security.Auth.Jwt.Options;
@@ -25,11 +24,12 @@ using TaskManager.Infastructure.Sqlite.Common;
 using TaskManager.PublicApi.Common.Middlewares;
 using TaskManager.PublicApi.Common.Wrappers;
 using TaskManager.PublicApi.Common.Wrappers.Mediator;
+using TaskManager.Application.Common.Services.EmailSender;
+using TaskManager.Application.Common.Services.EmailVerifier;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<HandleExceptionsMiddleware>();
-
 
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
@@ -87,17 +87,8 @@ builder.Services.AddScoped<IMediatorWrapper, MediatorWrapper>();
 builder.Services.AddScoped<IJwtClaimsFactory, JwtClaimsFactory>();
 builder.Services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
 
-#region get environment variables
 var emailApiKey = EnvironmentWrapper.GetEnvironmentVariable("EMAIL_SENDER_API_KEY");
 var jwtSecretKey = EnvironmentWrapper.GetEnvironmentVariable("JWT_SECRET_KEY");
-
-if (string.IsNullOrWhiteSpace(emailApiKey))
-    throw new NullReferenceException("Environment variable 'EMAIL_API_KEY' not found, or it is empty");
-
-if (string.IsNullOrWhiteSpace(jwtSecretKey))
-    throw new NullReferenceException("Environment variable 'JWT_SECRET_KEY' not found, or it is empty");
-
-#endregion
 
 var validIssuer = builder.Configuration["JwtAuthenticationOptions:Issuer"];
 var validAudience = builder.Configuration["JwtAuthenticationOptions:Audience"];
@@ -105,19 +96,20 @@ var expiresTokenHours = builder.Configuration["JwtAuthenticationOptions:ExpiresT
 var expiresTokenMinutes = builder.Configuration["JwtAuthenticationOptions:ExpiresTokenMinutes"];
 
 var emailFrom = builder.Configuration["EmailSenderOptions:EmailFrom"]!;
-var smtpAddress = builder.Configuration["EmailSenderOptions:SmtpAddress"]!;
-var smtpPort = int.Parse(builder.Configuration["EmailSenderOptions:Port"]!);
+var smtpHost = builder.Configuration["EmailSenderOptions:Host"]!;
+
+var smtpPort = builder.Configuration.GetValue<int>("EmailSenderOptions:Port");
 
 builder.Services.Configure<EmailSenderOptions>(options =>
 {
     options.From = emailFrom;
-    options.SmtpAddress = smtpAddress;
+    options.Host = smtpHost;
     options.Port = smtpPort;
     options.Password = emailApiKey;
-    options.SmtpClient = new SmtpClient(smtpAddress, smtpPort)
+    options.SmtpClient = new SmtpClient(smtpHost, smtpPort)
     {
         EnableSsl = true,
-        Credentials = new NetworkCredential(emailFrom, emailApiKey)
+        Credentials = new NetworkCredential(emailFrom, emailApiKey),
     };
 });
 
@@ -131,9 +123,9 @@ builder.Services.Configure<JwtAuthenticationOptions>(options =>
 });
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IEmailVerifier, EmailVerifier>();
 builder.Services.AddScoped<ISymmetricSecurityKeysGenerator, SymmetricSecurityKeysGenerator>();
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
-
 
 #region configure jwt bearer authentication scheme
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

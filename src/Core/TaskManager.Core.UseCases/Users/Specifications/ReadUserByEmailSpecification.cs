@@ -10,6 +10,6 @@ public sealed class ReadUserByEmailSpecification : SingleResultSpecification<Use
         Query
             .AsNoTracking()
             .Where(u => u.EmailLogin == emailLogin)
-            .Include(u => u.Role);
+                .Include(u => u.Role);
     }
 }
