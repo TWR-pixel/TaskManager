@@ -11,19 +11,22 @@ public sealed record CreateTaskRequest : RequestBase<CreateTaskResponse>
     public required int UserId { get; set; }
     public required int ColumnId { get; set; }
     public required string Title { get; set; }
-    public required string Content { get; set; }
+    public required string Description { get; set; }
     public bool IsCompleted { get; set; } = false;
     public bool IsInProgress { get; set; } = true;
-    public DateOnly? DoTo { get; set; }
+    public DateOnly? ComplitedAt { get; set; }
 
 }
 
 public sealed record CreateTaskResponse : ResponseBase
-{ 
+{
     public required int CreatedTaskId { get; set; }
     public required int ColumnId { get; set; }
     public required string Title { get; set; }
-    public required string Content { get; set; }
+    public required string Description { get; set; }
+    public bool IsCompleted { get; set; } = false;
+    public bool IsInProgress { get; set; } = true;
+    public DateOnly? ComplitedAt { get; set; }
 }
 
 public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<CreateTaskRequest, CreateTaskResponse>(unitOfWork)
@@ -39,12 +42,12 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
         var taskEntity = new UserTaskEntity
         {
             Title = request.Title,
-            Content = request.Content,
+            Description = request.Description,
             IsCompleted = request.IsCompleted,
             IsInProgress = request.IsInProgress,
             TaskColumn = taskColumn,
             Owner = userOwner,
-            DoTo = request.DoTo
+            ComplitedAt = request.ComplitedAt
         };
 
         var queryResult = await UnitOfWork.UserTasks.AddAsync(taskEntity, cancellationToken);
@@ -53,8 +56,11 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
         {
             CreatedTaskId = queryResult.Id,
             ColumnId = taskColumn.Id,
-            Content = queryResult.Content,
+            Description = queryResult.Description,
             Title = queryResult.Title,
+            ComplitedAt = queryResult.ComplitedAt,
+            IsCompleted = queryResult.IsCompleted,
+            IsInProgress = queryResult.IsInProgress,
         };
 
         return response;

@@ -68,7 +68,7 @@ public sealed class GetTasksByTaskColumnIdRequestHandler : RequestHandlerBase<Ge
                 static t => new GetTasksByColumnIdResponse.TasksInColumnResponse(
                     t.Id,
                     t.Title,
-                    t.Content,
+                    t.Description,
                     t.IsInProgress,
                     t.IsCompleted,
                     t.CreatedAt))

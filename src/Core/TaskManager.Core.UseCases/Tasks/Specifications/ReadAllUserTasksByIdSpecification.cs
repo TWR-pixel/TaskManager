@@ -17,6 +17,6 @@ public sealed class ReadAllUserTasksByIdSpecification : SingleResultSpecificatio
             .AsNoTracking()
             .Where(t => t.Id == userId)
             .Include(t => t.Tasks)!
-            .ThenInclude(t => t.TaskColumn);
+                .ThenInclude(t => t.TaskColumn);
     }
 }

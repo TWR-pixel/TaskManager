@@ -7,24 +7,27 @@ namespace TaskManager.Application.Tasks.Requests.UpdateAndSaveTaskRequest;
 public sealed record UpdateTaskRequest(int UpdatingTaskId,
                                        int? ColumnId = null,
                                        string? Title = null,
-                                       string? Content = null,
+                                       string? Description = null,
                                        bool? IsCompleted = null,
-                                       bool? IsInProgress = null) : RequestBase<UpdateTaskResponse>;
+                                       bool? IsInProgress = null,
+                                       DateOnly? ComplitedAt = null) : RequestBase<UpdateTaskResponse>;
 
 public sealed record UpdateTaskResponse : ResponseBase
 {
-    public UpdateTaskResponse(string? title, string? content, bool? isCompleted, bool? isInProgress)
+    public UpdateTaskResponse(string? title, string? description, bool? isCompleted, bool? isInProgress, DateOnly? complitedAt)
     {
         Title = title;
-        Content = content;
+        Description = description;
         IsCompleted = isCompleted;
         IsInProgress = isInProgress;
+        ComplitedAt = complitedAt;
     }
 
     public string? Title { get; set; } = null;
-    public string? Content { get; set; } = null;
+    public string? Description { get; set; } = null;
     public bool? IsCompleted { get; set; } = null;
     public bool? IsInProgress { get; set; } = null;
+    public DateOnly? ComplitedAt { get; set; }
 }
 
 public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
@@ -42,12 +45,12 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
         {
             var columnEntity = await UnitOfWork.UserTaskColumns.GetByIdAsync((int)request.ColumnId, cancellationToken)
                 ?? throw new EntityNotFoundException($"Task column by id {request.ColumnId} not found. ");
-        
+
             entityForUpdate.TaskColumn = columnEntity;
         }
 
-        if (request.Content != null)
-            entityForUpdate.Content = request.Content;
+        if (request.Description != null)
+            entityForUpdate.Description = request.Description;
 
         if (request.IsCompleted != null)
             entityForUpdate.IsCompleted = (bool)request.IsCompleted;
@@ -59,9 +62,10 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
         await UnitOfWork.UserTasks.UpdateAsync(entityForUpdate, cancellationToken);
 
         var response = new UpdateTaskResponse(request.Title,
-                                              request.Content,
+                                              request.Description,
                                               request.IsInProgress,
-                                              request.IsInProgress);
+                                              request.IsInProgress,
+                                              request.ComplitedAt);
 
         return response;
     }

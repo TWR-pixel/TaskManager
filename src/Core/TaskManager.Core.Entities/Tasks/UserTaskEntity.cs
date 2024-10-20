@@ -11,26 +11,26 @@ public sealed class UserTaskEntity : EntityBase
                           UserEntity owner,
                           TaskColumnEntity taskColumn,
                           string title,
-                          string content)
+                          string description)
     {
         IsCompleted = isCompleted;
         IsInProgress = isInProgress;
         Owner = owner;
         TaskColumn = taskColumn;
         Title = title;
-        Content = content;
+        Description = description;
     }
 
     public UserTaskEntity()
     {
-        
+
     }
 
     public required string Title { get; set; }
-    public required string Content { get; set; }
+    public required string Description { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateOnly? DoTo { get; set; }
+    public DateOnly? ComplitedAt { get; set; }
 
     public required bool IsCompleted { get; set; }
     public required bool IsInProgress { get; set; }

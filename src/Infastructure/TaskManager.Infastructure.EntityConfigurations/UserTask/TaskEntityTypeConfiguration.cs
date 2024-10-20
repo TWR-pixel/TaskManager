@@ -18,7 +18,7 @@ public sealed class TaskEntityTypeConfiguration : IEntityTypeConfiguration<UserT
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(t => t.Content)
+        builder.Property(t => t.Description)
             .HasColumnName("content")
             .IsRequired()
             .HasMaxLength(int.MaxValue);

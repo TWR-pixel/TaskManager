@@ -26,33 +26,33 @@ public sealed record GetAllUserTasksByIdResponse : ResponseBase
     {
         [SetsRequiredMembers]
         public UserTaskByIdResponse(string title,
-                                    string content,
+                                    string description,
                                     bool isCompleted,
                                     bool isInProgress,
                                     DateTime createdAt,
-                                    DateOnly? doTo,
+                                    DateOnly? complitedAt,
                                     int id,
                                     int columnId)
         {
             Title = title;
-            Content = content;
+            Description = description;
             IsCompleted = isCompleted;
             IsInProgress = isInProgress;
             CreatedAt = createdAt;
-            DoTo = doTo;
+            ComplitedAt = complitedAt;
             Id = id;
             ColumnId = columnId;
         }
 
         public required int Id { get; set; }
         public required string Title { get; set; }
-        public required string Content { get; set; }
+        public required string Description { get; set; }
 
         public required bool IsCompleted { get; set; }
         public required bool IsInProgress { get; set; }
         public required DateTime CreatedAt { get; set; }
         public required int ColumnId { get; set; }
-        public DateOnly? DoTo { get; set; }
+        public DateOnly? ComplitedAt { get; set; }
         
     }
 }
@@ -75,11 +75,11 @@ public sealed class GetAllUserTasksByIdRequestHandler(IUnitOfWork unitOfWork)
 
             UserTasks = userQueryResult.Tasks.Select(static t => new GetAllUserTasksByIdResponse.UserTaskByIdResponse(
                 t.Title,
-                t.Content,
+                t.Description,
                 t.IsCompleted,
                 t.IsInProgress,
                 t.CreatedAt,
-                t.DoTo,
+                t.ComplitedAt,
                 t.Id,
                 t.TaskColumn.Id))
         };

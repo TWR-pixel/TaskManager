@@ -31,7 +31,7 @@ public sealed class GetTaskByTitleRequestHandler(IUnitOfWork unitOfWork) : Reque
         var result = await UnitOfWork.UserTasks.SingleOrDefaultAsync(new ReadTaskByTitleSpecification(request.Title), cancellationToken)
             ?? throw new EntityNotFoundException($"User task with title '{request.Title} not found");
 
-        var response = new GetTaskByTitleResponse(result.Title, result.Content);
+        var response = new GetTaskByTitleResponse(result.Title, result.Description);
 
         return response;
     }

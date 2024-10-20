@@ -21,25 +21,27 @@ public sealed record GetTaskColumnByIdResponse(int TaskColumnId,
     public sealed record UserTasksColumnResponse
     {
         [SetsRequiredMembers]
-        public UserTasksColumnResponse(bool isCompleted, bool isInProgress, string title, string content)
+        public UserTasksColumnResponse(bool isCompleted, bool isInProgress, string title, string content, DateOnly? complitedAt)
         {
             IsCompleted = isCompleted;
             IsInProgress = isInProgress;
             Title = title;
-            Content = content;
+            Description = content;
+            ComplitedAt = complitedAt;
         }
 
         public required string Title { get; set; }
-        public required string Content { get; set; }
+        public required string Description { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public required bool IsCompleted { get; set; }
         public required bool IsInProgress { get; set; }
+        public required DateOnly? ComplitedAt { get; set; }
     }
 }
 
-public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) 
+public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
     : RequestHandlerBase<GetTaskColumnByIdRequest, GetTaskColumnByIdResponse>(unitOfWork)
 {
     public override async Task<GetTaskColumnByIdResponse> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
@@ -57,7 +59,7 @@ public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
             queryResult.Description,
             queryResult.TasksInColumn.Select(static t =>
             {
-                return new UserTasksColumnResponse(t.IsCompleted, t.IsInProgress, t.Title, t.Content);
+                return new UserTasksColumnResponse(t.IsCompleted, t.IsInProgress, t.Title, t.Description, t.ComplitedAt);
             })
         );
 

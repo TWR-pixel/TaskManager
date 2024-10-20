@@ -32,11 +32,11 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
                                              u.Name,
                                              u.Description ?? "Empty", // if null return 'Empty'
                                              u.TasksInColumn?.Select(t => new UserTaskResponse(t.Title,
-                                                                                               t.Content,
+                                                                                               t.Description,
                                                                                                t.IsInProgress,
                                                                                                t.IsCompleted,
                                                                                                t.CreatedAt,
-                                                                                               t.DoTo,
+                                                                                               t.ComplitedAt,
                                                                                                t.Id)
                                              )
                 ))
