@@ -14,7 +14,7 @@ namespace TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
 public sealed record GetTaskColumnByIdRequest(int TaskColumnId) : RequestBase<GetTaskColumnByIdResponse>;
 
 public sealed record GetTaskColumnByIdResponse(int TaskColumnId,
-                                               string Name,
+                                               string Title,
                                                string? Description,
                                                IEnumerable<UserTasksColumnResponse> Tasks) : ResponseBase
 {
@@ -55,7 +55,7 @@ public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
         var response = new GetTaskColumnByIdResponse
         (
             queryResult.Id,
-            queryResult.Name,
+            queryResult.Title,
             queryResult.Description,
             queryResult.TasksInColumn.Select(static t =>
             {

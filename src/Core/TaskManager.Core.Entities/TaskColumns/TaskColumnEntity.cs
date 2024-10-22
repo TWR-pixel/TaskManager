@@ -8,10 +8,10 @@ namespace TaskManager.Core.Entities.TaskColumns;
 public sealed class TaskColumnEntity : EntityBase
 {
     [SetsRequiredMembers]
-    public TaskColumnEntity(UserEntity owner, string name, string? description = null)
+    public TaskColumnEntity(UserEntity owner, string title, string? description = null)
     {
         Owner = owner;
-        Name = name;
+        Title = title;
         Description = description;
     }
 
@@ -20,7 +20,7 @@ public sealed class TaskColumnEntity : EntityBase
         
     }
 
-    public required string Name { get; set; }
+    public required string Title { get; set; }
     public string? Description { get; set; }
     public IEnumerable<UserTaskEntity>? TasksInColumn { get; set; }
     public required UserEntity Owner { get; set; }

@@ -13,8 +13,8 @@ public sealed class TaskColumnEntityTypeConfiguration : IEntityTypeConfiguration
         builder.Property(t => t.Id)
             .HasColumnName("id");
 
-        builder.Property(t => t.Name)
-            .HasColumnName("name")
+        builder.Property(t => t.Title)
+            .HasColumnName("title")
             .IsRequired()
             .HasMaxLength(50);
 
