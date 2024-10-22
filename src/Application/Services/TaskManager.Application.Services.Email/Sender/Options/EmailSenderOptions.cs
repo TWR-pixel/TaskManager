@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace TaskManager.Application.Common.Email.Sender;
+namespace TaskManager.Application.Modules.Email.Sender.Options;
 
 public sealed record EmailSenderOptions()
 {

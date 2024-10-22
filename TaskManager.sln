@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Core.UseCases", "src\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj", "{B8AA6B86-EE9D-4357-BBBA-B485F073E233}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{2569E561-29C8-4F15-9FB3-A499A20C9E65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.Modules.Email", "src\Application\Services\TaskManager.Application.Services.Email\TaskManager.Application.Modules.Email.csproj", "{9B4864DB-56F1-42DA-809E-152AACF41A3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +65,10 @@ Global
 		{B8AA6B86-EE9D-4357-BBBA-B485F073E233}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8AA6B86-EE9D-4357-BBBA-B485F073E233}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8AA6B86-EE9D-4357-BBBA-B485F073E233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B4864DB-56F1-42DA-809E-152AACF41A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4864DB-56F1-42DA-809E-152AACF41A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B4864DB-56F1-42DA-809E-152AACF41A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B4864DB-56F1-42DA-809E-152AACF41A3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +85,8 @@ Global
 		{7DE554BF-5CF3-4819-BCDF-4897D58C2D87} = {EF77468F-D4D7-41D4-8351-6E35AAAB5182}
 		{112129CE-CF8E-4B80-ACF1-2FB55C0199BB} = {EF77468F-D4D7-41D4-8351-6E35AAAB5182}
 		{B8AA6B86-EE9D-4357-BBBA-B485F073E233} = {EBDB93FA-CCCC-4EC0-8015-213BD8DFA5AE}
+		{2569E561-29C8-4F15-9FB3-A499A20C9E65} = {05E3F6CA-4A01-477B-8EA9-A1AF6E3CF70B}
+		{9B4864DB-56F1-42DA-809E-152AACF41A3B} = {2569E561-29C8-4F15-9FB3-A499A20C9E65}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D21E1920-7EA2-41F3-AA5D-A598681BB756}

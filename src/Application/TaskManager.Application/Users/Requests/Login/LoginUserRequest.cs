@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Auth.Jwt.Claims;
-using TaskManager.Application.Common.Security.Auth.Jwt.Tokens;
+using TaskManager.Application.Common.Security.Auth.Claims;
+using TaskManager.Application.Common.Security.Auth.Tokens;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
@@ -22,11 +22,11 @@ public sealed class LoginUserRequestHandler :
     RequestHandlerBase<LoginUserRequest, LoginUserResponse>
 {
     private readonly IJwtSecurityTokenFactory _jwtSecurityTokenFactory;
-    private readonly IJwtClaimsFactory _claimsFactory;
+    private readonly IClaimsFactory _claimsFactory;
 
     public LoginUserRequestHandler(IJwtSecurityTokenFactory jwtSecurityTokenFactory,
                                           IUnitOfWork unitOfWork,
-                                          IJwtClaimsFactory claimsFactory) : base(unitOfWork)
+                                          IClaimsFactory claimsFactory) : base(unitOfWork)
     {
         _jwtSecurityTokenFactory = jwtSecurityTokenFactory;
         _claimsFactory = claimsFactory;

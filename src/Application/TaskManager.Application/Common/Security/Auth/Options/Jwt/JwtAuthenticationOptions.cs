@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
 
-namespace TaskManager.Application.Common.Security.Auth.Jwt.Options;
+namespace TaskManager.Application.Common.Security.Auth.Options.Jwt;
 
 public class JwtAuthenticationOptions
 {

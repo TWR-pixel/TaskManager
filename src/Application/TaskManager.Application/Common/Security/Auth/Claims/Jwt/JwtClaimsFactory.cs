@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 
-namespace TaskManager.Application.Common.Security.Auth.Jwt.Claims;
+namespace TaskManager.Application.Common.Security.Auth.Claims.Jwt;
 
-public sealed class JwtClaimsFactory : IJwtClaimsFactory
+public sealed class JwtClaimsFactory : IClaimsFactory
 {
     public IEnumerable<Claim> CreateDefault(int userId, int roleId, string username, string roleName)
     {

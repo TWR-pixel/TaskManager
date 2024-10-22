@@ -1,9 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using TaskManager.Application.Common.Email.Verifier;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Auth.Jwt.Claims;
-using TaskManager.Application.Common.Security.Auth.Jwt.Tokens;
+using TaskManager.Application.Common.Security.Auth.Claims;
+using TaskManager.Application.Common.Security.Auth.Tokens;
+using TaskManager.Application.Modules.Email.Verifier;
+using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
+using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.VerifyEmail;
 
@@ -14,13 +17,13 @@ public sealed class VerifyEmailRequestHandler
     : RequestHandlerBase<VerifyEmailRequest, VerifyEmailResponse>
 {
     private readonly IJwtSecurityTokenFactory _tokenFactory;
-    private readonly IJwtClaimsFactory _claimsFactory;
-    private readonly IEmailVerifier _verifier;
+    private readonly IClaimsFactory _claimsFactory;
+    private readonly ICodeVerifier _verifier;
 
     public VerifyEmailRequestHandler(IUnitOfWork unitOfWork,
                                      IJwtSecurityTokenFactory tokenFactory,
-                                     IJwtClaimsFactory claimsFactory,
-                                     IEmailVerifier verifier) : base(unitOfWork)
+                                     IClaimsFactory claimsFactory,
+                                     ICodeVerifier verifier) : base(unitOfWork)
     {
         _tokenFactory = tokenFactory;
         _claimsFactory = claimsFactory;
@@ -29,7 +32,13 @@ public sealed class VerifyEmailRequestHandler
 
     public override async Task<VerifyEmailResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
     {
-        var verifiedUser = await _verifier.Verify(request.Code, cancellationToken);
+        var isCodeRight = _verifier.Verify(request.Code, out string email);
+
+        if (!isCodeRight)
+            throw new CodeNotVerifiedException();
+
+        var verifiedUser = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpec(email), cancellationToken)
+            ?? throw new UserNotFoundException(email);
 
         var claims = _claimsFactory.CreateDefault(verifiedUser.Id, verifiedUser.Role.Id, verifiedUser.Username, verifiedUser.Role.Name);
 

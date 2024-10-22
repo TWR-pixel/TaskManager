@@ -2,10 +2,10 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using TaskManager.Application.Common.Security.Auth.Jwt.Options;
+using TaskManager.Application.Common.Security.Auth.Options.Jwt;
 using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
 
-namespace TaskManager.Application.Common.Security.Auth.Jwt.Tokens;
+namespace TaskManager.Application.Common.Security.Auth.Tokens.Jwt;
 
 /// <summary>
 /// Generate new tokens for JWT authentication
@@ -24,7 +24,7 @@ public sealed class JwtSecurityTokenFactory(IOptions<JwtAuthenticationOptions> a
         if (claims == null || !claims.Any())
             throw new ArgumentNullException(nameof(claims));
 
-        var key =_authOptions.SecurityKeysGenerator.Create(_authOptions.SecretKey); // generate new security key 
+        var key = _authOptions.SecurityKeysGenerator.Create(_authOptions.SecretKey); // generate new security key 
         var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // algorithm info
 
         var token = new JwtSecurityToken(_authOptions.Issuer,

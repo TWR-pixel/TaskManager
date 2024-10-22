@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Application.Common.Security.Auth.Jwt.Tokens;
+﻿namespace TaskManager.Application.Common.Security.Auth.Tokens.Jwt;
 
 public interface IJwtRefreshTokenGenerator
 {
