@@ -9,7 +9,7 @@ namespace TaskManager.Application.TaskColumns.Requests.CreateTaskColumnRequest;
 /// Request for creating and saving user's task column in db
 /// </summary>
 /// <param name="UserId"></param>
-/// <param name="Title"></param>
+/// <param name="Title"></param
 /// <param name="Description"></param>
 public sealed record CreateTaskColumnRequest(int UserId, string Title, string? Description) : RequestBase<CreateTaskColumnResponse>;
 
