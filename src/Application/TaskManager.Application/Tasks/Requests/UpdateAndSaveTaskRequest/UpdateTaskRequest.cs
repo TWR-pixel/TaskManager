@@ -1,4 +1,5 @@
-﻿using TaskManager.Application.Common.Requests;
+﻿using System.Diagnostics.CodeAnalysis;
+using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 
@@ -14,15 +15,18 @@ public sealed record UpdateTaskRequest(int UpdatingTaskId,
 
 public sealed record UpdateTaskResponse : ResponseBase
 {
-    public UpdateTaskResponse(string? title, string? description, bool? isCompleted, bool? isInProgress, DateOnly? complitedAt)
+    [SetsRequiredMembers]
+    public UpdateTaskResponse(string? title, string? description, bool? isCompleted, bool? isInProgress, DateOnly? complitedAt, int id)
     {
         Title = title;
         Description = description;
         IsCompleted = isCompleted;
         IsInProgress = isInProgress;
         ComplitedAt = complitedAt;
+        Id = id;
     }
 
+    public required int Id { get; set; }
     public string? Title { get; set; } = null;
     public string? Description { get; set; } = null;
     public bool? IsCompleted { get; set; } = null;
@@ -58,6 +62,8 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
         if (request.IsInProgress != null)
             entityForUpdate.IsInProgress = (bool)request.IsInProgress;
 
+        if (request.ComplitedAt != null)
+            entityForUpdate.ComplitedAt = request.ComplitedAt;
 
         await UnitOfWork.UserTasks.UpdateAsync(entityForUpdate, cancellationToken);
 
@@ -65,7 +71,8 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
                                               request.Description,
                                               request.IsInProgress,
                                               request.IsInProgress,
-                                              request.ComplitedAt);
+                                              request.ComplitedAt,
+                                              request.UpdatingTaskId);
 
         return response;
     }

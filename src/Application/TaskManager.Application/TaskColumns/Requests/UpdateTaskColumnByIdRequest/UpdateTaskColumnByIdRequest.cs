@@ -31,7 +31,6 @@ public sealed class UpdateTaskColumnByIdRequestHandler : RequestHandlerBase<Upda
             taskColumnQueryResult.Owner = userQueryResult;
         }
 
-
         var response = new UpdateTaskColumnByIdResponse(taskColumnQueryResult.Id, taskColumnQueryResult.Owner.Id, taskColumnQueryResult.Title, taskColumnQueryResult.Description);
 
         await UnitOfWork.UserTaskColumns.UpdateAsync(taskColumnQueryResult, cancellationToken);
