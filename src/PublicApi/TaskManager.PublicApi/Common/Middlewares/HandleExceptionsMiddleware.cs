@@ -55,10 +55,23 @@ public sealed class HandleExceptionsMiddleware(ILogger<HandleExceptionsMiddlewar
 
             await context.Response.WriteAsJsonAsync(notRightCode);
         }
+        catch (CodeNotVerifiedException codeNotVerifiedEx)
+        {
+            var notRightCode = new ProblemDetails()
+            {
+                Title = "Not right code from email",
+                Detail = codeNotVerifiedEx.Message,
+                Status = StatusCodes.Status400BadRequest
+            };
+
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            await context.Response.WriteAsJsonAsync(codeNotVerifiedEx);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
-
+            
             var unhandledException = new ProblemDetails
             {
                 Title = "Unhandled exception",
@@ -72,15 +85,17 @@ public sealed class HandleExceptionsMiddleware(ILogger<HandleExceptionsMiddlewar
         }
     }
 
-    private ProblemDetails CreateProblemDetails(string title, string details, int statusCode)
+    private async Task SendResponseAsync(string title, string detail, int Status, HttpContext context)
     {
-        var result = new ProblemDetails
+        var problemDetails = new ProblemDetails
         {
             Title = title,
-            Detail = details,
-            Status = statusCode
+            Detail = detail,
+            Status = Status
         };
 
-        return result;
+        context.Response.StatusCode = Status;
+
+        await context.Response.WriteAsJsonAsync(problemDetails);
     }
 }

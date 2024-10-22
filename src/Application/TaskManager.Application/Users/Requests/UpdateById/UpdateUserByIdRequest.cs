@@ -1,6 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Users.Requests.UpdateById;
@@ -8,7 +9,8 @@ namespace TaskManager.Application.Users.Requests.UpdateById;
 public sealed record UpdateUserByIdRequest(int UserId,
                                            string? Username = null,
                                            string? UserEmail = null,
-                                           string? Password = null) : RequestBase<UpdateUserByIdResponse>;
+                                           string? CurrentPassword = null,
+                                           string? NewPassword = null) : RequestBase<UpdateUserByIdResponse>;
 public sealed record UpdateUserByIdResponse(int UserId, string Username, string UserEmail) : ResponseBase;
 
 public sealed class UpdateUserByIdRequetHandler : RequestHandlerBase<UpdateUserByIdRequest, UpdateUserByIdResponse>
@@ -23,7 +25,7 @@ public sealed class UpdateUserByIdRequetHandler : RequestHandlerBase<UpdateUserB
     public override async Task<UpdateUserByIdResponse> Handle(UpdateUserByIdRequest request, CancellationToken cancellationToken)
     {
         var userEntity = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
-            ?? throw new EntityNotFoundException($"User with id {request.UserId} not found");
+            ?? throw new UserNotFoundException(request.UserId);
 
         if (request.Username != null)
             userEntity.Username = request.Username;
@@ -31,18 +33,25 @@ public sealed class UpdateUserByIdRequetHandler : RequestHandlerBase<UpdateUserB
         if (request.UserEmail != null)
             userEntity.EmailLogin = request.UserEmail;
 
-        if (request.Password != null)
+        if (request.NewPassword != null && request.CurrentPassword != null)
         {
+            var currentPasswordHash = _passwordHasher.HashPassword(request.CurrentPassword, userEntity.PasswordSalt);
+
+            if (currentPasswordHash != userEntity.PasswordHash)
+                throw new NotRightPasswordException(request.CurrentPassword);
+
             var salt = _passwordHasher.GenerateSalt();
-            var passwordHash = _passwordHasher.HashPassword(request.Password, salt);
+            var passwordHash = _passwordHasher.HashPassword(request.NewPassword, salt);
 
             userEntity.PasswordHash = passwordHash;
             userEntity.PasswordSalt = salt;
+
+            userEntity.PasswordUpdatedAt = DateTime.UtcNow;
         }
 
-        var response = new UpdateUserByIdResponse(userEntity.Id, userEntity.Username, userEntity.EmailLogin);
-
         await UnitOfWork.Users.UpdateAsync(userEntity, cancellationToken);
+
+        var response = new UpdateUserByIdResponse(userEntity.Id, userEntity.Username, userEntity.EmailLogin);
 
         return response;
     }

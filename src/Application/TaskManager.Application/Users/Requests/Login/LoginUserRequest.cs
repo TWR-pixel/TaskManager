@@ -3,6 +3,7 @@ using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Auth.Jwt.Claims;
 using TaskManager.Application.Common.Security.Auth.Jwt.Tokens;
 using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Users.Specifications;
 
@@ -33,8 +34,8 @@ public sealed class LoginUserRequestHandler :
 
     public override async Task<LoginUserResponse> Handle(LoginUserRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpecification(request.EmailLogin), cancellationToken)
-                          ?? throw new EntityNotFoundException($"User not found with email '{request.EmailLogin}', try register. "); // get refresh token from db
+        var queryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpec(request.EmailLogin), cancellationToken)
+                          ?? throw new UserNotFoundException(request.EmailLogin); // get refresh token from db
         
         if (!queryResult.IsEmailConfirmed)
             throw new EmailNotConfirmedException($"User with email '{request.EmailLogin}' didn't confirmed email.");

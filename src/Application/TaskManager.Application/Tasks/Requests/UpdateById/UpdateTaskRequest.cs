@@ -1,5 +1,6 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Tasks.Requests.UpdateById;
@@ -22,7 +23,7 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
     public override async Task<UpdateTaskResponse> Handle(UpdateTaskRequest request, CancellationToken cancellationToken)
     {
         var entityForUpdate = await UnitOfWork.UserTasks.GetByIdAsync(request.UpdatingTaskId, cancellationToken)
-            ?? throw new EntityNotFoundException($"Task by id {request.UpdatingTaskId} not found. ");
+            ?? throw new EntityNotFoundException("Task", request.UpdatingTaskId);
 
         if (request.Title != null)
             entityForUpdate.Title = request.Title;
@@ -30,7 +31,7 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
         if (request.ColumnId != null)
         {
             var columnEntity = await UnitOfWork.UserTaskColumns.GetByIdAsync((int)request.ColumnId, cancellationToken)
-                ?? throw new EntityNotFoundException($"Task column by id {request.ColumnId} not found. ");
+                ?? throw new TaskColumnNotFoundException((int)request.ColumnId);
 
             entityForUpdate.TaskColumn = columnEntity;
         }

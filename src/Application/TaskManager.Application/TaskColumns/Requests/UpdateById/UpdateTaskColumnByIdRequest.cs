@@ -1,5 +1,6 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.TaskColumns.Requests.UpdateById;
@@ -25,7 +26,7 @@ public sealed class UpdateTaskColumnByIdRequestHandler : RequestHandlerBase<Upda
         if (request.UserId != null)
         {
             var userQueryResult = await UnitOfWork.Users.GetByIdAsync((int)request.UserId, cancellationToken)
-                ?? throw new EntityNotFoundException($"User with id '{request.UserId}' not found");
+                ?? throw new UserNotFoundException((int)request.UserId);
 
             taskColumnQueryResult.Owner = userQueryResult;
         }

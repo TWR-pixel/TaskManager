@@ -12,10 +12,10 @@ public sealed class RoleController(IMediatorWrapper mediator) : ApiControllerBas
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<CreateRoleResponse>> Create([FromBody] CreateRoleRequest request,
-                                                                   CancellationToken cancellation)
+                                                               CancellationToken cancellation)
     {
         var response = await Mediator.SendAsync(request, cancellation);
-
+        
         return CreatedAtAction(nameof(Create), response);
     }
     #endregion

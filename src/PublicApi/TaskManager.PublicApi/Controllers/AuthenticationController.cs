@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Users.Requests.ConfirmRegistration;
 using TaskManager.Application.Users.Requests.Login;
 using TaskManager.Application.Users.Requests.Register;
+using TaskManager.Application.Users.Requests.ResendCode;
+using TaskManager.Application.Users.Requests.VerifyEmail;
 using TaskManager.PublicApi.Common.Models.Response;
 using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
@@ -21,7 +22,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<UserLoginResponse>> LoginUser([FromBody] LoginUserRequest request,
-                                                                                      CancellationToken cancellationToken)
+                                                                 CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 
@@ -35,7 +36,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest request,
-                                                             CancellationToken cancellationToken)
+                                                                       CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
 
@@ -48,7 +49,18 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<VerifyEmailResponse>> VerifyEmail([FromBody] VerifyEmailRequest request,
-                                                                                    CancellationToken cancellationToken)
+                                                                     CancellationToken cancellationToken)
+    {
+        var response = await Mediator.SendAsync(request, cancellationToken);
+
+        return Ok(response);
+    }
+
+    [HttpPost("resend-verification-code")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ResendCodeResponse>> ResendCode([FromBody] ResendCodeRequest request,
+                                                                   CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
 

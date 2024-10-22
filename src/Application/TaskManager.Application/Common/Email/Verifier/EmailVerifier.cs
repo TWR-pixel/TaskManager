@@ -4,7 +4,7 @@ using TaskManager.Core.Entities.Users;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Users.Specifications;
 
-namespace TaskManager.Application.Common.Services.EmailVerifier;
+namespace TaskManager.Application.Common.Email.Verifier;
 
 public sealed class EmailVerifier(IMemoryCache cache, IUnitOfWork unitOfWork) : IEmailVerifier
 {
@@ -30,6 +30,8 @@ public sealed class EmailVerifier(IMemoryCache cache, IUnitOfWork unitOfWork) : 
             ?? throw new EntityNotFoundException($"User with id {userId} not found in cache. ");
 
         userEntity.IsEmailConfirmed = true;
+
+        await _unitOfWork.Users.UpdateAsync(userEntity, cancellationToken);
 
         _cache.Remove(code);
 

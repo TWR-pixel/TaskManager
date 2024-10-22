@@ -24,8 +24,9 @@ using TaskManager.Infastructure.Sqlite.Common;
 using TaskManager.PublicApi.Common.Middlewares;
 using TaskManager.PublicApi.Common.Wrappers;
 using TaskManager.PublicApi.Common.Wrappers.Mediator;
-using TaskManager.Application.Common.Services.EmailSender;
-using TaskManager.Application.Common.Services.EmailVerifier;
+using TaskManager.Application.Common.Email.Verifier;
+using TaskManager.Application.Common.Email.Sender;
+using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -116,7 +117,7 @@ builder.Services.Configure<EmailSenderOptions>(options =>
 builder.Services.Configure<JwtAuthenticationOptions>(options =>
 {
     options.Audience = validAudience ?? "localhost";
-    options.Issuer = validAudience ?? "localhost";
+    options.Issuer = validIssuer ?? "localhost";
     options.ExpiresTokenHours = int.Parse(expiresTokenHours!);
     options.ExpiresTokenMinutes = int.Parse(expiresTokenMinutes!);
     options.SecretKey = jwtSecretKey;

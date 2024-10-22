@@ -54,6 +54,9 @@ public sealed class UserEntity : EntityBase
     [Column("registered_at")]
     public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
 
+    [Column("password_updated_at")]
+    public DateTime PasswordUpdatedAt { get; set; } = DateTime.UtcNow;
+
     [Column("is_email_confirmed")]
     public bool IsEmailConfirmed { get; set; } = false;
 

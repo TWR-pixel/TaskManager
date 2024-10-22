@@ -1,6 +1,6 @@
 ﻿using TaskManager.Core.Entities.Users;
 
-namespace TaskManager.Application.Common.Services.EmailVerifier;
+namespace TaskManager.Application.Common.Email.Verifier;
 
 public interface IEmailVerifier
 {

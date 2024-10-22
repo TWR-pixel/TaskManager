@@ -3,9 +3,9 @@ using TaskManager.Core.Entities.Users;
 
 namespace TaskManager.Core.UseCases.Users.Specifications;
 
-public sealed class ReadUserByEmailSpecification : SingleResultSpecification<UserEntity>
+public sealed class ReadUserByEmailSpec : SingleResultSpecification<UserEntity>
 {
-    public ReadUserByEmailSpecification(string emailLogin)
+    public ReadUserByEmailSpec(string emailLogin)
     {
         Query
             .AsNoTracking()

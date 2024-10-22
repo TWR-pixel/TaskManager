@@ -51,7 +51,7 @@ public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
                 ?? throw new EntityNotFoundException($"User task column with id {request.TaskColumnId} not found");
 
         queryResult.TasksInColumn ??= [];
-
+        
         var response = new GetTaskColumnByIdResponse
         (
             queryResult.Id,

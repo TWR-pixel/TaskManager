@@ -1,11 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using TaskManager.Application.Common.Email.Verifier;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Auth.Jwt.Claims;
 using TaskManager.Application.Common.Security.Auth.Jwt.Tokens;
-using TaskManager.Application.Common.Services.EmailVerifier;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
-namespace TaskManager.Application.Users.Requests.ConfirmRegistration;
+namespace TaskManager.Application.Users.Requests.VerifyEmail;
 
 public sealed record VerifyEmailRequest(string Code) : RequestBase<VerifyEmailResponse>;
 public sealed record VerifyEmailResponse(string AccessToken, string Username, int UserId, string RoleName, int RoleId) : ResponseBase;
@@ -30,8 +30,6 @@ public sealed class VerifyEmailRequestHandler
     public override async Task<VerifyEmailResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
     {
         var verifiedUser = await _verifier.Verify(request.Code, cancellationToken);
-
-        await UnitOfWork.Users.UpdateAsync(verifiedUser, cancellationToken);
 
         var claims = _claimsFactory.CreateDefault(verifiedUser.Id, verifiedUser.Role.Id, verifiedUser.Username, verifiedUser.Role.Name);
 
