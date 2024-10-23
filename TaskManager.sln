@@ -31,6 +31,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{2569
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.Modules.Email", "src\Application\Services\TaskManager.Application.Services.Email\TaskManager.Application.Modules.Email.csproj", "{9B4864DB-56F1-42DA-809E-152AACF41A3B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.Modules.EmailVerification", "src\Application\Services\TaskManager.Application.Modules.EmailVerification\TaskManager.Application.Modules.EmailVerification.csproj", "{6C0B65C4-507B-4E58-95CD-D0F0CE4FD39E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.Modules.RecoveryPassword", "src\Application\Services\TaskManager.Application.Modules.RecoveryPassword\TaskManager.Application.Modules.RecoveryPassword.csproj", "{7D6DFED8-88F2-4BF7-A6DD-180B2AA9A20E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B3FAEB8B-BB90-4911-B02D-8D815BBDA93C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublicApi", "PublicApi", "{6F31BF1B-B4D8-4209-A612-435D6BEB568E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infastructure", "Infastructure", "{B5FED858-3A1D-4B2C-AC7A-122167EBBBC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{10ADB70C-DE2C-4DC1-A7D4-E4001B03D9AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserCases", "UserCases", "{AB85F56C-65B7-4B68-A601-77509FA18B97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Tests.UseCases.Unit", "src\Tests\UseCases\Unit\TaskManager.Tests.UseCases.Unit\TaskManager.Tests.UseCases.Unit.csproj", "{5FDF2872-C7A5-412A-9D9F-C50DD040A51E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +85,18 @@ Global
 		{9B4864DB-56F1-42DA-809E-152AACF41A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B4864DB-56F1-42DA-809E-152AACF41A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B4864DB-56F1-42DA-809E-152AACF41A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0B65C4-507B-4E58-95CD-D0F0CE4FD39E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0B65C4-507B-4E58-95CD-D0F0CE4FD39E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0B65C4-507B-4E58-95CD-D0F0CE4FD39E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0B65C4-507B-4E58-95CD-D0F0CE4FD39E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D6DFED8-88F2-4BF7-A6DD-180B2AA9A20E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D6DFED8-88F2-4BF7-A6DD-180B2AA9A20E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D6DFED8-88F2-4BF7-A6DD-180B2AA9A20E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D6DFED8-88F2-4BF7-A6DD-180B2AA9A20E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FDF2872-C7A5-412A-9D9F-C50DD040A51E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FDF2872-C7A5-412A-9D9F-C50DD040A51E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FDF2872-C7A5-412A-9D9F-C50DD040A51E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FDF2872-C7A5-412A-9D9F-C50DD040A51E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +115,14 @@ Global
 		{B8AA6B86-EE9D-4357-BBBA-B485F073E233} = {EBDB93FA-CCCC-4EC0-8015-213BD8DFA5AE}
 		{2569E561-29C8-4F15-9FB3-A499A20C9E65} = {05E3F6CA-4A01-477B-8EA9-A1AF6E3CF70B}
 		{9B4864DB-56F1-42DA-809E-152AACF41A3B} = {2569E561-29C8-4F15-9FB3-A499A20C9E65}
+		{6C0B65C4-507B-4E58-95CD-D0F0CE4FD39E} = {2569E561-29C8-4F15-9FB3-A499A20C9E65}
+		{7D6DFED8-88F2-4BF7-A6DD-180B2AA9A20E} = {2569E561-29C8-4F15-9FB3-A499A20C9E65}
+		{B3FAEB8B-BB90-4911-B02D-8D815BBDA93C} = {D9601ACB-0390-4B9D-B3D9-BE47FE5FCF75}
+		{6F31BF1B-B4D8-4209-A612-435D6BEB568E} = {B3FAEB8B-BB90-4911-B02D-8D815BBDA93C}
+		{B5FED858-3A1D-4B2C-AC7A-122167EBBBC3} = {B3FAEB8B-BB90-4911-B02D-8D815BBDA93C}
+		{10ADB70C-DE2C-4DC1-A7D4-E4001B03D9AF} = {B3FAEB8B-BB90-4911-B02D-8D815BBDA93C}
+		{AB85F56C-65B7-4B68-A601-77509FA18B97} = {B3FAEB8B-BB90-4911-B02D-8D815BBDA93C}
+		{5FDF2872-C7A5-412A-9D9F-C50DD040A51E} = {AB85F56C-65B7-4B68-A601-77509FA18B97}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D21E1920-7EA2-41F3-AA5D-A598681BB756}

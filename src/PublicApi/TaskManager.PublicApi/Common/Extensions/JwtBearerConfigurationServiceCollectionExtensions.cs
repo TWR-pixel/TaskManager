@@ -10,8 +10,8 @@ public static class JwtBearerConfigurationServiceCollectionExtensions
 {
     public static IServiceCollection AddJwtBearer(this IServiceCollection services, IConfiguration configuration)
     {
-       var jwtSecretKey = EnvironmentWrapper.GetEnvironmentVariable("JWT_SECRET_KEY");
-
+        var jwtSecretKey = EnvironmentWrapper.GetEnvironmentVariable("JWT_SECRET_KEY");
+        
         var validIssuer = configuration["JwtAuthenticationOptions:Issuer"];
         var validAudience = configuration["JwtAuthenticationOptions:Audience"];
         var expiresTokenHours = configuration["JwtAuthenticationOptions:ExpiresTokenHours"];

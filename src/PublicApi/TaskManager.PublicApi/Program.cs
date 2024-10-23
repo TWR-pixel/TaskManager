@@ -9,12 +9,12 @@ using TaskManager.PublicApi.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 var sqliteConnectionStr = builder.Configuration.GetConnectionString("Sqlite")
-    ?? throw new NullReferenceException();
+    ?? throw new NullReferenceException("connection string not found or empty");
 
 builder.Services
-    .AddInfastructureLayer(sqliteConnectionStr)
-    .AddApplicationLayer()
-    .AddPublicApiServices(builder.Configuration);
+    .AppInfastructure(sqliteConnectionStr)
+    .AddApplication()
+    .AddPublicApi(builder.Configuration);
 
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();

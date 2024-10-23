@@ -2,7 +2,7 @@
 
 public interface ICodeStorage
 {
-    public void Set(string key, string value);
-    public bool TryGetValue(string key, out string? value);
-    public void Remove(string key);
+    public void Set(string code, string email);
+    public bool TryGetValue(string code, out string? email);
+    public void Remove(string code);
 }

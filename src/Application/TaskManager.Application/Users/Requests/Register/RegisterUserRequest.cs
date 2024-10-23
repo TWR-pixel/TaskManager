@@ -1,9 +1,6 @@
-﻿using Microsoft.Extensions.Options;
-using TaskManager.Application.Common.Requests;
+﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Modules.Email.Sender;
-using TaskManager.Application.Modules.Email.Sender.Options;
-using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
@@ -22,16 +19,13 @@ public sealed class RegisterUserRequestHandler
 {
     private readonly IPasswordHasher _passwordHasher;
     private readonly IEmailSender _emailSender;
-    private readonly EmailSenderOptions _emailOptions;
 
     public RegisterUserRequestHandler(IUnitOfWork unitOfWork,
                                       IPasswordHasher passwordHasher,
-                                      IEmailSender emailSender,
-                                      IOptions<EmailSenderOptions> emailOptions) : base(unitOfWork)
+                                      IEmailSender emailSender) : base(unitOfWork)
     {
         _passwordHasher = passwordHasher;
         _emailSender = emailSender;
-        _emailOptions = emailOptions.Value;
     }
 
     public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
@@ -61,7 +55,7 @@ public sealed class RegisterUserRequestHandler
             Status = "Success. Verification code has been sent to your email"
         };
 
-        await _emailSender.SendVerificationCodeAsync(_emailOptions.From, request.Email, cancellationToken);
+        await _emailSender.SendVerificationCodeAsync(request.Email, cancellationToken);
 
         #region Default columns adding
         var defaultColumns = new List<TaskColumnEntity>()

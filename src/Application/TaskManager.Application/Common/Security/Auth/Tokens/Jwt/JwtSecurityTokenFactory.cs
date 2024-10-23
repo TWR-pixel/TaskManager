@@ -19,7 +19,7 @@ public sealed class JwtSecurityTokenFactory(IOptions<JwtAuthenticationOptions> a
     /// </summary>
     /// <param name="claims">claims for authentication</param>
     /// <returns>new JWT token</returns>
-    public JwtSecurityToken CreateSecurityToken(IEnumerable<Claim> claims)
+    public JwtSecurityToken Create(IEnumerable<Claim> claims)
     {
         if (claims == null || !claims.Any())
             throw new ArgumentNullException(nameof(claims));

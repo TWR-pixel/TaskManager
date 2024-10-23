@@ -10,7 +10,5 @@ public interface IJwtSecurityTokenFactory : ISecurityTokenFactory<JwtSecurityTok
     /// </summary>
     /// <param name="claims">claims for authentication</param>
     /// <returns>new JWT token</returns>
-    public JwtSecurityToken CreateSecurityToken(
-            IEnumerable<Claim> claims
-        );
+    public JwtSecurityToken Create(IEnumerable<Claim> claims);
 }

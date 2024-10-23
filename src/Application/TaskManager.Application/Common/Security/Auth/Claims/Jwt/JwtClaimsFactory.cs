@@ -4,7 +4,7 @@ namespace TaskManager.Application.Common.Security.Auth.Claims.Jwt;
 
 public sealed class JwtClaimsFactory : IClaimsFactory
 {
-    public IEnumerable<Claim> CreateDefault(int userId, int roleId, string username, string roleName)
+    public IEnumerable<Claim> Create(int userId, int roleId, string username, string roleName)
     {
         var claims = new List<Claim>()
         {

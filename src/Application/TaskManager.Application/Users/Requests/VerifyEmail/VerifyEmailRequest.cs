@@ -32,19 +32,26 @@ public sealed class VerifyEmailRequestHandler
 
     public override async Task<VerifyEmailResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
     {
-        var isCodeRight = _verifier.Verify(request.Code, out string email);
+        var isCodeCorrect = _verifier.Verify(request.Code, out string email);
 
-        if (!isCodeRight)
-            throw new CodeNotVerifiedException();
+        if (!isCodeCorrect)
+            throw new CodeNotVerifiedException("code not found, try resend it");
 
-        var verifiedUser = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpec(email), cancellationToken)
+        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpec(email), cancellationToken)
             ?? throw new UserNotFoundException(email);
 
-        var claims = _claimsFactory.CreateDefault(verifiedUser.Id, verifiedUser.Role.Id, verifiedUser.Username, verifiedUser.Role.Name);
+        if (user.IsEmailVerified)
+            throw new UserAlreadyVerifiedException(email);
+
+        var claims = _claimsFactory.Create(user.Id, user.Role.Id, user.Username, user.Role.Name);
+
+        user.IsEmailVerified = true; // make it in interceptor ef core
+
+        await UnitOfWork.Users.UpdateAsync(user, cancellationToken);
 
         var token = new JwtSecurityTokenHandler()
-            .WriteToken(_tokenFactory.CreateSecurityToken(claims));
+            .WriteToken(_tokenFactory.Create(claims));
 
-        return new VerifyEmailResponse(token, verifiedUser.Username, verifiedUser.Id, verifiedUser.Role.Name, verifiedUser.Role.Id);
+        return new VerifyEmailResponse(token, user.Username, user.Id, user.Role.Name, user.Role.Id);
     }
 }

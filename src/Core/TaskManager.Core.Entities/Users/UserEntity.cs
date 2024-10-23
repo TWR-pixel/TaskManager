@@ -26,7 +26,7 @@ public sealed class UserEntity : EntityBase
         Username = username;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
-        IsEmailConfirmed = isEmailConfirmed;
+        IsEmailVerified = isEmailConfirmed;
     }
 
     public UserEntity() { }
@@ -57,8 +57,8 @@ public sealed class UserEntity : EntityBase
     [Column("password_updated_at")]
     public DateTime PasswordUpdatedAt { get; set; } = DateTime.UtcNow;
 
-    [Column("is_email_confirmed")]
-    public bool IsEmailConfirmed { get; set; } = false;
+    [Column("is_email_verified")]
+    public bool IsEmailVerified { get; set; } = false;
 
     public IEnumerable<TaskColumnEntity>? TaskColumns { get; set; }
     public IEnumerable<UserTaskEntity>? Tasks { get; set; }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Users.Requests.Login;
 using TaskManager.Application.Users.Requests.Register;
-using TaskManager.Application.Users.Requests.ResendCode;
-using TaskManager.Application.Users.Requests.VerifyEmail;
 using TaskManager.PublicApi.Common.Models.Response;
 using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
@@ -45,26 +43,5 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
         return CreatedAtAction(nameof(RegisterUser), resp);
     }
 
-    [HttpPost("verify-email")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<VerifyEmailResponse>> VerifyEmail([FromBody] VerifyEmailRequest request,
-                                                                     CancellationToken cancellationToken)
-    {
-        var response = await Mediator.SendAsync(request, cancellationToken);
-
-        return Ok(response);
-    }
-
-    [HttpPost("resend-verification-code")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ResendCodeResponse>> ResendCode([FromBody] ResendCodeRequest request,
-                                                                   CancellationToken cancellationToken)
-    {
-        var response = await Mediator.SendAsync(request, cancellationToken);
-
-        return Ok(response);
-    }
     #endregion
 }

@@ -6,17 +6,17 @@ public sealed class CacheCodeStorage(IMemoryCache memoryCache) : ICodeStorage
 {
     private readonly IMemoryCache _memoryCache = memoryCache;
 
-    public void Set(string key, string value)
+    public void Set(string code, string email)
     {
         var options = new MemoryCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(7)
         };
 
-        _memoryCache.Set(key, value, options);
+        _memoryCache.Set(code, email, options);
     }
 
-    public bool TryGetValue(string key, out string? value) => _memoryCache.TryGetValue(key, out value);
+    public bool TryGetValue(string code, out string? email) => _memoryCache.TryGetValue(code, out email);
 
-    public void Remove(string key) => _memoryCache.Remove(key);
+    public void Remove(string code) => _memoryCache.Remove(code);
 }

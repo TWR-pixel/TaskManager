@@ -1,33 +1,35 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Net.Mail;
-using System.Security.Cryptography;
-using TaskManager.Application.Modules.Email.Code.Storage;
+using TaskManager.Application.Modules.Email.Message;
 using TaskManager.Application.Modules.Email.Sender.Options;
 
 namespace TaskManager.Application.Modules.Email.Sender;
 
-public sealed class EmailSender(IOptions<EmailSenderOptions> options, ICodeStorage codeStorage) : IEmailSender
+public sealed class EmailSender(IOptions<EmailSenderOptions> options,
+                                IVerificationMessageFactory verificationFactory,
+                                IRecoveryPasswordMessageFactory recoveryCodeFactory) : IEmailSender
 {
     public EmailSenderOptions Options { get; init; } = options.Value;
 
-    private readonly ICodeStorage _codeStorage = codeStorage;
+    private readonly IVerificationMessageFactory _verificationFactory = verificationFactory;
+    private readonly IRecoveryPasswordMessageFactory _recoveryCodeFactory = recoveryCodeFactory;
     private readonly SmtpClient _smtpClient = options.Value.SmtpClient;
 
-    public async Task SendMailAsync(MailMessage message, CancellationToken cancellationToken)
+    public async Task SendMailAsync(MailMessage message, CancellationToken cancellationToken = default)
     {
         await _smtpClient.SendMailAsync(message, cancellationToken);
     }
 
-    public async Task SendVerificationCodeAsync(string from, string to, CancellationToken cancellationToken)
+    public async Task SendVerificationCodeAsync(string to, CancellationToken cancellationToken = default)
     {
-        var verificationCode = RandomNumberGenerator.GetHexString(20, false);
+        var msg = _verificationFactory.Create(to);
 
-        _codeStorage.Set(verificationCode, to);
+        await SendMailAsync(msg, cancellationToken);
+    }
 
-        var msg = new MailMessage(from, to, "Email verification", $"Verification code <h2>{verificationCode}</h2>")
-        {
-            IsBodyHtml = true
-        };
+    public async Task SendRecoveryCodeAsync(string to, CancellationToken cancellationToken = default)
+    {
+        var msg = _recoveryCodeFactory.Create(to);
 
         await SendMailAsync(msg, cancellationToken);
     }

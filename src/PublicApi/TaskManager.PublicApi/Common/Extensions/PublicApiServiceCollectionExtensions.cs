@@ -5,7 +5,7 @@ namespace TaskManager.PublicApi.Common.Extensions;
 
 public static class PublicApiServiceCollectionExtensions
 {
-    public static IServiceCollection AddPublicApiServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPublicApi(this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddTransient<HandleExceptionsMiddleware>()

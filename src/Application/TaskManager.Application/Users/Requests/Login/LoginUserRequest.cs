@@ -2,6 +2,7 @@
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Auth.Claims;
 using TaskManager.Application.Common.Security.Auth.Tokens;
+using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
@@ -23,35 +24,41 @@ public sealed class LoginUserRequestHandler :
 {
     private readonly IJwtSecurityTokenFactory _jwtSecurityTokenFactory;
     private readonly IClaimsFactory _claimsFactory;
+    private readonly IPasswordHasher _hasher;
 
     public LoginUserRequestHandler(IJwtSecurityTokenFactory jwtSecurityTokenFactory,
                                           IUnitOfWork unitOfWork,
-                                          IClaimsFactory claimsFactory) : base(unitOfWork)
+                                          IClaimsFactory claimsFactory,
+                                          IPasswordHasher hasher) : base(unitOfWork)
     {
         _jwtSecurityTokenFactory = jwtSecurityTokenFactory;
         _claimsFactory = claimsFactory;
+        _hasher = hasher;
     }
 
     public override async Task<LoginUserResponse> Handle(LoginUserRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpec(request.EmailLogin), cancellationToken)
+        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpec(request.EmailLogin), cancellationToken)
                           ?? throw new UserNotFoundException(request.EmailLogin); // get refresh token from db
-        
-        if (!queryResult.IsEmailConfirmed)
-            throw new EmailNotConfirmedException($"User with email '{request.EmailLogin}' didn't confirmed email.");
-        
-        var claims = _claimsFactory.CreateDefault(queryResult.Id,
-                                                  queryResult.Role.Id,
-                                                  queryResult.Username,
-                                                  queryResult.Role.Name);
 
-        var token = _jwtSecurityTokenFactory.CreateSecurityToken(claims);
+        if (!user.IsEmailVerified)
+            throw new EmailNotVerifiedException($"User with email '{request.EmailLogin}' didn't confirmed email.");
+
+        if (!_hasher.Verify(request.Password, user.PasswordHash))
+            throw new NotRightPasswordException(request.Password);
+
+        var claims = _claimsFactory.Create(user.Id,
+                                                  user.Role.Id,
+                                                  user.Username,
+                                                  user.Role.Name);
+
+        var token = _jwtSecurityTokenFactory.Create(claims);
 
         var response = new LoginUserResponse(new JwtSecurityTokenHandler().WriteToken(token),
-                                                    queryResult.Id,
-                                                    queryResult.Username,
-                                                    queryResult.Role.Id,
-                                                    queryResult.Role.Name);
+                                                    user.Id,
+                                                    user.Username,
+                                                    user.Role.Id,
+                                                    user.Role.Name);
 
         return response;
     }

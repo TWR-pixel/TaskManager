@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Application.Modules.Email.Code.Storage;
+using TaskManager.Application.Modules.Email.Message;
 using TaskManager.Application.Modules.Email.Sender;
 using TaskManager.Application.Modules.Email.Verifier;
 
@@ -13,6 +14,8 @@ public static class EmailVerificationServiceCollectionExtensions
         services.AddScoped<IEmailSender, EmailSender>();
 
         services.AddScoped<ICodeStorage, CacheCodeStorage>();
+        services.AddScoped<IVerificationMessageFactory, VerificationMessageFactory>();
+        services.AddScoped<IRecoveryPasswordMessageFactory, RecoveryPasswordMessageFactory>();
         
         return services;
     }

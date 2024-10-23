@@ -30,7 +30,6 @@ public static class EnvironmentWrapper
         if (string.IsNullOrWhiteSpace(variable))
             throw new NullReferenceException($"Environment variable '{name}' not found, or it is empty");
 
-
         return variable;
     }
 }

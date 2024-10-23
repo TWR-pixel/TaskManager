@@ -5,7 +5,7 @@ namespace TaskManager.Application.Common.Extensions;
 
 public static class ApplicationServicesCollectionExtensions
 {
-    public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services
             .AddEmailVerification()

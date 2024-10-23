@@ -70,9 +70,5 @@ public sealed class TaskColumnController(IMediatorWrapper mediator) : ApiControl
         return Ok(result);
     }
 
-    //[HttpPut]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //[ProducesResponseType(StatusCodes.Status404NotFound)]
-    //public async Task<ActionResult<UpdateTaskColumnByIdResponse>> 
     #endregion
 }
