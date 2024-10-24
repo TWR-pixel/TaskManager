@@ -1,20 +1,46 @@
 # TaskManager
 
-this is API for https://github.com/MFGod/task-manager?tab=readme-ov-file
+This repo is API for https://github.com/MFGod/task-manager.git
 
-# Project installation
+## Building
 
-Copy this commands to run project of API (TaskManager.PublicApi.csproj)
-```
-cd src/PublicApi/TaskManager.PublicApi
+### Source code
 
-dotnet build & dotnet run
-```
+To run project clone the repository:
 
-# How to build server
+```bash
+git clone https://github.com/TWR-pixel/TaskManager.git
 
-Copy this command to raise the nginx server with api
-```
-docker-compose up
+cd TaskManager
 ```
 
+Then set environment variables:
+
+```bash
+set JWT_SECRET_KEY=DEFAULT_VALUE
+set EMAIL_SENDER_API_KEY=<INSERT_YOUR_API_KEY>
+```
+
+Then run:
+
+```bash
+dotnet restore TaskManager.sln
+```
+
+Then build all projects:
+
+```bash
+dotnet build TaskManager.sln
+```
+
+To run API project:
+
+```bash
+dotnet run --project src/PublicApi/TaskManager.PublicApi/TaskManager.PublicApi.csproj
+```
+
+### Docker
+
+```bash
+docker compose-up
+```
