@@ -7,9 +7,6 @@ using TaskManager.Infastructure.Sqlite.Common.Extensions;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
 using Serilog.Context;
-using System.Net.Http.Headers;
-using System.Text;
-using TaskManager.PublicApi.Common.Wrappers;
 
 var builder = WebApplication.CreateBuilder(args);
 

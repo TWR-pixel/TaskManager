@@ -1,7 +1,8 @@
-﻿using System.Net.Mail;
-using System.Net;
-using TaskManager.PublicApi.Common.Wrappers;
+﻿using TaskManager.PublicApi.Common.Wrappers;
 using TaskManager.Application.Modules.Email.Options;
+using MailKit.Net.Smtp;
+using System.Threading;
+using Microsoft.Extensions.Options;
 
 namespace TaskManager.PublicApi.Common.Extensions;
 
@@ -19,6 +20,12 @@ public static class EmailSenderServiceCollectionExtensions
         var smtpHost = configuration["EmailSenderOptions:Host"]!;
 
         var smtpPort = configuration.GetValue<int>("EmailSenderOptions:Port");
+        var client = new SmtpClient();
+
+        client.Connect(smtpHost, smtpPort, true);
+        client.Authenticate(emailFrom, emailApiKey);
+
+       // client.Verify(emailFrom);
 
         services.Configure<EmailSenderOptions>(options =>
         {
@@ -26,13 +33,7 @@ public static class EmailSenderServiceCollectionExtensions
             options.Host = smtpHost;
             options.Port = smtpPort;
             options.Password = emailApiKey;
-            options.SmtpClient = new SmtpClient(smtpHost, smtpPort)
-            {
-                UseDefaultCredentials = false,
-                EnableSsl = true,
-                Credentials = new NetworkCredential(emailFrom, emailApiKey),
-                DeliveryMethod = SmtpDeliveryMethod.Network
-            };
+            options.SmtpClient = client;
         });
 
         return services;

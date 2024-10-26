@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿
+using MailKit.Net.Smtp;
 
 namespace TaskManager.Application.Modules.Email.Options;
 
