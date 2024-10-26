@@ -69,13 +69,13 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-app.Use(async (ctx, next) =>
-{
-    using (LogContext.PushProperty("IPAddress", ctx.Connection.RemoteIpAddress))
-    {
-        await next(ctx);
-    }
-});
+//app.Use(async (ctx, next) =>
+//{
+//    using (LogContext.PushProperty("IPAddress", ctx.Connection.RemoteIpAddress))
+//    {
+//        await next(ctx);
+//    }
+//});
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 

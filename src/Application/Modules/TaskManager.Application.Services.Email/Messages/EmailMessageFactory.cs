@@ -19,7 +19,7 @@ public sealed class EmailMessageFactory(IOptions<EmailSenderOptions> Options,
         var msg = new MimeMessage();
 
         msg.From.Add(new MailboxAddress("Administration task-manager", options.From));
-        msg.To.Add(new MailboxAddress("", to));
+        msg.To.Add(new MailboxAddress(to, to));
         msg.Subject = subject;
         msg.Body = new TextPart(MimeKit.Text.TextFormat.Html)
         {

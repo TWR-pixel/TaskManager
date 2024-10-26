@@ -8,12 +8,7 @@ public sealed class CacheCodeStorage(IMemoryCache memoryCache) : ICodeStorage
 
     public void Set(string code, string email)
     {
-        var options = new MemoryCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(7)
-        };
-
-        _memoryCache.Set(code, email, options);
+        _memoryCache.Set(code, email);
     }
 
     public bool TryGetValue(string code, out string? email) => _memoryCache.TryGetValue(code, out email);

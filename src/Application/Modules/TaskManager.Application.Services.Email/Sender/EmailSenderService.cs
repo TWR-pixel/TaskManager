@@ -23,7 +23,7 @@ public sealed class EmailSenderService(IOptions<EmailSenderOptions> options,
 
     public async Task SendRecoveryCodeAsync(string to, CancellationToken cancellationToken)
     {
-        var msg = new SendRecoveryCodeEmailMessageCommand(options, to, messageFactory);
+        var msg = new SendRecoveryCodeEmailMessageCommand(options, to, messageFactory, logger);
 
         await SendAsync(msg, cancellationToken);
     }
