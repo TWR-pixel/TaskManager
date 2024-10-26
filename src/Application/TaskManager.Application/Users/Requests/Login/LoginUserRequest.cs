@@ -38,7 +38,7 @@ public sealed class LoginUserRequestHandler :
 
     public override async Task<LoginUserResponse> Handle(LoginUserRequest request, CancellationToken cancellationToken)
     {
-        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpec(request.EmailLogin), cancellationToken)
+        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(request.EmailLogin), cancellationToken)
                           ?? throw new UserNotFoundException(request.EmailLogin); // get refresh token from db
 
         if (!user.IsEmailVerified)
@@ -47,10 +47,11 @@ public sealed class LoginUserRequestHandler :
         if (!_hasher.Verify(request.Password, user.PasswordHash))
             throw new NotRightPasswordException(request.Password);
 
+
         var claims = _claimsFactory.Create(user.Id,
-                                                  user.Role.Id,
-                                                  user.Username,
-                                                  user.Role.Name);
+                                           user.Role.Id,
+                                           user.Username,
+                                           user.Role.Name);
 
         var token = _jwtSecurityTokenFactory.Create(claims);
 

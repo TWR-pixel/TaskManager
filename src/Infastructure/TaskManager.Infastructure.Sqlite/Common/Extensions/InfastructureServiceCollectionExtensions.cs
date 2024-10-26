@@ -11,7 +11,7 @@ namespace TaskManager.Infastructure.Sqlite.Common.Extensions;
 
 public static class InfastructureServiceCollectionExtensions
 {
-    public static IServiceCollection AppInfastructure(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddInfastructure(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<TaskManagerDbContext>(d => d.UseSqlite(connectionString));
 

@@ -2,7 +2,7 @@
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Security.Auth.Claims;
 using TaskManager.Application.Common.Security.Auth.Tokens;
-using TaskManager.Application.Modules.Email.Verifier;
+using TaskManager.Application.Modules.Email.Code.Verifier;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
@@ -37,7 +37,7 @@ public sealed class VerifyEmailRequestHandler
         if (!isCodeCorrect)
             throw new CodeNotVerifiedException("code not found, try resend it");
 
-        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadUserByEmailSpec(email), cancellationToken)
+        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(email), cancellationToken)
             ?? throw new UserNotFoundException(email);
 
         if (user.IsEmailVerified)

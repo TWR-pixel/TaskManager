@@ -40,7 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj" />
-    <ProjectReference Include="..\Services\TaskManager.Application.Services.Email\TaskManager.Application.Modules.Email.csproj" />
+    <ProjectReference Include="..\Modules\TaskManager.Application.Services.Email\TaskManager.Application.Modules.Email.csproj" />
   </ItemGroup>
 
 </Project>

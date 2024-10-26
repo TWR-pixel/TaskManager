@@ -10,7 +10,7 @@ public static class ApplicationServicesCollectionExtensions
         services
             .AddEmailVerification()
             .AddSecurity()
-            .AddMediator();
+            .AddMediatR();
 
         return services;
     }

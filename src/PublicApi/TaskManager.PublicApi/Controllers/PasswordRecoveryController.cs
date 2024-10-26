@@ -6,10 +6,10 @@ using TaskManager.PublicApi.Common.Wrappers.Mediator;
 namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
-[Route("api/access-restoration")]
-public sealed class AccessRestorationController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
+[Route("api/password-recovery")]
+public sealed class PasswordRecoveryController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
-    [HttpPost("send-recovery-code")]
+    [HttpPost("send-code")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<SendPasswordRecoveryCodeResponse>> SendRecoveryCode([FromBody] SendPasswordRecoveryCodeRequest request,
                                                                                    CancellationToken cancellationToken)
@@ -19,9 +19,10 @@ public sealed class AccessRestorationController(IMediatorWrapper mediator) : Api
         return Ok(response);
     }
 
-    [HttpPost("verify-recovery-code")]
+    [HttpPost("verify-code")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<RecoverPasswordResponse>> RecoverPassword([FromBody] RecoverPasswordRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<RecoverPasswordResponse>> VerifyCode([FromBody] VerifyPasswordRecoveryCodeRequest request,
+                                                                        CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
 

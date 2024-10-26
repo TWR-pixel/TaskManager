@@ -1,7 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Net;
-using TaskManager.Application.Modules.Email.Sender.Options;
 using TaskManager.PublicApi.Common.Wrappers;
+using TaskManager.Application.Modules.Email.Options;
 
 namespace TaskManager.PublicApi.Common.Extensions;
 
@@ -28,9 +28,11 @@ public static class EmailSenderServiceCollectionExtensions
             options.Password = emailApiKey;
             options.SmtpClient = new SmtpClient(smtpHost, smtpPort)
             {
+                UseDefaultCredentials = false,
                 EnableSsl = true,
                 Credentials = new NetworkCredential(emailFrom, emailApiKey),
-            };  
+                DeliveryMethod = SmtpDeliveryMethod.Network
+            };
         });
 
         return services;

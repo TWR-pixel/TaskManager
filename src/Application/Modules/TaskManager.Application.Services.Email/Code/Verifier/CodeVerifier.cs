@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Modules.Email.Code.Storage;
 
-namespace TaskManager.Application.Modules.Email.Verifier;
+namespace TaskManager.Application.Modules.Email.Code.Verifier;
 
 public sealed class CodeVerifier(ICodeStorage storage) : ICodeVerifier
 {

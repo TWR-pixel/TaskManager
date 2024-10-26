@@ -18,11 +18,11 @@ public sealed class RegisterUserRequestHandler
     : RequestHandlerBase<RegisterUserRequest, RegisterUserResponse>
 {
     private readonly IPasswordHasher _passwordHasher;
-    private readonly IEmailSender _emailSender;
+    private readonly IEmailSenderService _emailSender;
 
     public RegisterUserRequestHandler(IUnitOfWork unitOfWork,
                                       IPasswordHasher passwordHasher,
-                                      IEmailSender emailSender) : base(unitOfWork)
+                                      IEmailSenderService emailSender) : base(unitOfWork)
     {
         _passwordHasher = passwordHasher;
         _emailSender = emailSender;
@@ -31,7 +31,7 @@ public sealed class RegisterUserRequestHandler
     public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
     {
         var user = await UnitOfWork.Users
-            .SingleOrDefaultAsync(new ReadUserByEmailSpec(request.Email), cancellationToken);
+            .SingleOrDefaultAsync(new GetUserByEmailSpec(request.Email), cancellationToken);
 
         if (user != null)
             throw new UserAlreadyExistsException(request.Email);

@@ -38,9 +38,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
 
-        var resp = response;
-
-        return CreatedAtAction(nameof(RegisterUser), resp);
+        return CreatedAtAction(nameof(RegisterUser), response);
     }
 
     #endregion

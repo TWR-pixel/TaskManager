@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Application.Modules.Email.Verifier;
+﻿namespace TaskManager.Application.Modules.Email.Code.Verifier;
 
 public interface ICodeVerifier
 {
