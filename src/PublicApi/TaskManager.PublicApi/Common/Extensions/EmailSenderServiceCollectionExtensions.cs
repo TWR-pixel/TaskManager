@@ -20,12 +20,6 @@ public static class EmailSenderServiceCollectionExtensions
         var smtpHost = configuration["EmailSenderOptions:Host"]!;
 
         var smtpPort = configuration.GetValue<int>("EmailSenderOptions:Port");
-        var client = new SmtpClient();
-
-        client.Connect(smtpHost, smtpPort, true);
-        client.Authenticate(emailFrom, emailApiKey);
-
-       // client.Verify(emailFrom);
 
         services.Configure<EmailSenderOptions>(options =>
         {
@@ -33,7 +27,7 @@ public static class EmailSenderServiceCollectionExtensions
             options.Host = smtpHost;
             options.Port = smtpPort;
             options.Password = emailApiKey;
-            options.SmtpClient = client;
+            options.SmtpClient = new SmtpClient();
         });
 
         return services;

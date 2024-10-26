@@ -8,7 +8,6 @@ using TaskManager.Application.Modules.Email.Sender.Commands;
 namespace TaskManager.Application.Modules.Email.Sender;
 
 public sealed class EmailSenderService(IOptions<EmailSenderOptions> options,
-                                       ICodeStorage storage,
                                        ILogger<EmailSenderService> logger,
                                        IMailMessageFactory messageFactory) : IEmailSenderService
 {
@@ -17,14 +16,14 @@ public sealed class EmailSenderService(IOptions<EmailSenderOptions> options,
 
     public async Task SendVerificationCodeAsync(string to, CancellationToken cancellationToken)
     {
-        var msg = new SendVerificationEmailMessageCommand(options, to, storage, logger , messageFactory);
-        
+        var msg = new SendVerificationEmailMessageCommand(options, to, logger, messageFactory);
+
         await SendAsync(msg, cancellationToken);
     }
 
     public async Task SendRecoveryCodeAsync(string to, CancellationToken cancellationToken)
     {
-        var msg = new SendRecoveryCodeEmailMessageCommand(options, storage, to, messageFactory);
+        var msg = new SendRecoveryCodeEmailMessageCommand(options, to, messageFactory);
 
         await SendAsync(msg, cancellationToken);
     }

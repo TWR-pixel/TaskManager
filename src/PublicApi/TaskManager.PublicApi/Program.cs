@@ -10,64 +10,6 @@ using Serilog.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var client = new HttpClient
-//{
-//    BaseAddress = new Uri("https://go2.unisender.ru/ru/transactional/api/v1/")
-//};
-
-//var apiKey = EnvironmentWrapper.GetEnvironmentVariable("EMAIL_SENDER_API_KEY");
-
-//client.DefaultRequestHeaders.Add("X-API-KEY", apiKey);
-//client.DefaultRequestHeaders.Accept.Add(
-//  new MediaTypeWithQualityHeaderValue("application/json"));
-
-////string requestBody = "{"
-////                     + "  \"message\": {"
-////                     + "    \"recipients\": ["
-////                     + "      {"
-////                     + "        \"email\": \"user@example.com\","
-////                     + "        \"substitutions\": {"
-////                     + "          \"CustomerId\": 12452,"
-////                     + "          \"to_name\": \"John Smith\""
-////                     + "        }"
-////                     + "      }"
-////                     + "    ],"
-////                     + "    \"from_name\": \"John Smith\","
-////                     + "    \"reply_to\": \"sena85088@gmail.com\","
-////                     + "    \"reply_to_name\": \"John Smith\","
-////                     + "  }"
-////                     + "}";
-
-//string requestBody = "{"
-//    + "  \"message\": {"
-//    + "    \"recipients\": ["
-//    + "      {"
-//    + "        \"email\": \"sena85088@gmail.com\""
-//    + "      }"
-//    + "    ],"
-//    + "    \"body\": {"
-//    + "      \"html\": \"<b>Hello, regerge</b>\""
-//    + "    },"
-//    + "    \"subject\": \"string\""
-//    + "  }"
-//    + "}";
-
-
-//var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
-
-//var response = client.PostAsync("email/send.json", content).Result;
-//var responseBody = response.Content.ReadAsStringAsync().Result;
-//if (response.IsSuccessStatusCode)
-//{
-//    Console.WriteLine(responseBody);
-//}
-//else
-//{
-//    Console.WriteLine(String.Format("Request failed (HTTP {0}): {1}",
-//      (int)response.StatusCode, responseBody));
-//}
-
-
 builder.Logging.ClearProviders(); // clear default asp .net core logging
 
 var logger = new LoggerConfiguration()

@@ -66,7 +66,7 @@ public sealed class HandleExceptionsMiddleware(ILogger<HandleExceptionsMiddlewar
 
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-            await context.Response.WriteAsJsonAsync(codeNotVerifiedEx);
+            await context.Response.WriteAsJsonAsync(notRightCode);
         }
         catch (Exception ex)
         {
