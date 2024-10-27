@@ -24,7 +24,7 @@ public sealed class SendPasswordRecoveryCodeRequestHandler : RequestHandlerBase<
         _ = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(request.Email), cancellationToken)
             ?? throw new UserNotFoundException(request.Email);
 
-        await _emailSender.SendRecoveryCodeAsync(request.Email, cancellationToken);
+        await _emailSender.SendRecoveryPasswordMessageAsync(request.Email, cancellationToken);
 
         return new SendPasswordRecoveryCodeResponse();
     }

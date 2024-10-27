@@ -1,10 +1,8 @@
-﻿using TaskManager.Application.Modules.Email.Sender.Commands;
-
-namespace TaskManager.Application.Modules.Email.Sender;
+﻿namespace TaskManager.Application.Modules.Email.Sender;
 
 public interface IEmailSenderService
 {
-    public Task SendAsync(ISendEmailMessageCommand message, CancellationToken cancellationToken);
-    public Task SendRecoveryCodeAsync(string to, CancellationToken cancellationToken);
-    public Task SendVerificationCodeAsync(string to, CancellationToken cancellationToken);
+    public Task SendCodeAsync(string to, string subject, string body, CancellationToken cancellationToken);
+    public Task SendRecoveryPasswordMessageAsync(string to, CancellationToken cancellationToken);
+    public Task SendVerificationMessageAsync(string to, CancellationToken cancellationToken);
 }

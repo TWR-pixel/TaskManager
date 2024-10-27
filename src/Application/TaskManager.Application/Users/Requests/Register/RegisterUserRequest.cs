@@ -55,7 +55,7 @@ public sealed class RegisterUserRequestHandler
             Status = "Success. Verification code has been sent to your email"
         };
 
-        await _emailSender.SendVerificationCodeAsync(request.Email, cancellationToken);
+        await _emailSender.SendVerificationMessageAsync(request.Email, cancellationToken);
 
         #region Default columns adding
         var defaultColumns = new List<TaskColumnEntity>()

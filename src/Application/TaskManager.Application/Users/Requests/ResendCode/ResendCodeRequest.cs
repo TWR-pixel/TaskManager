@@ -22,7 +22,7 @@ public sealed class ResendCodeRequestHandler(IUnitOfWork unitOfWork, IEmailSende
         if (user.IsEmailVerified)
             throw new UserAlreadyVerifiedException();
 
-        await _emailSender.SendVerificationCodeAsync(request.Email, cancellationToken);
+        await _emailSender.SendVerificationMessageAsync(request.Email, cancellationToken);
 
         var response = new ResendCodeResponse() { Status = "Success. The Code has been resent to your email" };
 

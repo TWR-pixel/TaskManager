@@ -1,30 +1,57 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MimeKit;
+using System.Security.Cryptography;
 using TaskManager.Application.Modules.Email.Code.Storage;
-using TaskManager.Application.Modules.Email.Messages;
 using TaskManager.Application.Modules.Email.Options;
-using TaskManager.Application.Modules.Email.Sender.Commands;
 
 namespace TaskManager.Application.Modules.Email.Sender;
 
 public sealed class EmailSenderService(IOptions<EmailSenderOptions> options,
                                        ILogger<EmailSenderService> logger,
-                                       IMailMessageFactory messageFactory) : IEmailSenderService
+                                       ICodeStorage codeStorage) : IEmailSenderService
 {
-    public async Task SendAsync(ISendEmailMessageCommand message, CancellationToken cancellationToken)
-        => await message.SendAsync(cancellationToken);
+    private readonly EmailSenderOptions _options = options.Value;
+    private readonly SmtpClient _client = options.Value.SmtpClient;
 
-    public async Task SendVerificationCodeAsync(string to, CancellationToken cancellationToken)
+    public async Task SendCodeAsync(string to, string subject, string body, CancellationToken cancellationToken)
     {
-        var msg = new SendVerificationEmailMessageCommand(options, to, logger, messageFactory);
+        var code = RandomNumberGenerator.GetHexString(20);
 
-        await SendAsync(msg, cancellationToken);
+        codeStorage.Set(code, to);
+
+        using var msg = new MimeMessage();
+
+        msg.From.Add(new MailboxAddress("Administration task-manager", _options.From));
+        msg.To.Add(new MailboxAddress(to, to));
+        msg.Subject = subject;
+        msg.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+        {
+            Text = $"<h1>{code}</h1> <br> {body}"
+        };
+
+        logger.LogInformation("Message was successfully created");
+
+        logger.LogInformation("Message has started sending from {From} to {To}", _options.From, to);
+
+        _client.Connect(_options.Host, _options.Port, true, cancellationToken);
+        _client.Authenticate(_options.From, _options.Password, cancellationToken);
+
+        await _client.SendAsync(msg, cancellationToken);
+
+        logger.LogInformation("Message was sent successfully!");
+
+        await _client.DisconnectAsync(true, cancellationToken);
     }
 
-    public async Task SendRecoveryCodeAsync(string to, CancellationToken cancellationToken)
+    public async Task SendVerificationMessageAsync(string to, CancellationToken cancellationToken)
     {
-        var msg = new SendRecoveryCodeEmailMessageCommand(options, to, messageFactory, logger);
+        await SendCodeAsync(to, "Verification code", "Use this code to confirm email address", cancellationToken);
+    }
 
-        await SendAsync(msg, cancellationToken);
+    public async Task SendRecoveryPasswordMessageAsync(string to, CancellationToken cancellationToken)
+    {
+        await SendCodeAsync(to, "Password recovery code", "If you didn't asked recovery password, ignore it", cancellationToken);
     }
 }
