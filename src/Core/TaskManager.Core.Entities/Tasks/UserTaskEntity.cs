@@ -1,4 +1,5 @@
-﻿using TaskManager.Core.Entities.Common.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using TaskManager.Core.Entities.Common.Entities;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
 
@@ -37,4 +38,5 @@ public sealed class UserTaskEntity : EntityBase
 
     public required UserEntity Owner { get; set; }
     public required TaskColumnEntity TaskColumn { get; set; }
+
 }

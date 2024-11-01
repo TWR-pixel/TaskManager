@@ -5,7 +5,7 @@ namespace TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByI
 public sealed record UserTaskColumnsResponse
 {
     [SetsRequiredMembers]
-    public UserTaskColumnsResponse(int id, string title, string content, IEnumerable<UserTaskResponse>? tasks)
+    public UserTaskColumnsResponse(int id, string title, string content, IEnumerable<UserTaskResponse>? tasks, int sequence)
     {
         Id = id;
         Title = title;

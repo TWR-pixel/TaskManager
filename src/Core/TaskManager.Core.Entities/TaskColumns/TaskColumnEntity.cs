@@ -17,7 +17,7 @@ public sealed class TaskColumnEntity : EntityBase
 
     public TaskColumnEntity()
     {
-        
+
     }
 
     public required string Title { get; set; }

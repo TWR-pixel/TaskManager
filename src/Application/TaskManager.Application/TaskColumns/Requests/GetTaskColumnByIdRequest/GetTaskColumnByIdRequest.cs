@@ -11,7 +11,7 @@ namespace TaskManager.Application.TaskColumns.Requests.GetTaskColumnByIdRequest;
 /// Returns all tasks in column
 /// </summary>
 /// <param name="TaskColumnId"></param>
-public sealed record GetTaskColumnByIdRequest(int TaskColumnId) : RequestBase<GetTaskColumnByIdResponse>;
+public sealed record GetTaskColumnByIdRequest(int TaskColumnId) : RequestBase<UserTaskColumnDto>;
 
 public sealed record GetTaskColumnByIdResponse(int TaskColumnId,
                                                string Title,
@@ -42,9 +42,9 @@ public sealed record GetTaskColumnByIdResponse(int TaskColumnId,
 }
 
 public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
-    : RequestHandlerBase<GetTaskColumnByIdRequest, GetTaskColumnByIdResponse>(unitOfWork)
+    : RequestHandlerBase<GetTaskColumnByIdRequest, UserTaskColumnDto>(unitOfWork)
 {
-    public override async Task<GetTaskColumnByIdResponse> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
+    public override async Task<UserTaskColumnDto> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.UserTaskColumns
             .SingleOrDefaultAsync(new GetTaskColumnsByIdWithTasksSpecification(request.TaskColumnId), cancellationToken)
@@ -52,16 +52,7 @@ public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
 
         queryResult.TasksInColumn ??= [];
 
-        var response = new GetTaskColumnByIdResponse
-        (
-            queryResult.Id,
-            queryResult.Title,
-            queryResult.Description,
-            queryResult.TasksInColumn.Select(static t =>
-            {
-                return new UserTasksColumnResponse(t.IsCompleted, t.IsInProgress, t.Title, t.Description, t.ComplitedAt);
-            })
-        );
+        var response = queryResult.ToResponse();
 
         return response;
     }

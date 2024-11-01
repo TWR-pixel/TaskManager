@@ -2,6 +2,7 @@
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Common.UnitOfWorks;
 using TaskManager.Core.Entities.TaskColumns;
+using TaskManager.Core.UseCases.TaskColumns.Specifications;
 
 namespace TaskManager.Application.TaskColumns.Requests.CreateTaskColumnRequest;
 
@@ -11,7 +12,7 @@ namespace TaskManager.Application.TaskColumns.Requests.CreateTaskColumnRequest;
 /// <param name="UserId"></param>
 /// <param name="Title"></param
 /// <param name="Description"></param>
-public sealed record CreateTaskColumnRequest(int UserId, string Title, string? Description) : RequestBase<CreateTaskColumnResponse>;
+public sealed record CreateTaskColumnRequest(int UserId, string Title, string? Description) : RequestBase<UserTaskColumnDto>;
 
 /// <summary>
 /// Response for user
@@ -22,19 +23,18 @@ public sealed record CreateTaskColumnRequest(int UserId, string Title, string? D
 public sealed record CreateTaskColumnResponse(int Id, string Title, string? Description) : ResponseBase;
 
 public sealed class CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork)
-    : RequestHandlerBase<CreateTaskColumnRequest, CreateTaskColumnResponse>(unitOfWork)
+    : RequestHandlerBase<CreateTaskColumnRequest, UserTaskColumnDto>(unitOfWork)
 {
-    public override async Task<CreateTaskColumnResponse> Handle(CreateTaskColumnRequest request, CancellationToken cancellationToken)
+    public override async Task<UserTaskColumnDto> Handle(CreateTaskColumnRequest request, CancellationToken cancellationToken)
     {
         var userEntity = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
             ?? throw new EntityNotFoundException($"User with id '{request.UserId}' not found");
 
-        var entity = new TaskColumnEntity(userEntity, request.Title, request.Description);
+        var taskColumnEntity = new TaskColumnEntity(userEntity, request.Title, request.Description);
 
-        var queryResult = await UnitOfWork.UserTaskColumns.AddAsync(entity, cancellationToken);
-        await UnitOfWork.SaveChangesAsync(cancellationToken);
+        var queryResult = await UnitOfWork.UserTaskColumns.AddAsync(taskColumnEntity, cancellationToken);
 
-        var response = new CreateTaskColumnResponse(queryResult.Id, queryResult.Title, queryResult.Description);
+        var response = queryResult.ToResponse();
 
         return response;
     }

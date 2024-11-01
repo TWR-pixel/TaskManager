@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using TaskManager.Application.Common.Extensions;
 using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.JwtTokens;
 using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.Options;
@@ -27,7 +31,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<HandleExceptionsMiddleware>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(o =>
+{
+    
+});
 builder.Services.AddCors();
 
 #region swaggerGen configuration

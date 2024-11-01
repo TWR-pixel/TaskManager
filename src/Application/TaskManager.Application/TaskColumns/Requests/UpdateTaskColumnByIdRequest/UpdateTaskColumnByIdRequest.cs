@@ -6,17 +6,17 @@ using TaskManager.Core.Entities.Common.UnitOfWorks;
 namespace TaskManager.Application.TaskColumns.Requests.UpdateTaskColumnByIdRequest;
 
 public sealed record UpdateTaskColumnByIdRequest(int TaskColumnId, int? UserId, string? Title, string? Description)
-    : RequestBase<UpdateTaskColumnByIdResponse>;
+    : RequestBase<UserTaskColumnDto>;
 public sealed record UpdateTaskColumnByIdResponse(int TaskColumnId, int? UserId, string? Title, string? Description)
     : ResponseBase;
 
-public sealed class UpdateTaskColumnByIdRequestHandler : RequestHandlerBase<UpdateTaskColumnByIdRequest, UpdateTaskColumnByIdResponse>
+public sealed class UpdateTaskColumnByIdRequestHandler : RequestHandlerBase<UpdateTaskColumnByIdRequest, UserTaskColumnDto>
 {
     public UpdateTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
 
-    public override async Task<UpdateTaskColumnByIdResponse> Handle(UpdateTaskColumnByIdRequest request, CancellationToken cancellationToken)
+    public override async Task<UserTaskColumnDto> Handle(UpdateTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
         var taskColumnQueryResult = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.TaskColumnId, cancellationToken)
             ?? throw new EntityNotFoundException($"Task column with id '{request.TaskColumnId}' not found");
@@ -31,7 +31,7 @@ public sealed class UpdateTaskColumnByIdRequestHandler : RequestHandlerBase<Upda
             taskColumnQueryResult.Owner = userQueryResult;
         }
 
-        var response = new UpdateTaskColumnByIdResponse(taskColumnQueryResult.Id, taskColumnQueryResult.Owner.Id, taskColumnQueryResult.Title, taskColumnQueryResult.Description);
+        var response = taskColumnQueryResult.ToResponse();
 
         await UnitOfWork.UserTaskColumns.UpdateAsync(taskColumnQueryResult, cancellationToken);
 

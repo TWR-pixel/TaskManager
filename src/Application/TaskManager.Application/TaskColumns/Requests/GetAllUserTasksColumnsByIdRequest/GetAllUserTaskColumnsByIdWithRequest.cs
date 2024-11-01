@@ -26,20 +26,7 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
         var response = new GetAllUserTaskColumnsByIdWithTasksResponse
         {
             Username = queryResult.Username,
-
-            TaskColumns = queryResult.TaskColumns.Select(u => // select not right, maybe create domain model with this
-                new UserTaskColumnsResponse(u.Id,
-                                             u.Title,
-                                             u.Description ?? "Empty", // if null return 'Empty'
-                                             u.TasksInColumn?.Select(t => new UserTaskResponse(t.Title,
-                                                                                               t.Description,
-                                                                                               t.IsInProgress,
-                                                                                               t.IsCompleted,
-                                                                                               t.CreatedAt,
-                                                                                               t.ComplitedAt,
-                                                                                               t.Id)
-                                             )
-                ))
+            TaskColumns = queryResult.TaskColumns.ToResponses(),
         };
 
         return response;

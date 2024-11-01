@@ -10,7 +10,7 @@ namespace TaskManager.Application.Common.Requests;
 /// <typeparam name="TResponse"></typeparam>
 public abstract class RequestHandlerBase<TRequest, TResponse>(IUnitOfWork unitOfWork) : IRequestHandler<TRequest, TResponse>
     where TRequest : RequestBase<TResponse>
-    where TResponse : ResponseBase
+    where TResponse : class
 {
     protected readonly IUnitOfWork UnitOfWork = unitOfWork;
 
