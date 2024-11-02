@@ -4,6 +4,7 @@ using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Core.UseCases.Roles;
 using TaskManager.Core.UseCases.Roles.Specifications;
 using TaskManager.Core.UseCases.Users.Specifications;
 
@@ -34,8 +35,10 @@ public sealed class RegisterUserRequestHandler
         if (user != null)
             throw new UserAlreadyExistsException(request.Email);
 
-        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new GetRoleByNameSpec("User"), cancellationToken)
-            ?? throw new RoleNotFoundException("User");
+        var userRole = RoleConstants.USER;
+
+        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new GetRoleByNameSpec(userRole), cancellationToken)
+            ?? throw new RoleNotFoundException(userRole);
 
         var passwordSalt = _passwordHasher.GenerateSalt();
         var passwordHash = _passwordHasher.HashPassword(request.Password, passwordSalt);

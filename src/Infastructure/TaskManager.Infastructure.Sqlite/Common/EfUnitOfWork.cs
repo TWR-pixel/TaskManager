@@ -5,28 +5,15 @@ using TaskManager.Core.Entities.Users;
 using TaskManager.Core.UseCases.Common.Repositories;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
-namespace TaskManager.Infastructure.Sqlite.Common;
+namespace TaskManager.Infrastructure.Sqlite.Common;
 
-public sealed class EfUnitOfWork : IUnitOfWork
+public sealed class EfUnitOfWork(IRepositoryBase<UserTaskEntity> userTasks,
+                    IRepositoryBase<TaskColumnEntity> userTaskColumns,
+                    IRepositoryBase<RoleEntity> roles,
+                    IRepositoryBase<UserEntity> users) : IUnitOfWork
 {
-    private readonly TaskManagerDbContext _dbContext;
-
-    public IRepositoryBase<UserTaskEntity> UserTasks { get; init; }
-    public IRepositoryBase<TaskColumnEntity> UserTaskColumns { get; init; }
-    public IRepositoryBase<RoleEntity> Roles { get; init; }
-    public IRepositoryBase<UserEntity> Users { get; init; }
-
-    public EfUnitOfWork(TaskManagerDbContext dbContext,
-                        IRepositoryBase<UserTaskEntity> userTasks,
-                        IRepositoryBase<TaskColumnEntity> userTaskColumns,
-                        IRepositoryBase<RoleEntity> roles,
-                        IRepositoryBase<UserEntity> users)
-    {
-        _dbContext = dbContext;
-        UserTasks = userTasks;
-        UserTaskColumns = userTaskColumns;
-        Roles = roles;
-        Users = users;
-    }
-
+    public IRepositoryBase<UserTaskEntity> UserTasks { get; init; } = userTasks;
+    public IRepositoryBase<TaskColumnEntity> UserTaskColumns { get; init; } = userTaskColumns;
+    public IRepositoryBase<RoleEntity> Roles { get; init; } = roles;
+    public IRepositoryBase<UserEntity> Users { get; init; } = users;
 }

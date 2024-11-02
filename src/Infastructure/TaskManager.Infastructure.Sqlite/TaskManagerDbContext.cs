@@ -3,8 +3,9 @@ using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
+using TaskManager.Core.UseCases.Roles;
 
-namespace TaskManager.Infastructure.Sqlite;
+namespace TaskManager.Infrastructure.Sqlite;
 
 public sealed class TaskManagerDbContext : DbContext
 {
@@ -21,7 +22,7 @@ public sealed class TaskManagerDbContext : DbContext
         modelBuilder.Entity<RoleEntity>().HasData(new RoleEntity
         {
             Id = 1,
-            Name = "User"
+            Name = RoleConstants.USER
         });
 
         base.OnModelCreating(modelBuilder);

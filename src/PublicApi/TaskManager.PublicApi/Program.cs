@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TaskManager.Application.Common.Extensions;
 using TaskManager.PublicApi.Common.Middlewares;
-using TaskManager.Infastructure.Sqlite.Common.Extensions;
+using TaskManager.Infrastructure.Sqlite.Common.Extensions;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
 
@@ -27,7 +27,7 @@ var sqliteConnectionStr = builder.Configuration.GetConnectionString("Sqlite")
     ?? throw new NullReferenceException("connection string not found or empty");
 
 builder.Services
-    .AddInfastructure(sqliteConnectionStr)
+    .AddInfrastructure(sqliteConnectionStr)
     .AddApplication()
     .AddPublicApi(builder.Configuration);
 

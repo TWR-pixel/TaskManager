@@ -5,10 +5,10 @@ namespace TaskManager.Application.Tasks;
 public sealed record UserTaskDto
 {
     [SetsRequiredMembers]
-    public UserTaskDto(string title,
-                       string description,
+    public UserTaskDto(string? title,
+                       string? description,
                        DateTime createdAt,
-                       DateOnly? complitedAt,
+                       DateOnly? completedAt,
                        bool isCompleted,
                        bool isInProgress,
                        //int ownerId,
@@ -17,18 +17,18 @@ public sealed record UserTaskDto
         Title = title;
         Description = description;
         CreatedAt = createdAt;
-        ComplitedAt = complitedAt;
+        CompletedAt = completedAt;
         IsCompleted = isCompleted;
         IsInProgress = isInProgress;
         // OwnerId = ownerId;
         UserTaskColumnId = userTaskColumnId;
     }
 
-    public required string Title { get; set; }
-    public required string Description { get; set; }
+    public required string? Title { get; set; }
+    public required string? Description { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateOnly? ComplitedAt { get; set; }
+    public DateOnly? CompletedAt { get; set; }
 
     public required bool IsCompleted { get; set; }
     public required bool IsInProgress { get; set; }

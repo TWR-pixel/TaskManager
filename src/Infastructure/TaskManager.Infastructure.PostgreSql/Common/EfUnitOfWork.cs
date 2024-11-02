@@ -5,7 +5,7 @@ using TaskManager.Core.Entities.Users;
 using TaskManager.Core.UseCases.Common.Repositories;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
-namespace TaskManager.Infastructure.PostgreSql.Common;
+namespace TaskManager.Infrastructure.PostgreSql.Common;
 
 public sealed class EfUnitOfWork : IUnitOfWork
 {

@@ -4,7 +4,7 @@ using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
 
-namespace TaskManager.Infastructure.PostgreSql;
+namespace TaskManager.Infrastructure.PostgreSql;
 
 public sealed class TaskManagerDbContext : DbContext
 {

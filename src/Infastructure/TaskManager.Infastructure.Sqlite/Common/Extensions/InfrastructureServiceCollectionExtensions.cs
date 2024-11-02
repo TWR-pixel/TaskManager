@@ -7,11 +7,11 @@ using TaskManager.Core.Entities.Users;
 using TaskManager.Core.UseCases.Common.Repositories;
 using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
-namespace TaskManager.Infastructure.Sqlite.Common.Extensions;
+namespace TaskManager.Infrastructure.Sqlite.Common.Extensions;
 
-public static class InfastructureServiceCollectionExtensions
+public static class InfrastructureServiceCollectionExtensions
 {
-    public static IServiceCollection AddInfastructure(this IServiceCollection services, string connectionString)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<TaskManagerDbContext>(d => d.UseSqlite(connectionString));
 

@@ -24,7 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
     <ProjectReference Include="..\..\Core\TaskManager.Core.Entities\TaskManager.Core.Entities.csproj" />
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infastructure.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>

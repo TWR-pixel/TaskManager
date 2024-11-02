@@ -17,11 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Core.Entities",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application", "src\Application\TaskManager.Application\TaskManager.Application.csproj", "{02FA1F59-E406-415F-BF9A-580F0EE64A53}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infastructure", "Infastructure", "{EF77468F-D4D7-41D4-8351-6E35AAAB5182}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{EF77468F-D4D7-41D4-8351-6E35AAAB5182}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.PostgreSql", "src\Infastructure\TaskManager.Infastructure.PostgreSql\TaskManager.Infastructure.PostgreSql.csproj", "{7DE554BF-5CF3-4819-BCDF-4897D58C2D87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infrastructure.PostgreSql", "src\Infastructure\TaskManager.Infastructure.PostgreSql\TaskManager.Infrastructure.PostgreSql.csproj", "{7DE554BF-5CF3-4819-BCDF-4897D58C2D87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infastructure.Sqlite", "src\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infastructure.Sqlite.csproj", "{112129CE-CF8E-4B80-ACF1-2FB55C0199BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infrastructure.Sqlite", "src\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj", "{112129CE-CF8E-4B80-ACF1-2FB55C0199BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Core.UseCases", "src\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj", "{B8AA6B86-EE9D-4357-BBBA-B485F073E233}"
 EndProject

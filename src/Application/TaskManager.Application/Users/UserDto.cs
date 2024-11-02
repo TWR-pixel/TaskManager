@@ -8,8 +8,8 @@ namespace TaskManager.Application.Users;
 public sealed record UserDto
 {
     [SetsRequiredMembers]
-    public UserDto(string emailLogin,
-                   string username,
+    public UserDto(string? emailLogin,
+                   string? username,
                    IEnumerable<UserTaskColumnDto>? taskColumns,
                    IEnumerable<UserTaskDto>? tasks,
                    RoleDto role)
@@ -21,8 +21,8 @@ public sealed record UserDto
         Role = role;
     }
 
-    public required string EmailLogin { get; set; }
-    public required string Username { get; set; }
+    public required string? EmailLogin { get; set; }
+    public required string? Username { get; set; }
 
     public IEnumerable<UserTaskColumnDto>? TaskColumns { get; set; }
     public IEnumerable<UserTaskDto>? Tasks { get; set; }
