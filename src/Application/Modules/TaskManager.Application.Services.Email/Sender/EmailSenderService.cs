@@ -20,7 +20,6 @@ public sealed class EmailSenderService(IOptions<EmailSenderOptions> options,
         var code = RandomNumberGenerator.GetHexString(20);
 
         codeStorage.Set(code, to);
-
         using var msg = new MimeMessage();
 
         msg.From.Add(new MailboxAddress("Administration task-manager", _options.From));
@@ -32,7 +31,7 @@ public sealed class EmailSenderService(IOptions<EmailSenderOptions> options,
         };
 
         logger.LogInformation("Message was successfully created");
-
+        
         logger.LogInformation("Message has started sending from {From} to {To}", _options.From, to);
 
         _client.Connect(_options.Host, _options.Port, true, cancellationToken);

@@ -1,7 +1,5 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Tasks.Requests.UpdateById;
 

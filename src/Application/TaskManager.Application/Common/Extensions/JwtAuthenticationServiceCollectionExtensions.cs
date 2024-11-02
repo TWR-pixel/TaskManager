@@ -2,10 +2,10 @@
 using TaskManager.Application.Common.Security.Auth.Claims.Jwt;
 using TaskManager.Application.Common.Security.Auth.Claims;
 using TaskManager.Application.Common.Security.Auth.Tokens.Jwt;
-using TaskManager.Application.Common.Security.Auth.Tokens;
 using TaskManager.Application.Common.Security.Hashers.BCrypt;
 using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
+using TaskManager.Application.Common.Security.Auth.AccessToken;
 
 namespace TaskManager.Application.Common.Extensions;
 
@@ -17,6 +17,7 @@ public static class JwtAuthenticationServiceCollectionExtensions
         services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
         services.AddScoped<ISymmetricSecurityKeysGenerator, SymmetricSecurityKeysGenerator>();
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+        services.AddScoped<IAccessTokenFactory, AccessTokenFactory>();
 
         return services;
     }

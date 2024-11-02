@@ -1,8 +1,6 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Modules.Email.Sender;
+﻿using TaskManager.Application.Modules.Email.Sender;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.ResendCode;
@@ -25,7 +23,7 @@ public sealed class ResendCodeRequestHandler(IUnitOfWork unitOfWork, IEmailSende
         await _emailSender.SendVerificationMessageAsync(request.Email, cancellationToken);
 
         var response = new ResendCodeResponse() { Status = "Success. The Code has been resent to your email" };
-
+        
         return response;
     }
 }

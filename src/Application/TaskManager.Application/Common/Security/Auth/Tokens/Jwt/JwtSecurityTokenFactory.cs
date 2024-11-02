@@ -3,7 +3,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using TaskManager.Application.Common.Security.Auth.Options.Jwt;
-using TaskManager.Application.Common.Security.SymmetricSecurityKeys;
 
 namespace TaskManager.Application.Common.Security.Auth.Tokens.Jwt;
 

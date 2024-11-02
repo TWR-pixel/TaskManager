@@ -1,7 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using TaskManager.Application.Common.Requests;
 using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Tasks.Specifications;
 
 namespace TaskManager.Application.Tasks.Requests.GetByTitle;

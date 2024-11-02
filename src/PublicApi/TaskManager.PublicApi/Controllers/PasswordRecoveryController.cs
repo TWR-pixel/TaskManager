@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Users.Requests.RecoverPassword;
 using TaskManager.Application.Users.Requests.SendPasswordRecoveryCode;
-using TaskManager.PublicApi.Common.Wrappers.Mediator;
+using TaskManager.Application.Users.Requests.VerifyPasswordRecoveryCode;
 
 namespace TaskManager.PublicApi.Controllers;
 

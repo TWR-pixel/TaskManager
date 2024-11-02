@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace TaskManager.Application.Common.Security.Auth.Tokens;
+namespace TaskManager.Application.Common.Security.Auth.Tokens.Jwt;
 
 public interface IJwtSecurityTokenFactory : ISecurityTokenFactory<JwtSecurityToken>
 {

@@ -5,7 +5,6 @@ using TaskManager.Application.Tasks.Requests.DeleteById;
 using TaskManager.Application.Tasks.Requests.GetAllById;
 using TaskManager.Application.Tasks.Requests.GetById;
 using TaskManager.Application.Tasks.Requests.UpdateById;
-using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 

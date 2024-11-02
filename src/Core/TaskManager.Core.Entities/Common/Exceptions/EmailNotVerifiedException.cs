@@ -1,12 +1,9 @@
 ﻿namespace TaskManager.Core.Entities.Common.Exceptions;
 
-public class EmailNotVerifiedException : Exception
+public class EmailNotVerifiedException : NotVerifiedException
 {
-    public EmailNotVerifiedException()
-    {
-    }
 
-    public EmailNotVerifiedException(string? message) : base(message)
+    public EmailNotVerifiedException(string? email) : base($"User with email '{email}' not verified")
     {
     }
 

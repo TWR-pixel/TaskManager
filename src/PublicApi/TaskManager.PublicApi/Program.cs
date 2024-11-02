@@ -6,7 +6,6 @@ using TaskManager.PublicApi.Common.Middlewares;
 using TaskManager.Infastructure.Sqlite.Common.Extensions;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
-using Serilog.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,14 +67,6 @@ builder.Services.AddSwaggerGen(c =>
 #endregion
 
 var app = builder.Build();
-
-//app.Use(async (ctx, next) =>
-//{
-//    using (LogContext.PushProperty("IPAddress", ctx.Connection.RemoteIpAddress))
-//    {
-//        await next(ctx);
-//    }
-//});
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
 

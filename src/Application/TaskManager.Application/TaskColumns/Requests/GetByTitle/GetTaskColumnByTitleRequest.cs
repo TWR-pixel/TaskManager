@@ -1,7 +1,4 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
-
-namespace TaskManager.Application.TaskColumns.Requests.GetByTitle;
+﻿namespace TaskManager.Application.TaskColumns.Requests.GetByTitle;
 
 public sealed record GetTaskColumnByTitleRequest : RequestBase<GetTaskColumnByTitleResponse>
 {

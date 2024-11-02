@@ -1,11 +1,7 @@
 ﻿namespace TaskManager.Core.Entities.Common.Exceptions;
 
-public class NotRightCodeException : Exception
+public class NotRightCodeException : NotRightException
 {
-    public NotRightCodeException()
-    {
-    }
-
     public NotRightCodeException(string? message) : base(message)
     {
     }

@@ -1,11 +1,9 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Hashers;
+﻿using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Modules.Email.Sender;
 using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Roles.Specifications;
 using TaskManager.Core.UseCases.Users.Specifications;
 
@@ -36,7 +34,7 @@ public sealed class RegisterUserRequestHandler
         if (user != null)
             throw new UserAlreadyExistsException(request.Email);
 
-        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new GetRoleByNameSpecification("User"), cancellationToken)
+        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new GetRoleByNameSpec("User"), cancellationToken)
             ?? throw new RoleNotFoundException("User");
 
         var passwordSalt = _passwordHasher.GenerateSalt();

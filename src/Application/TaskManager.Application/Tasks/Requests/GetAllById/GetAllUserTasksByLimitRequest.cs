@@ -1,7 +1,4 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
-
-namespace TaskManager.Application.Tasks.Requests.GetAllById;
+﻿namespace TaskManager.Application.Tasks.Requests.GetAllById;
 
 public sealed record GetAllUserTasksByLimitRequest : RequestBase<GetAllUserTasksByLimitResponse>
 {

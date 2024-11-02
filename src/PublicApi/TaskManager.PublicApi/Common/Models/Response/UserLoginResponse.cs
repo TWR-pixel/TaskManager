@@ -1,4 +1,4 @@
-﻿using TaskManager.Application.Users.Requests.Login;
+﻿using TaskManager.Application.Common.Security.Auth.AccessToken;
 
 namespace TaskManager.PublicApi.Common.Models.Response;
 
@@ -12,7 +12,7 @@ public sealed class UserLoginResponse
     public required int RoleId { get; set; }
     public required string RoleName { get; set; }
 
-    public static implicit operator UserLoginResponse(LoginUserResponse response) => new()
+    public static implicit operator UserLoginResponse(AccessTokenResponse response) => new()
     {
         AccessTokenString = response.AccessToken,
         RoleId = response.RoleId,

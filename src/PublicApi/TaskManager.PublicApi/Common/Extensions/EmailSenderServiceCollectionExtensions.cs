@@ -1,8 +1,6 @@
 ﻿using TaskManager.PublicApi.Common.Wrappers;
 using TaskManager.Application.Modules.Email.Options;
 using MailKit.Net.Smtp;
-using System.Threading;
-using Microsoft.Extensions.Options;
 
 namespace TaskManager.PublicApi.Common.Extensions;
 

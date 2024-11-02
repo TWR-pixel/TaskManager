@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Common.Security.Auth.AccessToken;
 using TaskManager.Application.Users.Requests.ResendCode;
 using TaskManager.Application.Users.Requests.VerifyEmail;
-using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -12,7 +12,7 @@ public class EmailVerificationController(IMediatorWrapper mediator) : ApiControl
     [HttpPost("verify")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<VerifyEmailResponse>> VerifyEmail([FromBody] VerifyEmailRequest request,
+    public async Task<ActionResult<AccessTokenResponse>> VerifyEmail([FromBody] VerifyEmailRequest request,
                                                                      CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);

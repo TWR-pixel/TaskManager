@@ -1,6 +1,6 @@
 ﻿namespace TaskManager.Core.Entities.Common.Exceptions;
 
-public sealed class EntityNotFoundException : Exception
+public sealed class EntityNotFoundException : NotFoundException
 {
     public EntityNotFoundException(string? message) : base(message) { }
 

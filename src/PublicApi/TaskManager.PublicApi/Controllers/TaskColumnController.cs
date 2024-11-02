@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.TaskColumns;
 using TaskManager.Application.TaskColumns.Requests.Create;
 using TaskManager.Application.TaskColumns.Requests.DeleteById;
 using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest;
 using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
 using TaskManager.Application.TaskColumns.Requests.GetById;
 using TaskManager.Application.TaskColumns.Requests.UpdateById;
-using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -20,7 +20,7 @@ public sealed class TaskColumnController(IMediatorWrapper mediator) : ApiControl
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<CreateTaskColumnResponse>> Create(CreateTaskColumnRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<UserTaskColumnDto>> Create(CreateTaskColumnRequest request, CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 
@@ -51,7 +51,7 @@ public sealed class TaskColumnController(IMediatorWrapper mediator) : ApiControl
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GetTaskColumnByIdResponse>> GetTaskColumnById([FromQuery] GetTaskColumnByIdRequest request,
+    public async Task<ActionResult<UserTaskColumnDto>> GetTaskColumnById([FromQuery] GetTaskColumnByIdRequest request,
                                                                                  CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);

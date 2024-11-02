@@ -1,7 +1,5 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Modules.Email.Sender;
+﻿using TaskManager.Application.Modules.Email.Sender;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.SendPasswordRecoveryCode;
@@ -23,7 +21,7 @@ public sealed class SendPasswordRecoveryCodeRequestHandler : RequestHandlerBase<
     {
         _ = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(request.Email), cancellationToken)
             ?? throw new UserNotFoundException(request.Email);
-
+        
         await _emailSender.SendRecoveryPasswordMessageAsync(request.Email, cancellationToken);
 
         return new SendPasswordRecoveryCodeResponse();

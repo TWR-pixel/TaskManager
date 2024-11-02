@@ -38,7 +38,6 @@ public sealed class UserEntity : EntityBase
 
     [Column("username")]
     [StringLength(128, MinimumLength = 3)]
-    [MaxLength(128)]
     public required string Username { get; set; }
 
 

@@ -1,13 +1,10 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Hashers;
-using TaskManager.Application.Modules.Email;
+﻿using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Modules.Email.Code.Verifier;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Users.Specifications;
 
-namespace TaskManager.Application.Users.Requests.RecoverPassword;
+namespace TaskManager.Application.Users.Requests.VerifyPasswordRecoveryCode;
 
 public sealed record VerifyPasswordRecoveryCodeRequest : RequestBase<RecoverPasswordResponse>
 {
@@ -43,7 +40,7 @@ public sealed class RecoverPasswordRequestHandler : RequestHandlerBase<VerifyPas
             ?? throw new UserNotFoundException(email);
 
         if (!user.IsEmailVerified)
-            throw new EmailNotVerifiedException();
+            throw new EmailNotVerifiedException(user.EmailLogin);
 
         var salt = _hasher.GenerateSalt();
         var passwordHash = _hasher.HashPassword(request.NewPassword, salt);

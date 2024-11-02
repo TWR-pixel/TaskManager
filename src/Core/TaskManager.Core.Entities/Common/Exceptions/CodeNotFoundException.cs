@@ -1,11 +1,7 @@
 ﻿namespace TaskManager.Core.Entities.Common.Exceptions;
 
-public class CodeNotFoundException : Exception
+public class CodeNotFoundException : NotFoundException
 {
-    public CodeNotFoundException()
-    {
-    }
-
     public CodeNotFoundException(string? message) : base(message)
     {
     }

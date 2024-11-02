@@ -1,6 +1,6 @@
 ﻿namespace TaskManager.Core.Entities.Common.Exceptions;
 
-public class NotRightPasswordException : Exception
+public class NotRightPasswordException : NotRightException
 {
     public NotRightPasswordException(string currentPassword)
         : base($"")

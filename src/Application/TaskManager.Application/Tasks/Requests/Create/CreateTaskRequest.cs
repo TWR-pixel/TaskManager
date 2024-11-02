@@ -1,7 +1,5 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Tasks;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Tasks.Requests.Create;
 

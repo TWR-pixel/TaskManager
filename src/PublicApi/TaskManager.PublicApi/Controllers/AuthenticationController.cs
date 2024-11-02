@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Common.Security.Auth.AccessToken;
 using TaskManager.Application.Users.Requests.Login;
 using TaskManager.Application.Users.Requests.Register;
-using TaskManager.PublicApi.Common.Models.Response;
-using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -10,7 +9,7 @@ namespace TaskManager.PublicApi.Controllers;
 [Route("api/auth")]
 public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
-    #region
+    #region HTTP Methods
     /// <summary>
     /// Returns new accessToken with refresh token in httpOnly cookies, if refresh token not found, it creates in cookies
     /// </summary>
@@ -19,14 +18,12 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     /// <returns></returns>
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<UserLoginResponse>> LoginUser([FromBody] LoginUserRequest request,
+    public async Task<ActionResult<AccessTokenResponse>> LoginUser([FromBody] LoginUserRequest request,
                                                                  CancellationToken cancellationToken)
     {
-        var result = await Mediator.SendAsync(request, cancellationToken);
+        var response = await Mediator.SendAsync(request, cancellationToken);
 
-        var userLoginResponse = (UserLoginResponse)result;
-
-        return Ok(userLoginResponse);
+        return Ok(response);
     }
 
 

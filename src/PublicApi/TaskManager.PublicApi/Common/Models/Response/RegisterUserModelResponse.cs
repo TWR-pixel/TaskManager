@@ -1,6 +1,4 @@
-﻿using TaskManager.Application.Users.Requests.Register;
-
-namespace TaskManager.PublicApi.Common.Models.Response;
+﻿namespace TaskManager.PublicApi.Common.Models.Response;
 
 public class RegisterUserModelResponse
 {

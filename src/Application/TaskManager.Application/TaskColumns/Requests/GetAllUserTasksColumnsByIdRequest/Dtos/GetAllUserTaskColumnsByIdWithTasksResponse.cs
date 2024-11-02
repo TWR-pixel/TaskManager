@@ -1,6 +1,4 @@
-﻿using TaskManager.Application.Common.Requests;
-
-namespace TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
+﻿namespace TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
 
 public sealed record GetAllUserTaskColumnsByIdWithTasksResponse : ResponseBase
 {

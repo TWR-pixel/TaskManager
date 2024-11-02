@@ -1,12 +1,8 @@
 ﻿namespace TaskManager.Core.Entities.Common.Exceptions;
 
-public class CodeNotVerifiedException : Exception
+public class CodeNotVerifiedException : NotVerifiedException
 {
-    public CodeNotVerifiedException()
-    {
-    }
-
-    public CodeNotVerifiedException(string? message) : base(message)
+    public CodeNotVerifiedException(string? code) : base($"Code with value '{code}' not verified")
     {
     }
 

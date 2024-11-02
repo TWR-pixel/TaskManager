@@ -1,36 +1,29 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using TaskManager.Application.Common.Requests;
-using TaskManager.Application.Common.Security.Auth.Claims;
-using TaskManager.Application.Common.Security.Auth.Tokens;
+﻿using TaskManager.Application.Common.Security.Auth.AccessToken;
 using TaskManager.Application.Modules.Email.Code.Verifier;
 using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
 using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.VerifyEmail;
 
-public sealed record VerifyEmailRequest(string Code) : RequestBase<VerifyEmailResponse>;
-public sealed record VerifyEmailResponse(string AccessToken, string Username, int UserId, string RoleName, int RoleId) : ResponseBase;
+public sealed record VerifyEmailRequest(string Code) : RequestBase<AccessTokenResponse>;
 
 public sealed class VerifyEmailRequestHandler
-    : RequestHandlerBase<VerifyEmailRequest, VerifyEmailResponse>
+    : RequestHandlerBase<VerifyEmailRequest, AccessTokenResponse>
 {
-    private readonly IJwtSecurityTokenFactory _tokenFactory;
-    private readonly IClaimsFactory _claimsFactory;
     private readonly ICodeVerifier _verifier;
+    private readonly IAccessTokenFactory _accessTokenFactory;
+
 
     public VerifyEmailRequestHandler(IUnitOfWork unitOfWork,
-                                     IJwtSecurityTokenFactory tokenFactory,
-                                     IClaimsFactory claimsFactory,
-                                     ICodeVerifier verifier) : base(unitOfWork)
+                                     ICodeVerifier verifier,
+                                     IAccessTokenFactory accessTokenFactory) : base(unitOfWork)
     {
-        _tokenFactory = tokenFactory;
-        _claimsFactory = claimsFactory;
         _verifier = verifier;
+        _accessTokenFactory = accessTokenFactory;
     }
 
-    public override async Task<VerifyEmailResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
+    public override async Task<AccessTokenResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
     {
         var isCodeCorrect = _verifier.Verify(request.Code, out string email);
 
@@ -43,15 +36,12 @@ public sealed class VerifyEmailRequestHandler
         if (user.IsEmailVerified)
             throw new UserAlreadyVerifiedException(email);
 
-        var claims = _claimsFactory.Create(user.Id, user.Role.Id, user.Username, user.Role.Name);
-
         user.IsEmailVerified = true; // make it in interceptor ef core
 
         await UnitOfWork.Users.UpdateAsync(user, cancellationToken);
 
-        var token = new JwtSecurityTokenHandler()
-            .WriteToken(_tokenFactory.Create(claims));
+        var accessToken = _accessTokenFactory.Create(user);
 
-        return new VerifyEmailResponse(token, user.Username, user.Id, user.Role.Name, user.Role.Id);
+        return accessToken;
     }
 }

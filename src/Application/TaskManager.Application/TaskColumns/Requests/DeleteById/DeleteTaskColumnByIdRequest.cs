@@ -1,6 +1,4 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
+﻿using TaskManager.Core.Entities.Common.Exceptions;
 
 namespace TaskManager.Application.TaskColumns.Requests.DeleteById;
 
@@ -16,7 +14,7 @@ public sealed class DeleteTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
             ?? throw new EntityNotFoundException("task column not found by id " + request.TaskColumnId);
 
         await UnitOfWork.UserTaskColumns.DeleteAsync(entity, cancellationToken);
-
+        
         var response = new DeleteTaskColumnByIdResponse();
 
         return response;

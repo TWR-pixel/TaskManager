@@ -1,5 +1,4 @@
 ﻿using TaskManager.PublicApi.Common.Middlewares;
-using TaskManager.PublicApi.Common.Wrappers.Mediator;
 
 namespace TaskManager.PublicApi.Common.Extensions;
 

@@ -7,7 +7,7 @@ public class UserAlreadyVerifiedException : Exception
     }
 
     public UserAlreadyVerifiedException(string email)
-        : base($"User with email '{email}' already confirmed")
+        : base($"User with email '{email}' already verified")
     {
     }
 }

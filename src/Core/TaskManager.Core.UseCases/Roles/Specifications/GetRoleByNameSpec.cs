@@ -3,9 +3,9 @@ using TaskManager.Core.Entities.Roles;
 
 namespace TaskManager.Core.UseCases.Roles.Specifications;
 
-public sealed class GetRoleByNameSpecification : SingleResultSpecification<RoleEntity>
+public sealed class GetRoleByNameSpec : SingleResultSpecification<RoleEntity>
 {
-    public GetRoleByNameSpecification(string roleName)
+    public GetRoleByNameSpec(string roleName)
     {
         Query
             .Where(r => r.Name.ToUpper() == roleName.ToUpper());
