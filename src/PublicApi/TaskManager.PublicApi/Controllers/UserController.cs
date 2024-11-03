@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
-using TaskManager.Application.Users.Requests.DeleteUserByIdRequest;
-using TaskManager.Application.Users.Requests.GetUserByIdRequest;
-using TaskManager.Application.Users.Requests.UpdateUserByIdRequest;
-using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.PublicApi.Common;
+using TaskManager.Application.Tasks.Requests.GetAllById;
+using TaskManager.Application.Users;
+using TaskManager.Application.Users.Requests.DeleteById;
+using TaskManager.Application.Users.Requests.GetById;
+using TaskManager.Application.Users.Requests.UpdateById;
 
 namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Authorize]
 [Route("api/users")]
-public sealed class UserController(IMediatorFacade mediator) : ApiControllerBase(mediator)
+public sealed class UserController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
     #region HTTP methods
     [HttpGet]
@@ -21,16 +20,9 @@ public sealed class UserController(IMediatorFacade mediator) : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<GetAllUserTasksByIdResponse>> GetById([FromQuery] GetUserByIdRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var result = await Mediator.SendAsync(request, cancellationToken);
+        var result = await Mediator.SendAsync(request, cancellationToken);
 
-            return Ok(result);
-        }
-        catch (EntityNotFoundException notFoundException)
-        {
-            return NotFound(notFoundException.Message);
-        }
+        return Ok(result);
     }
 
     [HttpPut]
@@ -48,7 +40,7 @@ public sealed class UserController(IMediatorFacade mediator) : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<DeleteUserByIdResponse>> DeleteById([FromBody] DeleteUserByIdRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<UserDto>> DeleteById([FromBody] DeleteUserByIdRequest request, CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 

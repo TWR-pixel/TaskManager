@@ -12,18 +12,19 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\Models\Request\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
     <ProjectReference Include="..\..\Core\TaskManager.Core.Entities\TaskManager.Core.Entities.csproj" />
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.EntityConfigurations\TaskManager.Infastructure.EntityConfigurations.csproj" />
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infastructure.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>

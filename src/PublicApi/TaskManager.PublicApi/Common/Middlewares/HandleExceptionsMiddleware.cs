@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Core.Entities.Users.Exceptions;
 
 namespace TaskManager.PublicApi.Common.Middlewares;
 
@@ -13,14 +14,14 @@ public sealed class HandleExceptionsMiddleware(ILogger<HandleExceptionsMiddlewar
         {
             await next(context);
         }
-        catch (EntityNotFoundException entityNotFoundException)
+        catch (NotFoundException notFound)
         {
-            _logger.LogError(entityNotFoundException.Message, entityNotFoundException);
+            _logger.LogError(notFound.Message, notFound);
 
             var problemDetails = new ProblemDetails
             {
                 Title = "Not found",
-                Detail = entityNotFoundException.Message,
+                Detail = notFound.Message,
                 Status = StatusCodes.Status404NotFound,
             };
 
@@ -28,45 +29,73 @@ public sealed class HandleExceptionsMiddleware(ILogger<HandleExceptionsMiddlewar
 
             await context.Response.WriteAsJsonAsync(problemDetails);
         }
-        catch (UserAlreadyExistsException userAlreadyExistsException)
+        catch (UserAlreadyExistsException userAlreadyExists)
         {
-            var alreadyExistsProblemDetails = new ProblemDetails
+            var alreadyExists = new ProblemDetails
             {
                 Title = "User already exists",
-                Detail = userAlreadyExistsException.Message,
+                Detail = userAlreadyExists.Message,
                 Status = StatusCodes.Status409Conflict
             };
 
             context.Response.StatusCode = StatusCodes.Status409Conflict;
 
-            await context.Response.WriteAsJsonAsync(alreadyExistsProblemDetails);
+            await context.Response.WriteAsJsonAsync(alreadyExists);
+        }
+        catch (NotRightException notRight)
+        {
+            var notRightValue = new ProblemDetails()
+            {
+                Title = "Not right value",
+                Detail = notRight.Message,
+                Status = StatusCodes.Status400BadRequest
+            };
+
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            await context.Response.WriteAsJsonAsync(notRightValue);
+        }
+        catch (NotVerifiedException notVerified)
+        {
+            var notVerifiedDetails = new ProblemDetails()
+            {
+                Title = "Not verified",
+                Detail = notVerified.Message,
+                Status = StatusCodes.Status400BadRequest
+            };
+
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            await context.Response.WriteAsJsonAsync(notVerifiedDetails);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message, ex);
-
-            var unhandledException = new ProblemDetails
+            
+            var unknownError = new ProblemDetails
             {
-                Title = "Unhandled exception",
+                Title = "Unknown exception",
                 Detail = ex.Message,
                 Status = StatusCodes.Status400BadRequest
             };
 
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-            await context.Response.WriteAsJsonAsync(unhandledException);
+            await context.Response.WriteAsJsonAsync(unknownError);
         }
     }
 
-    private ProblemDetails CreateProblemDetails(string title, string details, int statusCode)
+    private async Task SendResponseAsync(string title, string detail, int Status, HttpContext context)
     {
-        var result = new ProblemDetails
+        var problemDetails = new ProblemDetails
         {
             Title = title,
-            Detail = details,
-            Status = statusCode
+            Detail = detail,
+            Status = Status
         };
 
-        return result;
+        context.Response.StatusCode = Status;
+
+        await context.Response.WriteAsJsonAsync(problemDetails);
     }
 }

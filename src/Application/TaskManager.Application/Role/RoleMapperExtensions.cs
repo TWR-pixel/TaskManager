@@ -11,10 +11,4 @@ public static class RoleMapperExtensions
         return dto;
     }
 
-    public static RoleEntity ToEntity(this RoleDto dto)
-    {
-        var entity = new RoleEntity(dto.Name);
-
-        return entity;
-    }
 }

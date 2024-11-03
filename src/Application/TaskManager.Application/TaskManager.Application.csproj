@@ -7,36 +7,40 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Users\Requests\Common\Security\Authentication\Abstractions\**" />
+    <Compile Remove="Common\Security\Auth\Abstractions\**" />
     <Compile Remove="Users\Requests\AddAndSaveRequest\**" />
-    <Compile Remove="Users\Requests\Authenticate\Validators\**" />
+    <Compile Remove="Users\Requests\Login\Validators\**" />
     <Compile Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <Compile Remove="Users\Requests\UpdateAndSaveRequest\**" />
-    <EmbeddedResource Remove="Users\Requests\Common\Security\Authentication\Abstractions\**" />
+    <EmbeddedResource Remove="Common\Security\Auth\Abstractions\**" />
     <EmbeddedResource Remove="Users\Requests\AddAndSaveRequest\**" />
-    <EmbeddedResource Remove="Users\Requests\Authenticate\Validators\**" />
+    <EmbeddedResource Remove="Users\Requests\Login\Validators\**" />
     <EmbeddedResource Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <EmbeddedResource Remove="Users\Requests\UpdateAndSaveRequest\**" />
-    <None Remove="Users\Requests\Common\Security\Authentication\Abstractions\**" />
+    <None Remove="Common\Security\Auth\Abstractions\**" />
     <None Remove="Users\Requests\AddAndSaveRequest\**" />
-    <None Remove="Users\Requests\Authenticate\Validators\**" />
+    <None Remove="Users\Requests\Login\Validators\**" />
     <None Remove="Users\Requests\DeleteAndSaveRequest\**" />
     <None Remove="Users\Requests\UpdateAndSaveRequest\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="FluentValidation" Version="11.10.0">
+      <TreatAsUsed>true</TreatAsUsed>
+    </PackageReference>
     <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Requests\RegisterUserRequests\Validators\" />
+    <Folder Include="UserBoards\Requests\" />
+    <Folder Include="Users\Requests\Register\Validators\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj" />
+    <ProjectReference Include="..\Modules\TaskManager.Application.Services.Email\TaskManager.Application.Modules.Email.csproj" />
   </ItemGroup>
 
 </Project>

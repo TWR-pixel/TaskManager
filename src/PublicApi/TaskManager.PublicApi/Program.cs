@@ -1,40 +1,37 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Text.Json;
 using TaskManager.Application.Common.Extensions;
-using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.JwtTokens;
-using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtAuth.Options;
-using TaskManager.Application.Users.Requests.Common.Security.Authentication.JwtClaims;
-using TaskManager.Application.Users.Requests.Common.Security.Hashers;
-using TaskManager.Application.Users.Requests.Common.Security.Hashers.BCrypt;
-using TaskManager.Application.Users.Requests.Common.Security.SymmetricSecurityKeys;
-using TaskManager.Core.Entities.Common.Repositories;
-using TaskManager.Core.Entities.Common.UnitOfWorks;
-using TaskManager.Core.Entities.Roles;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.Entities.Tasks;
-using TaskManager.Core.Entities.Users;
-using TaskManager.Infastructure.Sqlite;
-using TaskManager.Infastructure.Sqlite.Common;
-using TaskManager.PublicApi.Common;
-using TaskManager.PublicApi.Common.Authentication;
 using TaskManager.PublicApi.Common.Middlewares;
+using TaskManager.Infrastructure.Sqlite.Common.Extensions;
+using TaskManager.PublicApi.Common.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<HandleExceptionsMiddleware>();
+builder.Logging.ClearProviders(); // clear default asp .net core logging
 
-builder.Services.AddControllers(o =>
+var logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Logging.AddSerilog();
+builder.Logging.SetMinimumLevel(LogLevel.Information);
+
+builder.Host.UseSerilog((hostringContext, loggerConfiguration) =>
 {
-    
+    loggerConfiguration.ReadFrom.Configuration(hostringContext.Configuration);
 });
+
+var sqliteConnectionStr = builder.Configuration.GetConnectionString("Sqlite")
+    ?? throw new NullReferenceException("connection string not found or empty");
+
+builder.Services
+    .AddInfrastructure(sqliteConnectionStr)
+    .AddApplication()
+    .AddPublicApi(builder.Configuration);
+
+builder.Services.AddMemoryCache();
+builder.Services.AddControllers();
 builder.Services.AddCors();
 
 #region swaggerGen configuration
@@ -68,67 +65,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 #endregion
 
-var sqliteConnectionStr = builder.Configuration.GetConnectionString("Sqlite");
-
-builder.Services.AddDbContext<TaskManagerDbContext>(d =>
-{
-    d.UseSqlite(sqliteConnectionStr);
-});
-
-#region Add entityframework repositories
-builder.Services.AddScoped<IRepositoryBaseCore<UserEntity>, EfRepository<UserEntity>>();
-builder.Services.AddScoped<IRepositoryBaseCore<RoleEntity>, EfRepository<RoleEntity>>();
-builder.Services.AddScoped<IRepositoryBaseCore<UserTaskEntity>, EfRepository<UserTaskEntity>>();
-builder.Services.AddScoped<IRepositoryBaseCore<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
-#endregion
-
-builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
-
-builder.Services.AddMediator();
-builder.Services.AddScoped<IMediatorFacade, MediatorFacade>();
-
-#region authentication services
-
-builder.Services.AddScoped<IJwtClaimsFactory, JwtClaimsFactory>();
-builder.Services.AddScoped<IJwtSecurityTokenFactory, JwtSecurityTokenFactory>();
-builder.Services.AddScoped<ISymmetricSecurityKeysGenerator, SymmetricSecurityKeysGenerator>();
-builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
-builder.Services.AddScoped<IJwtRefreshTokenGenerator, JwtRefreshTokenGenerator>();
-builder.Services.AddScoped<IUserSignInManager, UserSignInManager>();
-
-builder.Services.AddOptions<JwtAuthenticationOptions>()
-    .BindConfiguration(nameof(JwtAuthenticationOptions), o => o.ErrorOnUnknownConfiguration = true);
-
-var validIssuer = builder.Configuration["JwtAuthenticationOptions:Issuer"];
-var validAudience = builder.Configuration["JwtAuthenticationOptions:Audience"];
-var issuerSigningKey = builder.Configuration["JwtAuthenticationOptions:SecurityKey"];
-
-if (string.IsNullOrWhiteSpace(issuerSigningKey))
-    throw new NullReferenceException(nameof(issuerSigningKey) + " is null or empty");
-
-#region configure jwt bearer authentication scheme
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidIssuer = validIssuer,
-            ValidateAudience = true,
-            ValidAudience = validAudience,
-            ValidateLifetime = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey)),
-            ValidateIssuerSigningKey = true,
-        };
-    });
-
-#endregion
-
-#endregion
-
 var app = builder.Build();
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
+
+app.UseSerilogRequestLogging();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {

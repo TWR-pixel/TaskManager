@@ -3,12 +3,9 @@ using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
-using TaskManager.Infastructure.EntityConfigurations.Role;
-using TaskManager.Infastructure.EntityConfigurations.User;
-using TaskManager.Infastructure.EntityConfigurations.UserTask;
-using TaskManager.Infastructure.EntityConfigurations.UserTaskColumn;
+using TaskManager.Core.UseCases.Roles;
 
-namespace TaskManager.Infastructure.Sqlite;
+namespace TaskManager.Infrastructure.Sqlite;
 
 public sealed class TaskManagerDbContext : DbContext
 {
@@ -17,15 +14,16 @@ public sealed class TaskManagerDbContext : DbContext
     public DbSet<UserTaskEntity> UserTasks { get; set; }
     public DbSet<RoleEntity> UserRoles { get; set; }
 
-    public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options) : base(options) 
+    public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options) : base(options)
         => Database.EnsureCreated();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new TaskEntityTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new TaskColumnEntityTypeConfiguration());
-        modelBuilder.ApplyConfiguration(new RoleEntityTypeConfiguration());
+        modelBuilder.Entity<RoleEntity>().HasData(new RoleEntity
+        {
+            Id = 1,
+            Name = RoleConstants.USER
+        });
 
         base.OnModelCreating(modelBuilder);
     }

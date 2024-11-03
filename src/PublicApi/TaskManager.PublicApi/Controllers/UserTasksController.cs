@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Tasks.Requests.AddAndSaveTaskRequest;
-using TaskManager.Application.Tasks.Requests.DeleteTaskByIdRequest;
-using TaskManager.Application.Tasks.Requests.GetAllUsersTasksById;
-using TaskManager.Application.Tasks.Requests.GetTaskByIdRequet;
-using TaskManager.Application.Tasks.Requests.UpdateAndSaveTaskRequest;
-using TaskManager.Application.Users;
-using TaskManager.PublicApi.Common;
+using TaskManager.Application.Tasks.Requests.Create;
+using TaskManager.Application.Tasks.Requests.DeleteById;
+using TaskManager.Application.Tasks.Requests.GetAllById;
+using TaskManager.Application.Tasks.Requests.GetById;
+using TaskManager.Application.Tasks.Requests.UpdateById;
 
 namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Authorize]
 [Route("api/user-tasks")]
-public sealed class UserTasksController(IMediatorFacade mediator) : ApiControllerBase(mediator)
+public sealed class UserTasksController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
 {
     #region HTTP methods
     [HttpGet("all")]
@@ -61,7 +59,7 @@ public sealed class UserTasksController(IMediatorFacade mediator) : ApiControlle
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UserDto>> GetById([FromQuery] GetTaskByIdRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<GetTaskByIdResponse>> GetById([FromQuery] GetTaskByIdRequest request, CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 

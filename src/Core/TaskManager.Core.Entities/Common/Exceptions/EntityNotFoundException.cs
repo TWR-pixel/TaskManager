@@ -1,23 +1,14 @@
 ﻿namespace TaskManager.Core.Entities.Common.Exceptions;
 
-public sealed class EntityNotFoundException : Exception
+public sealed class EntityNotFoundException : NotFoundException
 {
-    public EntityNotFoundException()
+    public EntityNotFoundException(string? message) : base(message) { }
+
+    public EntityNotFoundException(string name, int id)
+        : base($"{name} with ID '{id}' was not found.")
     {
     }
 
-    public EntityNotFoundException(string message) : base(message) { }
-
-    public EntityNotFoundException(string entityName, object entityId)
-        : base($"Entity '{entityName}' with ID '{entityId}' was not found.")
-    {
-    }
-
-    public EntityNotFoundException(string entity, string name)
-        : base($"Entity '{entity}' with parameter '{name}' was not found")
-    {
-
-    }
 
     public EntityNotFoundException(string? message, Exception? innerException) : base(message, innerException)
     {

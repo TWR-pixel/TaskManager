@@ -1,6 +1,4 @@
-﻿using TaskManager.Application.Users.Requests.RegisterUserRequests;
-
-namespace TaskManager.PublicApi.Common.Models.Response;
+﻿namespace TaskManager.PublicApi.Common.Models.Response;
 
 public class RegisterUserModelResponse
 {
@@ -13,12 +11,12 @@ public class RegisterUserModelResponse
     public required string RoleName { get; set; }
 
 
-    public static implicit operator RegisterUserModelResponse(RegisterUserResponse response) => new()
-    {
-        AccessTokenString = response.AccessTokenString,
-        RoleId = response.RoleId,
-        RoleName = response.RoleName,
-        UserId = response.UserId,
-        Username = response.Username,
-    };
+    //public static implicit operator RegisterUserModelResponse(RegisterUserResponse response) => new()
+    //{
+    //    AccessTokenString = response.AccessTokenString,
+    //    RoleId = response.RoleId,
+    //    RoleName = response.RoleName,
+    //    UserId = response.UserId,
+    //    Username = response.Username,
+    //};
 }

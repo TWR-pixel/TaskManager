@@ -1,32 +1,19 @@
-﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.Entities.Common.UnitOfWorks;
+﻿using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Users.Specifications;
 
-namespace TaskManager.Application.Users.Requests.GetUserByIdRequest;
+namespace TaskManager.Application.Users.Requests.GetById;
 
-public sealed record GetUserByIdRequest : RequestBase<GetUserByIdResponse>
+public sealed record GetUserByIdRequest(int UserId) : RequestBase<UserDto>;
+
+public sealed class GetUserByIdRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<GetUserByIdRequest, UserDto>(unitOfWork)
 {
-    public required int UserId { get; set; }
-}
-
-public sealed record GetUserByIdResponse(string UserName,
-                                         string UserEmail,
-                                         int RoleId,
-                                         string RoleName) : ResponseBase;
-
-public sealed class GetUserByIdRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<GetUserByIdRequest, GetUserByIdResponse>(unitOfWork)
-{
-    public override async Task<GetUserByIdResponse> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
+    public override async Task<UserDto> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.Users
             .SingleOrDefaultAsync(new ReadUserByIdSpecification(request.UserId), cancellationToken)
-                ?? throw new EntityNotFoundException($"User with id '{request.UserId}' not found");
-        
-        var response = new GetUserByIdResponse(queryResult.Username,
-                                               queryResult.EmailLogin,
-                                               queryResult.Role.Id,
-                                               queryResult.Role.Name);
+                ?? throw new UserNotFoundException(request.UserId);
+
+        var response = queryResult.ToResponse();
 
         return response;
     }
