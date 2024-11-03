@@ -27,7 +27,7 @@ public sealed class LoginUserRequestHandler :
     {
         var user = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(request.EmailLogin), cancellationToken)
                           ?? throw new UserNotFoundException(request.EmailLogin); // get refresh token from db
-
+        user.IsEmailVerified = true;
         if (!user.IsEmailVerified)
             throw new EmailNotVerifiedException($"User with email '{request.EmailLogin}' didn't confirmed email.");
 
