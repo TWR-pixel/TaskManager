@@ -20,10 +20,11 @@ public sealed class TaskColumnEntity : EntityBase
 
     public TaskColumnEntity() { }
 
-    [MinLength(1)]
+    [StringLength(128, MinimumLength = 3)]
     [Column("name")]
     public required string Name { get; set; }
 
+    [StringLength(256)]
     [Column("description")]
     public string? Description { get; set; }
 

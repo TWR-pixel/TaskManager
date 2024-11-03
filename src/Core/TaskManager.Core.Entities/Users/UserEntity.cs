@@ -57,7 +57,7 @@ public sealed class UserEntity : EntityBase
     public DateTime PasswordUpdatedAt { get; set; } = DateTime.UtcNow;
 
     [Column("is_email_verified")]
-    public bool IsEmailVerified { get; set; } = false;
+    public bool IsEmailVerified { get; set; } = true;
 
     public IEnumerable<TaskColumnEntity>? TaskColumns { get; set; }
     public IEnumerable<UserTaskEntity>? Tasks { get; set; }
