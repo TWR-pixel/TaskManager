@@ -8,7 +8,7 @@ public static class EmailSenderServiceCollectionExtensions
 {
     public static IServiceCollection AddEmailSender(this IServiceCollection services, IConfiguration configuration)
     {
-        var emailApiKey = EnvironmentWrapper.GetEnvironmentVariable("EMAIL_SENDER_API_KEY");
+        var emailApiKey = EnvironmentWrapper.GetEnvironmentVariable("TM_EMAIL_API_KEY");
 
         var emailFrom = configuration["EmailSenderOptions:EmailFrom"]!;
 

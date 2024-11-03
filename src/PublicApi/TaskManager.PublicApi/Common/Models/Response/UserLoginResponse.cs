@@ -14,7 +14,7 @@ public sealed class UserLoginResponse
 
     public static implicit operator UserLoginResponse(AccessTokenResponse response) => new()
     {
-        AccessTokenString = response.AccessToken,
+        AccessTokenString = response.AccessTokenString,
         RoleId = response.RoleId,
         RoleName = response.RoleName,
         UserId = response.UserId,

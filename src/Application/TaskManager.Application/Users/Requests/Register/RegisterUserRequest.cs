@@ -1,4 +1,5 @@
-﻿using TaskManager.Application.Common.Security.Hashers;
+﻿using TaskManager.Application.Common.Security.Auth.AccessToken;
+using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Modules.Email.Sender;
 using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
@@ -10,24 +11,27 @@ using TaskManager.Core.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.Users.Requests.Register;
 
-public sealed record RegisterUserRequest(string Username, string Email, string Password) : RequestBase<RegisterUserResponse>;
+public sealed record RegisterUserRequest(string Username, string Email, string Password) : RequestBase<AccessTokenResponse>;
 public sealed record RegisterUserResponse() : ResponseBase;
 
 public sealed class RegisterUserRequestHandler
-    : RequestHandlerBase<RegisterUserRequest, RegisterUserResponse>
+    : RequestHandlerBase<RegisterUserRequest, AccessTokenResponse>
 {
     private readonly IPasswordHasher _passwordHasher;
     private readonly IEmailSenderService _emailSender;
+    private readonly IAccessTokenFactory _tokenFactory;
 
     public RegisterUserRequestHandler(IUnitOfWork unitOfWork,
                                       IPasswordHasher passwordHasher,
-                                      IEmailSenderService emailSender) : base(unitOfWork)
+                                      IEmailSenderService emailSender,
+                                      IAccessTokenFactory tokenFactory) : base(unitOfWork)
     {
         _passwordHasher = passwordHasher;
         _emailSender = emailSender;
+        _tokenFactory = tokenFactory;
     }
 
-    public override async Task<RegisterUserResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
+    public override async Task<AccessTokenResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
     {
         var user = await UnitOfWork.Users
             .SingleOrDefaultAsync(new GetUserByEmailSpec(request.Email), cancellationToken);
@@ -51,12 +55,12 @@ public sealed class RegisterUserRequestHandler
 
         userEntity = await UnitOfWork.Users.AddAsync(userEntity, cancellationToken);
 
-        var response = new RegisterUserResponse()
-        {
-            Status = "Success. Verification code has been sent to your email"
-        };
+        //var response = new RegisterUserResponse()
+        //{
+        //    Status = "Success. Verification code has been sent to your email"
+        //};
 
-        await _emailSender.SendVerificationMessageAsync(request.Email, cancellationToken);
+        //await _emailSender.SendVerificationMessageAsync(request.Email, cancellationToken);
 
         #region Default columns adding
         var defaultColumns = new List<TaskColumnEntity>()
@@ -68,6 +72,8 @@ public sealed class RegisterUserRequestHandler
         #endregion
 
         await UnitOfWork.UserTaskColumns.AddRangeAsync(defaultColumns, cancellationToken);
+
+        var response = _tokenFactory.Create(userEntity);
 
         return response;
     }
