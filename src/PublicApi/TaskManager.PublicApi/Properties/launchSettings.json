@@ -21,7 +21,7 @@
       "useSSL": true
     },
     "http": {
-      "applicationUrl": "http://localhost:5224",
+      "applicationUrl": "http://localhost:5225",
       "commandName": "Project",
       "dotnetRunMessages": true,
       "environmentVariables": {
@@ -31,7 +31,7 @@
       "launchUrl": "swagger"
     },
     "https": {
-      "applicationUrl": "https://localhost:7048;http://localhost:5224",
+      "applicationUrl": "https://localhost:7049;http://localhost:5225",
       "commandName": "Project",
       "dotnetRunMessages": true,
       "environmentVariables": {
