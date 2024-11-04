@@ -9,8 +9,12 @@ public static class UserTaskColumnMapperExtensions
     {
         entity.TasksInColumn ??= [];
 
-        var dto = new UserTaskColumnDto(entity.Title, entity.Description, entity.TasksInColumn.ToResponses(), entity.Owner.Id, entity.Id);
-
+        var dto = new UserTaskColumnDto(entity.Title,
+                                        entity.Description,
+                                        entity.TasksInColumn.ToResponses(),
+                                        entity.Owner.Id,
+                                        entity.Id);
+        
         return dto;
     }
 
