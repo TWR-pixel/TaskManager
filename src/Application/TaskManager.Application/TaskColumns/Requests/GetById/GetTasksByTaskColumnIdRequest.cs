@@ -63,7 +63,7 @@ public sealed class GetTasksByTaskColumnIdRequestHandler : RequestHandlerBase<Ge
 
         var response = new GetTasksByColumnIdResponse
         {
-            TaskColumnName = queryResult.Name,
+            TaskColumnName = queryResult.Title,
 
             AllTasksInColumn = queryResult.TasksInColumn.Select(
                 static t => new GetTasksByColumnIdResponse.TasksInColumnResponse(

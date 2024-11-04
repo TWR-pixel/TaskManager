@@ -15,7 +15,7 @@ public sealed class RoleController(IMediatorWrapper mediator, ILogger<RoleContro
     public async Task<ActionResult<CreateRoleResponse>> Create([FromBody] CreateRoleRequest request,
                                                                CancellationToken cancellation)
     {
-        _logger.LogInformation("Requested to create a new role {Name}", request.Name);
+        _logger.LogInformation("Requested to create a new role {Title}", request.Name);
 
         var response = await Mediator.SendAsync(request, cancellation);
 

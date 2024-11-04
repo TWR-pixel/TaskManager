@@ -6,7 +6,7 @@ public sealed record UserTaskResponse
 {
     [SetsRequiredMembers]
     public UserTaskResponse(string name,
-                            string content,
+                            string description,
                             bool isInProgress,
                             bool isCompleted,
                             DateTime createdAt,
@@ -15,7 +15,7 @@ public sealed record UserTaskResponse
                             int columnId)
     {
         Name = name;
-        Description = content;
+        Description = description;
         IsInProgress = isInProgress;
         IsCompleted = isCompleted;
         CreatedAt = createdAt;
@@ -27,10 +27,10 @@ public sealed record UserTaskResponse
     public required int Id { get; set; }
     public required int ColumnId { get; set; }
     public required string Name { get; set; }
-    public required string Description { get; set; }
+    public required string? Description { get; set; }
     public required bool IsInProgress { get; set; }
     public required bool IsCompleted { get; set; }
-    public required DateTime CreatedAt { get; set; }
 
+    public required DateTime CreatedAt { get; set; }
     public DateOnly? CompletedAt { get; set; }
 }

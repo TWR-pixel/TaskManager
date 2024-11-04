@@ -11,18 +11,18 @@ namespace TaskManager.Core.Entities.TaskColumns;
 public sealed class TaskColumnEntity : EntityBase
 {
     [SetsRequiredMembers]
-    public TaskColumnEntity(UserEntity owner, string name, string? description = null)
+    public TaskColumnEntity(UserEntity owner, string title, string? description = null)
     {
         Owner = owner;
-        Name = name;
+        Title = title;
         Description = description;
     }
 
     public TaskColumnEntity() { }
 
     [StringLength(128, MinimumLength = 3)]
-    [Column("name")]
-    public required string Name { get; set; }
+    [Column("title")]
+    public required string Title { get; set; }
 
     [StringLength(256)]
     [Column("description")]

@@ -27,7 +27,7 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
 
             TaskColumns = queryResult.TaskColumns.Select(u => // select not right, maybe create domain model with this
                 new UserTaskColumnsResponse(u.Id,
-                                             u.Name,
+                                             u.Title,
                                              u.Description ?? "", // if null return ''
                                              u.TasksInColumn?.Select(t => new UserTaskResponse(t.Title,
                                                                                                t.Description,
