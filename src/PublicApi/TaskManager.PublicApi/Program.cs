@@ -6,6 +6,7 @@ using TaskManager.Infrastructure.Sqlite.Common.Extensions;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
 
+#region Configure services
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders(); // clear default asp .net core logging
@@ -65,6 +66,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 #endregion
 
+#endregion
+
+#region Configure middlewares
 var app = builder.Build();
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
@@ -93,3 +97,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+#endregion

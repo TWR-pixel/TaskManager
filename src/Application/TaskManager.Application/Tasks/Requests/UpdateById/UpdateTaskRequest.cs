@@ -6,11 +6,13 @@ namespace TaskManager.Application.Tasks.Requests.UpdateById;
 public sealed record UpdateTaskRequest(int UpdatingTaskId,
                                        int? ColumnId = null,
                                        string? Title = null,
+                                       DateOnly? CompletedAt = null,
                                        string? Description = null,
                                        bool? IsCompleted = null,
                                        bool? IsInProgress = null) : RequestBase<UpdateTaskResponse>;
 
 public sealed record UpdateTaskResponse(string? Title = null,
+                                        DateOnly? CompletedAt = null,
                                         string? Description = null,
                                         bool? IsCompleted = null,
                                         bool? IsInProgress = null) : ResponseBase;
@@ -34,22 +36,25 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
             entityForUpdate.TaskColumn = columnEntity;
         }
 
-        if (request.Description != null)
+        if (request.Description is not null)
             entityForUpdate.Description = request.Description;
 
-        if (request.IsCompleted != null)
+        if (request.IsCompleted is not null)
             entityForUpdate.IsCompleted = (bool)request.IsCompleted;
 
-        if (request.IsInProgress != null)
+        if (request.IsInProgress is not null)
             entityForUpdate.IsInProgress = (bool)request.IsInProgress;
 
+        if (request.CompletedAt is not null)
+            entityForUpdate.CompletedAt = request.CompletedAt;
 
         await UnitOfWork.UserTasks.UpdateAsync(entityForUpdate, cancellationToken);
 
-        var response = new UpdateTaskResponse(request.Title,
-                                              request.Description,
-                                              request.IsInProgress,
-                                              request.IsInProgress);
+        var response = new UpdateTaskResponse(entityForUpdate.Title,
+                                              entityForUpdate.CompletedAt,
+                                              entityForUpdate.Description,
+                                              entityForUpdate.IsCompleted,
+                                              entityForUpdate.IsInProgress);
 
         return response;
     }
