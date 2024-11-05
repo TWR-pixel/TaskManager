@@ -1,4 +1,5 @@
-﻿using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Application.Common.Requests.Handlers;
+using TaskManager.Core.Entities.Common.Exceptions;
 
 namespace TaskManager.Application.Tasks.Requests.DeleteById;
 

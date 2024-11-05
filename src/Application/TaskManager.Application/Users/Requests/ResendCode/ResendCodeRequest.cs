@@ -1,5 +1,5 @@
-﻿using TaskManager.Application.Modules.Email.Sender;
-using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Application.Common.Requests.Handlers;
+using TaskManager.Application.Modules.Email.Sender;
 using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Users.Specifications;
 

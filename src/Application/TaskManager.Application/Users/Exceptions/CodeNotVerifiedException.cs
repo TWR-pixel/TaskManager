@@ -1,4 +1,6 @@
-﻿namespace TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Core.Entities.Common.Exceptions;
+
+namespace TaskManager.Application.Users.Exceptions;
 
 public class CodeNotVerifiedException : NotVerifiedException
 {

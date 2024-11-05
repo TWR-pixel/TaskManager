@@ -10,5 +10,6 @@ public sealed class GetUserByEmailSpec : SingleResultSpecification<UserEntity>
         Query
             .Where(u => u.EmailLogin == emailLogin)
                 .Include(u => u.Role);
+        
     }
 }

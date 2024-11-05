@@ -1,5 +1,6 @@
-﻿using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Core.Entities.TaskColumns;
+using TaskManager.Core.Entities.Tasks.Exceptions;
 
 namespace TaskManager.Application.Tasks.Requests.UpdateById;
 
@@ -27,7 +28,7 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
         var taskEntity = await UnitOfWork.UserTasks.GetByIdAsync(request.UpdatingTaskId, cancellationToken)
             ?? throw new TaskNotFoundException(request.UpdatingTaskId);
 
-        if (request.Title != null)
+        if (!string.IsNullOrWhiteSpace(request.Title))
             taskEntity.Title = request.Title;
 
         if (request.ColumnId != null)
@@ -38,7 +39,7 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
             taskEntity.TaskColumn = columnEntity;
         }
 
-        if (request.Description is not null)
+        if (!string.IsNullOrWhiteSpace(request.Description))
             taskEntity.Description = request.Description;
 
         if (request.IsCompleted is not null)

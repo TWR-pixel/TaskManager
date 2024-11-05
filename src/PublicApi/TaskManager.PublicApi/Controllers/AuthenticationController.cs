@@ -11,7 +11,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
 {
     #region HTTP Methods
     /// <summary>
-    /// Returns new accessToken with refresh token in httpOnly cookies, if refresh token not found, it creates in cookies
+    /// Returns new accessToken 
     /// </summary>
     /// <param name="request"></param> without refresh token use it method
     /// <param name="cancellationToken"></param>

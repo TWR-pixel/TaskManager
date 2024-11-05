@@ -1,4 +1,5 @@
-﻿using TaskManager.Application.Common.Security.Auth.AccessToken;
+﻿using TaskManager.Application.Common.Requests.Handlers;
+using TaskManager.Application.Common.Security.Auth.AccessToken;
 using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Modules.Email.Sender;
 using TaskManager.Core.Entities.Roles;

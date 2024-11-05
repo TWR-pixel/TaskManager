@@ -11,4 +11,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Roles\Exceptions\" />
+    <Folder Include="TaskColumns\Exceptions\" />
+  </ItemGroup>
+
 </Project>

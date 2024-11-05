@@ -1,6 +1,7 @@
-﻿using TaskManager.Application.Common.Security.Hashers;
+﻿using TaskManager.Application.Common.Requests.Handlers;
+using TaskManager.Application.Common.Security.Hashers;
 using TaskManager.Application.Modules.Email.Code.Verifier;
-using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Application.Users.Exceptions;
 using TaskManager.Core.Entities.Users.Exceptions;
 using TaskManager.Core.UseCases.Users.Specifications;
 

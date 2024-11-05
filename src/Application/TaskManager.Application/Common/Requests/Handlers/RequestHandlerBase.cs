@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace TaskManager.Application.Common.Requests;
+namespace TaskManager.Application.Common.Requests.Handlers;
 
 /// <summary>
 /// Базовый обработчик для всех запросов

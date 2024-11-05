@@ -88,7 +88,7 @@ app.UseRouting();
 if (app.Environment.IsDevelopment())
     app.UseDevelopment();
 
-if (app.Environment.IsProduction())
+else if (app.Environment.IsProduction())
     app.UseProduction();
 
 app.UseAuthentication();

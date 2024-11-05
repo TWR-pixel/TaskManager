@@ -1,15 +1,19 @@
-﻿using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Application.Common.Requests.Handlers;
+using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.Entities.Users.Exceptions;
 
 namespace TaskManager.Application.TaskColumns.Requests.UpdateById;
 
-public sealed record UpdateTaskColumnByIdRequest(int TaskColumnId, int? UserId, string? Name, string? Description)
+public sealed record UpdateTaskColumnByIdRequest(int TaskColumnId,
+                                                 int? UserId,
+                                                 string? Name,
+                                                 string? Description)
     : RequestBase<UpdateTaskColumnByIdResponse>;
 
 public sealed record UpdateTaskColumnByIdResponse(int? UserId, string? Name, string? Description)
     : ResponseBase;
 
-
+#region Handler
 public sealed class UpdateTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<UpdateTaskColumnByIdRequest, UpdateTaskColumnByIdResponse>(unitOfWork)
 {
     public override async Task<UpdateTaskColumnByIdResponse> Handle(UpdateTaskColumnByIdRequest request, CancellationToken cancellationToken)
@@ -18,17 +22,21 @@ public sealed class UpdateTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) :
             ?? throw new EntityNotFoundException($"Task column with id '{request.TaskColumnId}' not found");
 
         if (!string.IsNullOrWhiteSpace(request.Name))
+        {
             taskColumnEntity.Title = request.Name;
+        }
 
         if (!string.IsNullOrWhiteSpace(request.Description))
+        {
             taskColumnEntity.Description = request.Description;
+        }
 
         if (request.UserId is not null)
         {
-            var userQueryResult = await UnitOfWork.Users.GetByIdAsync((int)request.UserId, cancellationToken)
+            var userEntity = await UnitOfWork.Users.GetByIdAsync((int)request.UserId, cancellationToken)
                 ?? throw new UserNotFoundException((int)request.UserId);
 
-            taskColumnEntity.Owner = userQueryResult;
+            taskColumnEntity.Owner = userEntity;
         }
 
         var response = new UpdateTaskColumnByIdResponse(taskColumnEntity.Owner.Id, taskColumnEntity.Title, taskColumnEntity.Description);
@@ -38,3 +46,4 @@ public sealed class UpdateTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) :
         return response;
     }
 }
+#endregion

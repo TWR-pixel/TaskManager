@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Core.Entities.Common.Exceptions;
+﻿namespace TaskManager.Core.Entities.Users.Exceptions;
 
 public class UserAlreadyVerifiedException : Exception
 {

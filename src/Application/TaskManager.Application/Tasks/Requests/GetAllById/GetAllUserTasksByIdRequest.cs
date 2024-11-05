@@ -1,4 +1,5 @@
-﻿using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Application.Common.Requests.Handlers;
+using TaskManager.Core.Entities.Common.Exceptions;
 using TaskManager.Core.UseCases.Tasks.Specifications;
 
 namespace TaskManager.Application.Tasks.Requests.GetAllById;
