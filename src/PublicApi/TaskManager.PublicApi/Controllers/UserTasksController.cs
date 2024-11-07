@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Tasks.Requests.Create;
-using TaskManager.Application.Tasks.Requests.DeleteById;
-using TaskManager.Application.Tasks.Requests.GetAllById;
-using TaskManager.Application.Tasks.Requests.GetById;
-using TaskManager.Application.Tasks.Requests.UpdateById;
+using TaskManager.Application.UserTask;
+using TaskManager.Application.UserTask.Requests.Create;
+using TaskManager.Application.UserTask.Requests.DeleteById;
+using TaskManager.Application.UserTask.Requests.GetAllById;
+using TaskManager.Application.UserTask.Requests.GetById;
+using TaskManager.Application.UserTask.Requests.UpdateById;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -27,7 +28,7 @@ public sealed class UserTasksController(IMediatorWrapper mediator) : ApiControll
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<CreateTaskResponse>> CreateTask([FromBody] CreateTaskRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<UserTaskDto>> CreateTask([FromBody] CreateTaskRequest request, CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 

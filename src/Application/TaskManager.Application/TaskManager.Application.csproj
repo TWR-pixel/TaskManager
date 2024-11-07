@@ -7,21 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Common\Security\Auth\Abstractions\**" />
-    <Compile Remove="Users\Requests\AddAndSaveRequest\**" />
-    <Compile Remove="Users\Requests\Login\Validators\**" />
-    <Compile Remove="Users\Requests\DeleteAndSaveRequest\**" />
-    <Compile Remove="Users\Requests\UpdateAndSaveRequest\**" />
-    <EmbeddedResource Remove="Common\Security\Auth\Abstractions\**" />
-    <EmbeddedResource Remove="Users\Requests\AddAndSaveRequest\**" />
-    <EmbeddedResource Remove="Users\Requests\Login\Validators\**" />
-    <EmbeddedResource Remove="Users\Requests\DeleteAndSaveRequest\**" />
-    <EmbeddedResource Remove="Users\Requests\UpdateAndSaveRequest\**" />
-    <None Remove="Common\Security\Auth\Abstractions\**" />
-    <None Remove="Users\Requests\AddAndSaveRequest\**" />
-    <None Remove="Users\Requests\Login\Validators\**" />
-    <None Remove="Users\Requests\DeleteAndSaveRequest\**" />
-    <None Remove="Users\Requests\UpdateAndSaveRequest\**" />
+    <Compile Remove="UserBoards\**" />
+    <EmbeddedResource Remove="UserBoards\**" />
+    <None Remove="UserBoards\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,11 +19,6 @@
     </PackageReference>
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UserBoards\Requests\" />
-    <Folder Include="Users\Requests\Register\Validators\" />
   </ItemGroup>
 
   <ItemGroup>

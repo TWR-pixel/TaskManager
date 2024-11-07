@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Users.Requests.SendPasswordRecoveryCode;
-using TaskManager.Application.Users.Requests.VerifyPasswordRecoveryCode;
+using TaskManager.Application.User.Commands.RecoverPassword;
+using TaskManager.Application.User.Queries.SendPasswordRecoveryCode;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -20,7 +20,7 @@ public sealed class PasswordRecoveryController(IMediatorWrapper mediator) : ApiC
 
     [HttpPost("verify-code")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<RecoverPasswordResponse>> VerifyCode([FromBody] VerifyPasswordRecoveryCodeRequest request,
+    public async Task<ActionResult<RecoverPasswordResponse>> VerifyCode([FromBody] RecoverPasswordRequest request,
                                                                         CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);

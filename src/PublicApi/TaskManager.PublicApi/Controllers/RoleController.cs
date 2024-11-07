@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Role;
 using TaskManager.Application.Role.Requests;
 
 namespace TaskManager.PublicApi.Controllers;
@@ -12,7 +13,7 @@ public sealed class RoleController(IMediatorWrapper mediator, ILogger<RoleContro
     #region HTTP methods
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<CreateRoleResponse>> Create([FromBody] CreateRoleRequest request,
+    public async Task<ActionResult<RoleDto>> Create([FromBody] CreateRoleRequest request,
                                                                CancellationToken cancellation)
     {
         _logger.LogInformation("Requested to create a new role {Title}", request.Name);

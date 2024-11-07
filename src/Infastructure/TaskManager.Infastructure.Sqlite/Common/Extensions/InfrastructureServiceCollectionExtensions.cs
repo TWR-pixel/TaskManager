@@ -21,7 +21,15 @@ public static class InfrastructureServiceCollectionExtensions
             .AddScoped<IRepositoryBase<UserTaskEntity>, EfRepository<UserTaskEntity>>()
             .AddScoped<IRepositoryBase<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
 
-        services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+        services
+            .AddScoped<IReadRepositoryBase<UserEntity>, EfRepository<UserEntity>>()
+            .AddScoped<IReadRepositoryBase<RoleEntity>, EfRepository<RoleEntity>>()
+            .AddScoped<IReadRepositoryBase<UserTaskEntity>, EfRepository<UserTaskEntity>>()
+            .AddScoped<IReadRepositoryBase<TaskColumnEntity>, EfRepository<TaskColumnEntity>>();
+
+        services
+            .AddScoped<IUnitOfWork, EfUnitOfWork>()
+            .AddScoped<IReadUnitOfWork, EfReadUnitOfWork>();
 
         return services;
     }

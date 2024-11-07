@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Register\Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.1.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj" />
+    <ProjectReference Include="..\TaskManager.Application.Common\TaskManager.Application.Common.csproj" />
+    <ProjectReference Include="..\TaskManager.Application.Role\TaskManager.Application.Role.csproj" />
+    <ProjectReference Include="..\TaskManager.Application.TaskColumn\TaskManager.Application.TaskColumn.csproj" />
+    <ProjectReference Include="..\TaskManager.Application.Task\TaskManager.Application.UserTask.csproj" />
+  </ItemGroup>
+
+</Project>

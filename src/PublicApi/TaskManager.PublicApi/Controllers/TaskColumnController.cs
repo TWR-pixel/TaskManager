@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.TaskColumns;
-using TaskManager.Application.TaskColumns.Requests.Create;
-using TaskManager.Application.TaskColumns.Requests.DeleteById;
-using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest;
-using TaskManager.Application.TaskColumns.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
-using TaskManager.Application.TaskColumns.Requests.GetById;
-using TaskManager.Application.TaskColumns.Requests.UpdateById;
+using TaskManager.Application.TaskColumn;
+using TaskManager.Application.TaskColumn.Requests.Create;
+using TaskManager.Application.TaskColumn.Requests.DeleteById;
+using TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest;
+using TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
+using TaskManager.Application.TaskColumn.Requests.GetById;
+using TaskManager.Application.TaskColumn.Requests.UpdateById;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -44,7 +44,7 @@ public sealed class TaskColumnController(IMediatorWrapper mediator) : ApiControl
                                                                                                       CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
-
+        
         return Ok(result);
     }
 

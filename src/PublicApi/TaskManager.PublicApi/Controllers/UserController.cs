@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.Application.Tasks.Requests.GetAllById;
-using TaskManager.Application.Users;
-using TaskManager.Application.Users.Requests.DeleteById;
-using TaskManager.Application.Users.Requests.GetById;
-using TaskManager.Application.Users.Requests.UpdateById;
+using TaskManager.Application.User;
+using TaskManager.Application.User.Commands.DeleteById;
+using TaskManager.Application.User.Commands.UpdateById;
+using TaskManager.Application.User.Queries.GetById;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -18,7 +17,7 @@ public sealed class UserController(IMediatorWrapper mediator) : ApiControllerBas
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<GetAllUserTasksByIdResponse>> GetById([FromQuery] GetUserByIdRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<UserDto>> GetById([FromQuery] GetUserByIdRequest request, CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 

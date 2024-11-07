@@ -1,5 +1,5 @@
 ﻿using MailKit.Net.Smtp;
-using TaskManager.Application.Modules.Email.Options;
+using TaskManager.Application.User.Common.Email.Options;
 using TaskManager.PublicApi.Common.Wrappers;
 
 namespace TaskManager.PublicApi.Common.Extensions;

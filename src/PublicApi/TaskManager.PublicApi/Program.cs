@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
-using TaskManager.Application.Common.Extensions;
 using TaskManager.PublicApi.Common.Middlewares;
 using TaskManager.Infrastructure.Sqlite.Common.Extensions;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
+using TaskManager.Application.DIExtensions;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +43,7 @@ builder.Services.AddSwaggerGen(c =>
         Title = "My API for task manager project",
         Version = "v1"
     });
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -50,6 +51,7 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement {
    {
      new OpenApiSecurityScheme

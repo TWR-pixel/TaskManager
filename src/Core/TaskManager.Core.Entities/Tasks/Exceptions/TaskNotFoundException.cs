@@ -13,4 +13,10 @@ public sealed class TaskNotFoundException : NotFoundException
         : base($"Task with id '{taskId}' not found", innerException)
     {
     }
+
+    public TaskNotFoundException(string title)
+        : base($"Task with title '{title}' not found")
+    {
+
+    }
 }

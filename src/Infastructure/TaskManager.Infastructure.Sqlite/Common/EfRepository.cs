@@ -7,4 +7,5 @@ namespace TaskManager.Infrastructure.Sqlite.Common;
 public sealed class EfRepository<TEntity>(TaskManagerDbContext dbContext) : RepositoryBase<TEntity>(dbContext), IRepositoryBase<TEntity>
     where TEntity : EntityBase
 {
+    
 }
