@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using TaskManager.Core.Entities.Common.Entities;
-using TaskManager.Core.Entities.Roles;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.Entities.Tasks;
+using TaskManager.Domain.Entities.Common.Entities;
+using TaskManager.Domain.Entities.Roles;
+using TaskManager.Domain.Entities.TaskColumns;
+using TaskManager.Domain.Entities.Tasks;
 
-namespace TaskManager.Core.Entities.Users;
+namespace TaskManager.Domain.Entities.Users;
 
 [Table("users")]
 [Index(nameof(EmailLogin), nameof(RegisteredAt))]

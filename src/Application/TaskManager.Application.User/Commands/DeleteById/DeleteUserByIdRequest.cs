@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.User.Commands.DeleteById;
@@ -15,6 +15,7 @@ public sealed class DeleteUserByIdRequestHandler(IUnitOfWork unitOfWork) : Reque
             ?? throw new UserNotFoundException($"User with id '{request.UserId}' not found. ");
 
         await UnitOfWork.Users.DeleteAsync(queryResult, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
         var response = queryResult.ToResponse();
 

@@ -2,8 +2,8 @@
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.User.Common.AccessToken;
 using TaskManager.Application.User.Common.Email.Code.Verifier;
-using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.Common.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.Users.Specifications;
 
@@ -11,23 +11,14 @@ namespace TaskManager.Application.User.Commands.VerifyEmail;
 
 public sealed record VerifyEmailRequest(string Code) : RequestBase<AccessTokenResponse>;
 
-public sealed class VerifyEmailRequestHandler
-    : RequestHandlerBase<VerifyEmailRequest, AccessTokenResponse>
+public sealed class VerifyEmailRequestHandler(IUnitOfWork unitOfWork,
+                                              ICodeVerifier verifier,
+                                              IAccessTokenFactory accessTokenFactory)
+        : RequestHandlerBase<VerifyEmailRequest, AccessTokenResponse>(unitOfWork)
 {
-    private readonly ICodeVerifier _verifier;
-    private readonly IAccessTokenFactory _accessTokenFactory;
-
-    public VerifyEmailRequestHandler(IUnitOfWork unitOfWork,
-                                     ICodeVerifier verifier,
-                                     IAccessTokenFactory accessTokenFactory) : base(unitOfWork)
-    {
-        _verifier = verifier;
-        _accessTokenFactory = accessTokenFactory;
-    }
-
     public override async Task<AccessTokenResponse> Handle(VerifyEmailRequest request, CancellationToken cancellationToken)
     {
-        var isCodeCorrect = _verifier.Verify(request.Code, out string email);
+        var isCodeCorrect = verifier.Verify(request.Code, out string email);
 
         if (!isCodeCorrect)
             throw new CodeNotVerifiedException("code not found, try resend it");
@@ -41,8 +32,9 @@ public sealed class VerifyEmailRequestHandler
         user.IsEmailVerified = true; // change
 
         await UnitOfWork.Users.UpdateAsync(user, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
-        var accessToken = _accessTokenFactory.Create(user);
+        var accessToken = accessTokenFactory.Create(user);
 
         return accessToken;
     }

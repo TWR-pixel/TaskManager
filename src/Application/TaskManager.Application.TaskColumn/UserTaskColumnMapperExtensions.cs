@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.TaskColumn;
 using TaskManager.Application.UserTask;
-using TaskManager.Core.Entities.TaskColumns;
+using TaskManager.Domain.Entities.TaskColumns;
 
 namespace TaskManager.Application.TaskColumn;
 

@@ -1,5 +1,5 @@
 ﻿using Ardalis.Specification;
-using TaskManager.Core.Entities.TaskColumns;
+using TaskManager.Domain.Entities.TaskColumns;
 
 namespace TaskManager.Domain.UseCases.Tasks.Specifications;
 

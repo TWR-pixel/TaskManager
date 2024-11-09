@@ -1,5 +1,5 @@
 ﻿using TaskManager.Application.Common.Requests.Queries;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.Users.Specifications;
 

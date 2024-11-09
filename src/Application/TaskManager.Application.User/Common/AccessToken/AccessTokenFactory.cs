@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using TaskManager.Application.User.Common.Security.Auth.Claims;
 using TaskManager.Application.User.Common.Security.Auth.Tokens.Jwt;
-using TaskManager.Core.Entities.Users;
+using TaskManager.Domain.Entities.Users;
 
 namespace TaskManager.Application.User.Common.AccessToken;
 

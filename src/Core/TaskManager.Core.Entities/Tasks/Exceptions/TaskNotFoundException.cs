@@ -1,6 +1,6 @@
-﻿using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Domain.Entities.Common.Exceptions;
 
-namespace TaskManager.Core.Entities.Tasks.Exceptions;
+namespace TaskManager.Domain.Entities.Tasks.Exceptions;
 
 public sealed class TaskNotFoundException : NotFoundException
 {

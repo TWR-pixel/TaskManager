@@ -2,11 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using TaskManager.Core.Entities.Common.Entities;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.Entities.Users;
+using TaskManager.Domain.Entities.Common.Entities;
+using TaskManager.Domain.Entities.TaskColumns;
+using TaskManager.Domain.Entities.Users;
 
-namespace TaskManager.Core.Entities.Tasks;
+namespace TaskManager.Domain.Entities.Tasks;
 
 [Table("user_tasks")]
 [Index(nameof(CreatedAt))]

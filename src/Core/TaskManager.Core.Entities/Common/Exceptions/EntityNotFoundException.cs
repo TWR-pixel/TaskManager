@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Core.Entities.Common.Exceptions;
+﻿namespace TaskManager.Domain.Entities.Common.Exceptions;
 
 public sealed class EntityNotFoundException : NotFoundException
 {

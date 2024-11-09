@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.Common.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 
 namespace TaskManager.PublicApi.Common.Middlewares;
 

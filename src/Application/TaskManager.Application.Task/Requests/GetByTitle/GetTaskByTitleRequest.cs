@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.Tasks.Exceptions;
+using TaskManager.Domain.Entities.Tasks.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.Tasks.Specifications;
 

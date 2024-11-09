@@ -2,8 +2,8 @@
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.User.Common.AccessToken;
 using TaskManager.Application.User.Common.Security.Hashers;
-using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.Common.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.Users.Specifications;
 

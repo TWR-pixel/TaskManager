@@ -1,4 +1,11 @@
-﻿namespace TaskManager.Infrastructure.PostgreSql.Common;
+﻿using TaskManager.Domain.Entities.Roles;
+using TaskManager.Domain.Entities.TaskColumns;
+using TaskManager.Domain.Entities.Tasks;
+using TaskManager.Domain.Entities.Users;
+using TaskManager.Domain.UseCases.Common.Repositories;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+
+namespace TaskManager.Infrastructure.PostgreSql.Common;
 
 public sealed class EfUnitOfWork : IUnitOfWork
 {
@@ -26,5 +33,20 @@ public sealed class EfUnitOfWork : IUnitOfWork
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
         return await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public Task<Guid> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void CommitTransaction()
+    {
+        throw new NotImplementedException();
     }
 }

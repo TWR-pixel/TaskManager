@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using TaskManager.Core.Entities.Common.Entities;
+using TaskManager.Domain.Entities.Common.Entities;
 
-namespace TaskManager.Core.Entities.Roles;
+namespace TaskManager.Domain.Entities.Roles;
 
 [Table("roles")]
 [Index(nameof(Name))]
@@ -23,5 +23,5 @@ public sealed class RoleEntity : EntityBase
     {
         Name = name;
     }
-    
+
 }

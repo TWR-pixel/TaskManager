@@ -1,7 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.Common.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.TaskColumn.Requests.UpdateById;
@@ -44,6 +44,7 @@ public sealed class UpdateTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) :
         var response = new UpdateTaskColumnByIdResponse(taskColumnEntity.Owner.Id, taskColumnEntity.Title, taskColumnEntity.Description);
 
         await UnitOfWork.UserTaskColumns.UpdateAsync(taskColumnEntity, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
         return response;
     }

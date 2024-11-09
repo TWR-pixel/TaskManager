@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.TaskColumns;
+using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.TaskColumns.Specifications;
 

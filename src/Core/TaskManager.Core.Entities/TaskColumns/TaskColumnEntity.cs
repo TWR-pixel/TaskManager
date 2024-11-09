@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using TaskManager.Core.Entities.Common.Entities;
-using TaskManager.Core.Entities.Tasks;
-using TaskManager.Core.Entities.Users;
+using TaskManager.Domain.Entities.Common.Entities;
+using TaskManager.Domain.Entities.Tasks;
+using TaskManager.Domain.Entities.Users;
 
-namespace TaskManager.Core.Entities.TaskColumns;
+namespace TaskManager.Domain.Entities.TaskColumns;
 
 [Table("task_columns")]
 public sealed class TaskColumnEntity : EntityBase

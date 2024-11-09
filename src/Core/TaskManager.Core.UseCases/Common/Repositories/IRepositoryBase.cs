@@ -1,4 +1,4 @@
-﻿using TaskManager.Core.Entities.Common.Entities;
+﻿using TaskManager.Domain.Entities.Common.Entities;
 
 namespace TaskManager.Domain.UseCases.Common.Repositories;
 

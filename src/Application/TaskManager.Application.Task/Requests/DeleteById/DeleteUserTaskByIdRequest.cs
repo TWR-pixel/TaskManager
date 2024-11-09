@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.Tasks.Exceptions;
+using TaskManager.Domain.Entities.Tasks.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.UserTask.Requests.DeleteById;
@@ -17,6 +17,7 @@ public sealed class DeleteUserTaskByIdRequestHandler(IUnitOfWork unitOfWork)
             ?? throw new TaskNotFoundException(request.TaskId);
 
         await UnitOfWork.UserTasks.DeleteAsync(queryResult, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
         var response = new DeleteUserTaskByIdResponse();
 

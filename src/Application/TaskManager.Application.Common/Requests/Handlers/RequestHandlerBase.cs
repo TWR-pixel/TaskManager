@@ -15,4 +15,8 @@ public abstract class RequestHandlerBase<TRequest, TResponse>(IUnitOfWork unitOf
     protected readonly IUnitOfWork UnitOfWork = unitOfWork;
 
     public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
+    public async virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return await UnitOfWork.SaveChangesAsync(cancellationToken);
+    }
 }

@@ -1,7 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.User.Common.Security.Hashers;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.User.Commands.UpdateById;
@@ -50,6 +50,7 @@ public sealed class UpdateUserByIdRequetHandler : RequestHandlerBase<UpdateUserB
         }
 
         await UnitOfWork.Users.UpdateAsync(userEntity, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
         var response = new UpdateUserByIdResponse(userEntity.Id, userEntity.Username, userEntity.EmailLogin);
 

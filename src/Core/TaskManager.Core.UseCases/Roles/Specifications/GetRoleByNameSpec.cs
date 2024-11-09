@@ -1,5 +1,5 @@
 ﻿using Ardalis.Specification;
-using TaskManager.Core.Entities.Roles;
+using TaskManager.Domain.Entities.Roles;
 
 namespace TaskManager.Domain.UseCases.Roles.Specifications;
 

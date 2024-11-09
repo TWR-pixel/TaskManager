@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.TaskColumns;
+using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.TaskColumn.Requests.DeleteById;
@@ -17,6 +17,7 @@ public sealed class DeleteTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
             ?? throw new TaskColumnNotFoundException(request.TaskColumnId);
 
         await UnitOfWork.UserTaskColumns.DeleteAsync(entity, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
         var response = new DeleteTaskColumnByIdResponse();
 

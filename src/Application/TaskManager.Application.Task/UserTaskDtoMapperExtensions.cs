@@ -1,4 +1,4 @@
-﻿using TaskManager.Core.Entities.Tasks;
+﻿using TaskManager.Domain.Entities.Tasks;
 
 namespace TaskManager.Application.UserTask;
 

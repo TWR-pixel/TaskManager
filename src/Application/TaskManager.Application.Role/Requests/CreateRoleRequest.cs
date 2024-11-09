@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.Roles;
+using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.Role.Requests;
@@ -15,6 +15,7 @@ public sealed class CreateRoleRequestHandler(IUnitOfWork unitOfWork)
         var role = new RoleEntity(request.Name);
 
         await UnitOfWork.Roles.AddAsync(role, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
         var response = role.ToResponse();
 

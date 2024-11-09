@@ -1,7 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.TaskColumns;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.TaskColumn.Requests.Create;
@@ -25,6 +25,7 @@ public sealed class CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork)
         var entity = new TaskColumnEntity(userEntity, request.Title, request.Description);
 
         var queryResult = await UnitOfWork.UserTaskColumns.AddAsync(entity, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
         var response = queryResult.ToResponse();
 

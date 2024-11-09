@@ -1,4 +1,4 @@
-﻿using TaskManager.Core.Entities.Roles;
+﻿using TaskManager.Domain.Entities.Roles;
 
 namespace TaskManager.Application.Role;
 

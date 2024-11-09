@@ -1,7 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
-using TaskManager.Core.Entities.Common.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.TaskColumns.Specifications;
 
@@ -20,7 +20,7 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
     {
         var queryResult = await UnitOfWork.Users
             .SingleOrDefaultAsync(new ReadAllUserTaskColumnsWithTasksByIdSpec(request.UserId), cancellationToken)
-                ?? throw new EntityNotFoundException($"User with id {request.UserId} not found");
+                ?? throw new UserNotFoundException(request.UserId);
 
         queryResult.TaskColumns ??= [];
 

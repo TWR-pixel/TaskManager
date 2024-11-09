@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\TaskManager.Core.Entities\TaskManager.Domain.Entities.csproj" />
     <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj" />
+    <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Domain.UseCases.csproj" />
   </ItemGroup>
 
 </Project>

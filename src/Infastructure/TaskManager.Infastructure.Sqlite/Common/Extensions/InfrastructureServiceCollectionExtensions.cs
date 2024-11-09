@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TaskManager.Core.Entities.Roles;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.Entities.Tasks;
-using TaskManager.Core.Entities.Users;
+using TaskManager.Domain.Entities.Roles;
+using TaskManager.Domain.Entities.TaskColumns;
+using TaskManager.Domain.Entities.Tasks;
+using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.UseCases.Common.Repositories;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 

@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Core.Entities.Users.Exceptions;
+﻿namespace TaskManager.Domain.Entities.Users.Exceptions;
 
 public sealed class UserAlreadyExistsException : Exception
 {

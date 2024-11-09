@@ -1,7 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.Entities.Tasks.Exceptions;
+using TaskManager.Domain.Entities.TaskColumns;
+using TaskManager.Domain.Entities.Tasks.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.UserTask.Requests.UpdateById;
@@ -62,6 +62,8 @@ public sealed class UpdateTaskRequestHandler(IUnitOfWork unitOfWork)
                                               taskEntity.Description,
                                               taskEntity.IsCompleted,
                                               taskEntity.IsInProgress);
+
+        await SaveChangesAsync(cancellationToken);
 
         return response;
     }

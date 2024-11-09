@@ -1,4 +1,4 @@
-﻿using TaskManager.Core.Entities.Users;
+﻿using TaskManager.Domain.Entities.Users;
 
 namespace TaskManager.Application.User.Common.AccessToken;
 

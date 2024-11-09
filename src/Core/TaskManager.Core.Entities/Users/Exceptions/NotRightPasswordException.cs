@@ -1,6 +1,6 @@
-﻿using TaskManager.Core.Entities.Common.Exceptions;
+﻿using TaskManager.Domain.Entities.Common.Exceptions;
 
-namespace TaskManager.Core.Entities.Users.Exceptions;
+namespace TaskManager.Domain.Entities.Users.Exceptions;
 
 public class NotRightPasswordException : NotRightException
 {

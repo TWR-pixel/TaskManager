@@ -2,8 +2,8 @@
 using TaskManager.Application.Common.Requests.Commands;
 using TaskManager.Application.User.Common.Email.Code.Verifier;
 using TaskManager.Application.User.Common.Security.Hashers;
-using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.Common.Exceptions;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.Users.Specifications;
 
@@ -52,7 +52,8 @@ public sealed class RecoverPasswordRequestHandler : CommandRequestHandlerBase<Re
         user.PasswordSalt = salt;
 
         await UnitOfWork.Users.UpdateAsync(user, cancellationToken);
-
+        await SaveChangesAsync(cancellationToken);
+        
         var response = new RecoverPasswordResponse();
 
         return response;

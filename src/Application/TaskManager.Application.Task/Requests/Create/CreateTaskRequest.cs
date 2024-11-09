@@ -1,8 +1,8 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.Entities.Tasks;
-using TaskManager.Core.Entities.Users.Exceptions;
+using TaskManager.Domain.Entities.TaskColumns;
+using TaskManager.Domain.Entities.Tasks;
+using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.UserTask.Requests.Create;
@@ -34,6 +34,8 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
                                             request.CompletedAt);
 
         await UnitOfWork.UserTasks.AddAsync(taskEntity, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
+
 
         var response = taskEntity.ToResponse();
 
