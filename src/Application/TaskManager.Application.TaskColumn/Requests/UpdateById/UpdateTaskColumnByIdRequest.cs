@@ -12,7 +12,7 @@ public sealed record UpdateTaskColumnByIdRequest(int TaskColumnId,
                                                  string? Description)
     : RequestBase<UpdateTaskColumnByIdResponse>;
 
-public sealed record UpdateTaskColumnByIdResponse(int? UserId, string? Name, string? Description)
+public sealed record UpdateTaskColumnByIdResponse(int? UserId, string? Title, string? Description)
     : ResponseBase;
 
 #region Handler
