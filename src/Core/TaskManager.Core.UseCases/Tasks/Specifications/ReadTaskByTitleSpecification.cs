@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using TaskManager.Core.Entities.Tasks;
 
-namespace TaskManager.Core.UseCases.Tasks.Specifications;
+namespace TaskManager.Domain.UseCases.Tasks.Specifications;
 
 public sealed class ReadTaskByTitleSpecification : SingleResultSpecification<UserTaskEntity>
 {

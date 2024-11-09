@@ -1,7 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests.Queries;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
-using TaskManager.Core.UseCases.Users.Specifications;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.User.Queries.GetById;
 

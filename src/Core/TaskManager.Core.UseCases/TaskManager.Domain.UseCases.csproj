@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskManager.Core.Entities\TaskManager.Core.Entities.csproj" />
+    <ProjectReference Include="..\TaskManager.Core.Entities\TaskManager.Domain.Entities.csproj" />
   </ItemGroup>
 
 </Project>

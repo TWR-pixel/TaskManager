@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj" />
+    <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Domain.UseCases.csproj" />
     <ProjectReference Include="..\TaskManager.Application.Common\TaskManager.Application.Common.csproj" />
     <ProjectReference Include="..\TaskManager.Application.Task\TaskManager.Application.UserTask.csproj" />
   </ItemGroup>

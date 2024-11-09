@@ -1,6 +1,4 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
-using TaskManager.Core.Entities.Common.Entities;
-using TaskManager.Core.UseCases.Common.Repositories;
 
 namespace TaskManager.Infrastructure.PostgreSql.Common;
 

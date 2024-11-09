@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Core.UseCases.Roles;
+﻿namespace TaskManager.Domain.UseCases.Roles;
 
 public static class RoleConstants
 {

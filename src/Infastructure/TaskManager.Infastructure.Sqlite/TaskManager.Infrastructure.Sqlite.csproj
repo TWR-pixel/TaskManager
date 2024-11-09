@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\Application\TaskManager.Application.TaskColumn\TaskManager.Application.TaskColumn.csproj" />
     <ProjectReference Include="..\..\Application\TaskManager.Application.Task\TaskManager.Application.UserTask.csproj" />
     <ProjectReference Include="..\..\Application\TaskManager.Application.User\TaskManager.Application.User.csproj" />
+    <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Domain.UseCases.csproj" />
   </ItemGroup>
 
 </Project>

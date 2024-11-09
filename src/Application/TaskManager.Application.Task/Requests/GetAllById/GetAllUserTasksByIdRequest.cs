@@ -1,8 +1,8 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
-using TaskManager.Core.UseCases.Tasks.Specifications;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Tasks.Specifications;
 
 namespace TaskManager.Application.UserTask.Requests.GetAllById;
 
@@ -21,18 +21,18 @@ public sealed class GetAllUserTasksByIdRequestHandler(IUnitOfWork unitOfWork)
 {
     public override async Task<GetAllUserTasksByIdResponse> Handle(GetAllUserTasksByIdRequest request, CancellationToken cancellationToken)
     {
-        var userQueryResult = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadAllUserTasksByIdSpecification(request.UserId), cancellationToken)
+        var userEntity = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadAllUserTasksByIdSpecification(request.UserId), cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
 
-        userQueryResult.Tasks ??= [];
+        userEntity.Tasks ??= [];
 
         var response = new GetAllUserTasksByIdResponse
         (
             request.UserId,
-            userQueryResult.Username,
-            userQueryResult.EmailLogin,
+            userEntity.Username,
+            userEntity.EmailLogin,
 
-            userQueryResult.Tasks.Select(static t => new UserTaskByIdResponse(t.Title,
+            userEntity.Tasks.Select(static t => new UserTaskByIdResponse(t.Title,
                                                                               t.Description,
                                                                               t.IsCompleted,
                                                                               t.IsInProgress,

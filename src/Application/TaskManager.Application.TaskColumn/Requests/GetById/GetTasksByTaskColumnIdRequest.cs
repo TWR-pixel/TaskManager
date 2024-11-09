@@ -2,7 +2,7 @@
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Core.Entities.TaskColumns;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.TaskColumn.Requests.GetById;
 

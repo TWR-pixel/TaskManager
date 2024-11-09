@@ -2,9 +2,9 @@
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
-using TaskManager.Core.UseCases.Common.Repositories;
+using TaskManager.Domain.UseCases.Common.Repositories;
 
-namespace TaskManager.Core.UseCases.Common.UnitOfWorks;
+namespace TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 public interface IUnitOfWork
 {

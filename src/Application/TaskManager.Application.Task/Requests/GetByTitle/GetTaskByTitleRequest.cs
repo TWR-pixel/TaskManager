@@ -2,8 +2,8 @@
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Core.Entities.Tasks.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
-using TaskManager.Core.UseCases.Tasks.Specifications;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Tasks.Specifications;
 
 namespace TaskManager.Application.UserTask.Requests.GetByTitle;
 

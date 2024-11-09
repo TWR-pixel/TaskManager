@@ -2,8 +2,8 @@
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
 using TaskManager.Core.Entities.Common.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
-using TaskManager.Core.UseCases.TaskColumns.Specifications;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.TaskColumns.Specifications;
 
 namespace TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest;
 

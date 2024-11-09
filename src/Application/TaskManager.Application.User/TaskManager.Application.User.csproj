@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj" />
+    <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Domain.UseCases.csproj" />
     <ProjectReference Include="..\TaskManager.Application.Common\TaskManager.Application.Common.csproj" />
     <ProjectReference Include="..\TaskManager.Application.Role\TaskManager.Application.Role.csproj" />
     <ProjectReference Include="..\TaskManager.Application.TaskColumn\TaskManager.Application.TaskColumn.csproj" />

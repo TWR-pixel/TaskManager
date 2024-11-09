@@ -7,15 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D9601ACB-039
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublicApi", "PublicApi", "{FE0589C6-0E12-4846-8633-C2414FDA10B2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{EBDB93FA-CCCC-4EC0-8015-213BD8DFA5AE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{EBDB93FA-CCCC-4EC0-8015-213BD8DFA5AE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{05E3F6CA-4A01-477B-8EA9-A1AF6E3CF70B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Core.Entities", "src\Core\TaskManager.Core.Entities\TaskManager.Core.Entities.csproj", "{D9E91C75-450E-4BC8-8D4D-492438962030}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Domain.Entities", "src\Core\TaskManager.Core.Entities\TaskManager.Domain.Entities.csproj", "{D9E91C75-450E-4BC8-8D4D-492438962030}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infastructure", "Infastructure", "{EF77468F-D4D7-41D4-8351-6E35AAAB5182}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Core.UseCases", "src\Core\TaskManager.Core.UseCases\TaskManager.Core.UseCases.csproj", "{B8AA6B86-EE9D-4357-BBBA-B485F073E233}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Domain.UseCases", "src\Core\TaskManager.Core.UseCases\TaskManager.Domain.UseCases.csproj", "{B8AA6B86-EE9D-4357-BBBA-B485F073E233}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AC975F3C-13C2-4D1A-B3C5-D436FC521D32}"
 EndProject

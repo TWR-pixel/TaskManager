@@ -3,7 +3,7 @@ using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.UserTask.Requests.Create;
 

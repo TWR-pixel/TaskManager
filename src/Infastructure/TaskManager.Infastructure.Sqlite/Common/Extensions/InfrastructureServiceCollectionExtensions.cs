@@ -4,8 +4,8 @@ using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Tasks;
 using TaskManager.Core.Entities.Users;
-using TaskManager.Core.UseCases.Common.Repositories;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Common.Repositories;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Infrastructure.Sqlite.Common.Extensions;
 

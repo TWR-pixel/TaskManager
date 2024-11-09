@@ -2,8 +2,8 @@
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.User.Common.Email.Sender;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
-using TaskManager.Core.UseCases.Users.Specifications;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.User.Queries.ResendCode;
 

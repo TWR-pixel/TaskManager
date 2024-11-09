@@ -7,10 +7,10 @@ using TaskManager.Core.Entities.Roles;
 using TaskManager.Core.Entities.TaskColumns;
 using TaskManager.Core.Entities.Users;
 using TaskManager.Core.Entities.Users.Exceptions;
-using TaskManager.Core.UseCases.Common.UnitOfWorks;
-using TaskManager.Core.UseCases.Roles;
-using TaskManager.Core.UseCases.Roles.Specifications;
-using TaskManager.Core.UseCases.Users.Specifications;
+using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Roles;
+using TaskManager.Domain.UseCases.Roles.Specifications;
+using TaskManager.Domain.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.User.Commands.Register;
 
