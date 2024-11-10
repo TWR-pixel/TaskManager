@@ -13,11 +13,13 @@ public sealed record UserTaskColumnDto
         TasksInColumn = tasksInColumn;
         OwnerId = ownerId;
         Id = id;
+       // Ordering = ordering;
     }
-     
+
     public required int Id { get; set; }
     public required string Title { get; set; }
     public string? Description { get; set; }
+   // public required int Ordering { get; set; }
     public IEnumerable<UserTaskDto>? TasksInColumn { get; set; }
     public required int OwnerId { get; set; }
 }

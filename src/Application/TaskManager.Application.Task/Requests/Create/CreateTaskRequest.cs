@@ -10,14 +10,22 @@ namespace TaskManager.Application.UserTask.Requests.Create;
 public sealed record CreateTaskRequest(int UserId,
                                        int ColumnId,
                                        string Title,
-                                       string Description,
+                                       string? Description,
                                        DateOnly? CompletedAt,
                                        bool IsCompleted = false,
-                                       bool IsInProgress = true) : RequestBase<UserTaskDto>;
+                                       bool IsInProgress = true) : RequestBase<CreateTaskResponse>;
 
-public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<CreateTaskRequest, UserTaskDto>(unitOfWork)
+public sealed record CreateTaskResponse(int CreatedTaskId,
+                                        int ColumnId,
+                                        string Title,
+                                        string? Description,
+                                        bool IsCompleted,
+                                        bool IsInProgress,
+                                        DateOnly? CompletedAt);
+
+public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<CreateTaskRequest, CreateTaskResponse>(unitOfWork)
 {
-    public override async Task<UserTaskDto> Handle(CreateTaskRequest request, CancellationToken cancellationToken)
+    public override async Task<CreateTaskResponse> Handle(CreateTaskRequest request, CancellationToken cancellationToken)
     {
         var userOwner = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
@@ -33,10 +41,10 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
                                             request.Description,
                                             request.CompletedAt);
 
-        await UnitOfWork.UserTasks.AddAsync(taskEntity, cancellationToken);
+        var result = await UnitOfWork.UserTasks.AddAsync(taskEntity, cancellationToken);
         await SaveChangesAsync(cancellationToken);
 
-        var response = taskEntity.ToResponse();
+        var response = new CreateTaskResponse(result.Id, taskEntity.TaskColumn.Id, result.Title, result.Description, result.IsCompleted, result.IsInProgress, result.CompletedAt);
 
         return response;
     }

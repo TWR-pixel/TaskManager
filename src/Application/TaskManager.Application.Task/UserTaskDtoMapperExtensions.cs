@@ -12,7 +12,8 @@ public static class UserTaskDtoMapperExtensions
                                   entity.CompletedAt,
                                   entity.IsCompleted,
                                   entity.IsInProgress,
-                                  entity.TaskColumn.Id);
+                                  entity.TaskColumn.Id,
+                                  entity.Id);
 
         return dto;
     }

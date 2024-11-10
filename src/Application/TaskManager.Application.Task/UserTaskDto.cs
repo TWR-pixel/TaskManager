@@ -12,7 +12,8 @@ public sealed record UserTaskDto
                        bool isCompleted,
                        bool isInProgress,
                        //int ownerId,
-                       int userTaskColumnId)
+                       int userTaskColumnId,
+                       int id)
     {
         Title = title;
         Description = description;
@@ -22,8 +23,10 @@ public sealed record UserTaskDto
         IsInProgress = isInProgress;
         // OwnerId = ownerId;
         UserTaskColumnId = userTaskColumnId;
+        Id = id;
     }
 
+    public required int Id { get; set; }
     public required string? Title { get; set; }
     public required string? Description { get; set; }
 

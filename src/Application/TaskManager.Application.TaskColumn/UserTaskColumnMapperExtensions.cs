@@ -14,7 +14,8 @@ public static class UserTaskColumnMapperExtensions
                                         entity.Description,
                                         entity.TasksInColumn.ToResponses(),
                                         entity.Owner.Id,
-                                        entity.Id);
+                                        entity.Id
+                                        );
 
         return dto;
     }

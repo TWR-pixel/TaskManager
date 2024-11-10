@@ -18,6 +18,7 @@ public sealed class UserTaskColumnEntity : EntityBase
         Owner = owner;
         Title = title;
         Description = description;
+       // Ordering = ordering;
     }
 
     public UserTaskColumnEntity() { }
@@ -32,6 +33,9 @@ public sealed class UserTaskColumnEntity : EntityBase
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    //[Column("ordering")]
+    //public required int Ordering { get; set; }
 
     public IEnumerable<UserTaskEntity>? TasksInColumn { get; set; }
 
