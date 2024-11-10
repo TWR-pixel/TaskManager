@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using TaskManager.Domain.Entities.Common.Entities;
@@ -7,18 +8,19 @@ using TaskManager.Domain.Entities.Users;
 
 namespace TaskManager.Domain.Entities.TaskColumns;
 
-[Table("task_columns")]
-public sealed class TaskColumnEntity : EntityBase
+[Table("user_task_columns")]
+[Index(nameof(CreatedAt), nameof(Title))]
+public sealed class UserTaskColumnEntity : EntityBase
 {
     [SetsRequiredMembers]
-    public TaskColumnEntity(UserEntity owner, string title, string? description = null)
+    public UserTaskColumnEntity(UserEntity owner, string title, string? description = null)
     {
         Owner = owner;
         Title = title;
         Description = description;
     }
 
-    public TaskColumnEntity() { }
+    public UserTaskColumnEntity() { }
 
     [StringLength(128, MinimumLength = 3)]
     [Column("title")]

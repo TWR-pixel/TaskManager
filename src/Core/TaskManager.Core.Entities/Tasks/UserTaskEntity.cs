@@ -16,7 +16,7 @@ public sealed class UserTaskEntity : EntityBase
     public UserTaskEntity(bool isCompleted,
                           bool isInProgress,
                           UserEntity owner,
-                          TaskColumnEntity taskColumn,
+                          UserTaskColumnEntity taskColumn,
                           string title,
                           string description,
                           DateOnly? completedAt)
@@ -56,5 +56,5 @@ public sealed class UserTaskEntity : EntityBase
     public required UserEntity Owner { get; set; }
 
     [ForeignKey("task_column_id")]
-    public required TaskColumnEntity TaskColumn { get; set; }
+    public required UserTaskColumnEntity TaskColumn { get; set; }
 }

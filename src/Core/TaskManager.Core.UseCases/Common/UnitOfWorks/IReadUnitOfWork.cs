@@ -9,7 +9,7 @@ namespace TaskManager.Domain.UseCases.Common.UnitOfWorks;
 public interface IReadUnitOfWork
 {
     public IReadRepositoryBase<UserTaskEntity> UserTasks { get; init; }
-    public IReadRepositoryBase<TaskColumnEntity> UserTaskColumns { get; init; }
+    public IReadRepositoryBase<UserTaskColumnEntity> UserTaskColumns { get; init; }
     public IReadRepositoryBase<RoleEntity> Roles { get; init; }
     public IReadRepositoryBase<UserEntity> Users { get; init; }
 }

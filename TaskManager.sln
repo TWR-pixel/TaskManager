@@ -35,21 +35,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infrastructure.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.PublicApi", "src\PublicApi\TaskManager.PublicApi\TaskManager.PublicApi.csproj", "{467B8092-1CF7-4956-BFEA-FB1D0A371FF1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Tests.UseCases.Unit", "src\Tests\UseCases\Unit\TaskManager.Tests.UseCases.Unit\TaskManager.Tests.UseCases.Unit.csproj", "{B4D1FDF1-750B-4BA6-BC19-E09D2A8A4723}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Tests.Infrastructure.Unit", "src\Tests\UseCases\Unit\TaskManager.Tests.UseCases.Unit\TaskManager.Tests.Infrastructure.Unit.csproj", "{B4D1FDF1-750B-4BA6-BC19-E09D2A8A4723}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Tests.Application.Unit", "src\Tests\TaskManager.Tests.Application.Unit\TaskManager.Tests.Application.Unit.csproj", "{7476E0BD-B509-4D8A-A038-A73FC841B1C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application.User", "src\Application\TaskManager.Application.User\TaskManager.Application.User.csproj", "{CBFE2BD7-3541-49A7-86ED-139066CCB5B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.User", "src\Application\TaskManager.Application.User\TaskManager.Application.User.csproj", "{CBFE2BD7-3541-49A7-86ED-139066CCB5B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application.Common", "src\Application\TaskManager.Application.Common\TaskManager.Application.Common.csproj", "{5C391D5D-D100-4348-B7F8-23D9CBDAE53E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.Common", "src\Application\TaskManager.Application.Common\TaskManager.Application.Common.csproj", "{5C391D5D-D100-4348-B7F8-23D9CBDAE53E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application.UserTask", "src\Application\TaskManager.Application.Task\TaskManager.Application.UserTask.csproj", "{DDEA086F-3F80-4882-9B7B-CE911887B0E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.UserTask", "src\Application\TaskManager.Application.Task\TaskManager.Application.UserTask.csproj", "{DDEA086F-3F80-4882-9B7B-CE911887B0E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application.TaskColumn", "src\Application\TaskManager.Application.TaskColumn\TaskManager.Application.TaskColumn.csproj", "{A2E80AA0-2EE2-4E10-9CF8-E1879082B6B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.TaskColumn", "src\Application\TaskManager.Application.TaskColumn\TaskManager.Application.TaskColumn.csproj", "{A2E80AA0-2EE2-4E10-9CF8-E1879082B6B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application.Role", "src\Application\TaskManager.Application.Role\TaskManager.Application.Role.csproj", "{10AB6158-3D5C-4349-A6F4-B5B627BF4D8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.Role", "src\Application\TaskManager.Application.Role\TaskManager.Application.Role.csproj", "{10AB6158-3D5C-4349-A6F4-B5B627BF4D8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Application.DIExtensions", "src\Application\TaskManager.Application.DIExtensions\TaskManager.Application.DIExtensions.csproj", "{563EDCD9-8C3D-4A20-AAA1-BC1A071D6CC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Application.DIExtensions", "src\Application\TaskManager.Application.DIExtensions\TaskManager.Application.DIExtensions.csproj", "{563EDCD9-8C3D-4A20-AAA1-BC1A071D6CC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

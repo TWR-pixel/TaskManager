@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Tests.UseCases.Unit;
+﻿namespace TaskManager.Tests.Infrastructure.Unit;
 
 internal static class AssertWrapper
 {
@@ -10,7 +10,7 @@ internal static class AssertWrapper
         }
         catch (T)
         {
-            Assert.Fail();
+            Assert.Fail($"Error thrown with name {typeof(T).Name}");
         }
     }
 }

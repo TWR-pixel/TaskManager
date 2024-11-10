@@ -13,7 +13,7 @@ public static class DevelopmentEnvironmentMiddlewareExtensions
     public static IApplicationBuilder UseDevelopment(this IApplicationBuilder app)
     {
         Console.WriteLine("development environment");
-
+        
         app.UseCors(builder => builder
              .WithOrigins(
              "http://localhost:3000",
@@ -28,8 +28,7 @@ public static class DevelopmentEnvironmentMiddlewareExtensions
              .AllowCredentials()
              .SetIsOriginAllowed(origin => true)
              );
-
-
+        
         app.UseSwagger();
         app.UseSwaggerUI();
 

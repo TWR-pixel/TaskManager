@@ -59,7 +59,7 @@ public sealed class UserEntity : EntityBase
     [Column("is_email_verified")]
     public bool IsEmailVerified { get; set; } = true;
 
-    public IEnumerable<TaskColumnEntity>? TaskColumns { get; set; }
+    public IEnumerable<UserTaskColumnEntity>? TaskColumns { get; set; }
     public IEnumerable<UserTaskEntity>? Tasks { get; set; }
 
     [ForeignKey("role_id")]

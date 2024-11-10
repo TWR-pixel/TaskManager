@@ -36,7 +36,6 @@ public sealed class CreateTaskRequestHandler(IUnitOfWork unitOfWork) : RequestHa
         await UnitOfWork.UserTasks.AddAsync(taskEntity, cancellationToken);
         await SaveChangesAsync(cancellationToken);
 
-
         var response = taskEntity.ToResponse();
 
         return response;

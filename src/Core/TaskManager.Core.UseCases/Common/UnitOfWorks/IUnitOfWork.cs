@@ -9,7 +9,7 @@ namespace TaskManager.Domain.UseCases.Common.UnitOfWorks;
 public interface IUnitOfWork
 {
     public IRepositoryBase<UserTaskEntity> UserTasks { get; init; }
-    public IRepositoryBase<TaskColumnEntity> UserTaskColumns { get; init; }
+    public IRepositoryBase<UserTaskColumnEntity> UserTaskColumns { get; init; }
     public IRepositoryBase<RoleEntity> Roles { get; init; }
     public IRepositoryBase<UserEntity> Users { get; init; }
 

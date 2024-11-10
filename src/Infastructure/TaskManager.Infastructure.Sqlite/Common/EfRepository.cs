@@ -1,6 +1,7 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
 using TaskManager.Domain.Entities.Common.Entities;
 using TaskManager.Domain.UseCases.Common.Repositories;
+using TaskManager.Infrastructure.Sqlite.Common.Exceptions;
 
 namespace TaskManager.Infrastructure.Sqlite.Common;
 
@@ -50,11 +51,11 @@ public sealed class EfRepository<TEntity>(TaskManagerDbContext dbContext) : Repo
         return Task.CompletedTask;
     }
 
-    //[Obsolete("This method is obsolete, use unit of work method SaveChanges")]
-    //public new Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    //{
-    //    throw new DoNotUseThisMethodException(nameof(SaveChangesAsync));
-    //}
+    [Obsolete("This method is obsolete, use unit of work method SaveChanges")]
+    public new Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        throw new DoNotUseThisMethodException(nameof(SaveChangesAsync));
+    }
 
     public override Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {

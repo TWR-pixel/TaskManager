@@ -6,10 +6,10 @@ namespace TaskManager.PublicApi.Common.Extensions;
 
 public static class EmailSenderServiceCollectionExtensions
 {
-    public static IServiceCollection AddEmailSender(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureEmailSenderOptions(this IServiceCollection services, IConfiguration configuration)
     {
         var emailApiKey = EnvironmentWrapper.GetEnvironmentVariable("TM_EMAIL_API_KEY");
-
+        
         var emailFrom = configuration["EmailSenderOptions:EmailFrom"]!;
 
         if (string.IsNullOrWhiteSpace(emailFrom))

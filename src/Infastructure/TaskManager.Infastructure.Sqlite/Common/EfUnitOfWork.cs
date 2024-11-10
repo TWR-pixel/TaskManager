@@ -8,7 +8,7 @@ using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 namespace TaskManager.Infrastructure.Sqlite.Common;
 
 public sealed class EfUnitOfWork(IRepositoryBase<UserTaskEntity> userTasks,
-                    IRepositoryBase<TaskColumnEntity> userTaskColumns,
+                    IRepositoryBase<UserTaskColumnEntity> userTaskColumns,
                     IRepositoryBase<RoleEntity> roles,
                     IRepositoryBase<UserEntity> users,
                     TaskManagerDbContext dbContext) : IUnitOfWork
@@ -16,7 +16,7 @@ public sealed class EfUnitOfWork(IRepositoryBase<UserTaskEntity> userTasks,
     private readonly TaskManagerDbContext _dbContext = dbContext;
 
     public IRepositoryBase<UserTaskEntity> UserTasks { get; init; } = userTasks;
-    public IRepositoryBase<TaskColumnEntity> UserTaskColumns { get; init; } = userTaskColumns;
+    public IRepositoryBase<UserTaskColumnEntity> UserTaskColumns { get; init; } = userTaskColumns;
     public IRepositoryBase<RoleEntity> Roles { get; init; } = roles;
     public IRepositoryBase<UserEntity> Users { get; init; } = users;
 

@@ -6,7 +6,7 @@ namespace TaskManager.Application.TaskColumn;
 
 public static class UserTaskColumnMapperExtensions
 {
-    public static UserTaskColumnDto ToResponse(this TaskColumnEntity entity)
+    public static UserTaskColumnDto ToResponse(this UserTaskColumnEntity entity)
     {
         entity.TasksInColumn ??= [];
 
@@ -19,7 +19,7 @@ public static class UserTaskColumnMapperExtensions
         return dto;
     }
 
-    public static IEnumerable<UserTaskColumnDto> ToResponses(this IEnumerable<TaskColumnEntity> entities)
+    public static IEnumerable<UserTaskColumnDto> ToResponses(this IEnumerable<UserTaskColumnEntity> entities)
     {
         var dtos = entities.Select(x => x.ToResponse());
 

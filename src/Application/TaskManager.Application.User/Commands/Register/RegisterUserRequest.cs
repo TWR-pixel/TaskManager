@@ -61,7 +61,7 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
             //await _emailSender.SendVerificationMessageAsync(request.Email, cancellationToken);
 
             #region Default columns adding
-            var defaultColumns = new List<TaskColumnEntity>()
+            var defaultColumns = new List<UserTaskColumnEntity>()
             {
                 new(userEntity, "Нужно сделать"),
                 new(userEntity,"В процессе"),

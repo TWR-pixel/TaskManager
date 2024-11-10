@@ -3,7 +3,7 @@ using TaskManager.Domain.Entities.TaskColumns;
 
 namespace TaskManager.Domain.UseCases.TaskColumns.Specifications;
 
-public sealed class ReadTaskColumnsByIdWithOwnerSpec : SingleResultSpecification<TaskColumnEntity>
+public sealed class ReadTaskColumnsByIdWithOwnerSpec : SingleResultSpecification<UserTaskColumnEntity>
 {
     public ReadTaskColumnsByIdWithOwnerSpec(int taskColumnId)
     {

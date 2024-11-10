@@ -9,7 +9,7 @@ using TaskManager.Application.User.Common.Security.SymmetricSecurityKeys;
 
 namespace TaskManager.Application.DIExtensions;
 
-public static class JwtAuthenticationServiceCollectionExtensions
+public static class SecurityServiceCollectionExtensions
 {
     public static IServiceCollection AddSecurity(this IServiceCollection services)
     {

@@ -22,7 +22,7 @@ public sealed class CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork)
         var userEntity = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
 
-        var entity = new TaskColumnEntity(userEntity, request.Title, request.Description);
+        var entity = new UserTaskColumnEntity(userEntity, request.Title, request.Description);
 
         var queryResult = await UnitOfWork.UserTaskColumns.AddAsync(entity, cancellationToken);
         await SaveChangesAsync(cancellationToken);
