@@ -12,7 +12,7 @@ namespace TaskManager.Application.TaskColumn.Requests.Create;
 /// <param name="UserId"></param>
 /// <param name="Title"></param>
 /// <param name="Description"></param>
-public sealed record CreateTaskColumnRequest(int UserId, string Title, string? Description, int ordering) : RequestBase<UserTaskColumnDto>;
+public sealed record CreateTaskColumnRequest(int UserId, string Title, string? Description, int Ordering) : RequestBase<UserTaskColumnDto>;
 
 public sealed class CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork)
     : RequestHandlerBase<CreateTaskColumnRequest, UserTaskColumnDto>(unitOfWork)
@@ -22,7 +22,7 @@ public sealed class CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork)
         var userEntity = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
 
-        var entity = new UserTaskColumnEntity(userEntity, request.Title, request.Description);
+        var entity = new UserTaskColumnEntity(userEntity, request.Title, request.Ordering, request.Description);
 
         var queryResult = await UnitOfWork.UserTaskColumns.AddAsync(entity, cancellationToken);
         await SaveChangesAsync(cancellationToken);

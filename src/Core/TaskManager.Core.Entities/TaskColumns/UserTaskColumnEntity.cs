@@ -13,12 +13,12 @@ namespace TaskManager.Domain.Entities.TaskColumns;
 public sealed class UserTaskColumnEntity : EntityBase
 {
     [SetsRequiredMembers]
-    public UserTaskColumnEntity(UserEntity owner, string title, string? description = null)
+    public UserTaskColumnEntity(UserEntity owner, string title,int ordering, string? description = null)
     {
         Owner = owner;
         Title = title;
         Description = description;
-       // Ordering = ordering;
+        Ordering = ordering;
     }
 
     public UserTaskColumnEntity() { }
@@ -34,8 +34,8 @@ public sealed class UserTaskColumnEntity : EntityBase
     [Column("created_at")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    //[Column("ordering")]
-    //public required int Ordering { get; set; }
+    [Column("ordering")]
+    public required int Ordering { get; set; }
 
     public IEnumerable<UserTaskEntity>? TasksInColumn { get; set; }
 

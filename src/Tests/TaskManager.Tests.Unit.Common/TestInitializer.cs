@@ -6,13 +6,13 @@ using TaskManager.Domain.Entities.Users;
 using TaskManager.Infrastructure.Sqlite;
 using TaskManager.Infrastructure.Sqlite.Common;
 
-namespace TaskManager.Tests.Infrastructure.Unit;
+namespace TaskManager.Tests.Unit.Common;
 
 public class TestInitializer
 {
-    #region Private
+    public DbContextOptions<TaskManagerDbContext> DefaultOptions { get; set; } = InitOptions();
 
-    public static DbContextOptions<TaskManagerDbContext> InitTestOptions()
+    public static DbContextOptions<TaskManagerDbContext> InitOptions()
     {
         var randomDbName = Guid.NewGuid().ToString();
         var options = new DbContextOptionsBuilder<TaskManagerDbContext>()
@@ -22,21 +22,21 @@ public class TestInitializer
         return options;
     }
 
-    public static TaskManagerDbContext InitTestDbContext(DbContextOptions<TaskManagerDbContext> options)
+    public static TaskManagerDbContext InitDbContext(DbContextOptions<TaskManagerDbContext> options)
     {
         var dbContext = new TaskManagerDbContext(options);
 
         return dbContext;
     }
 
-    public static EfRepository<RoleEntity> InitTestRepo(TaskManagerDbContext dbContext)
+    public static EfRepository<RoleEntity> InitRepo(TaskManagerDbContext dbContext)
     {
         var repo = new EfRepository<RoleEntity>(dbContext);
 
         return repo;
     }
 
-    public static EfUnitOfWork InitTestUnitOfWork(TaskManagerDbContext dbContext)
+    public static EfUnitOfWork InitUOF(TaskManagerDbContext dbContext)
     {
         var _testRepository = new EfRepository<RoleEntity>(dbContext);
 
@@ -48,5 +48,5 @@ public class TestInitializer
 
         return uof;
     }
-    #endregion
+
 }

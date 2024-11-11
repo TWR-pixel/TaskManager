@@ -12,5 +12,6 @@ public sealed class ReadTaskColumnsByIdWithOwnerSpec : SingleResultSpecification
             .Where(t => t.Id == taskColumnId)
             .Include(t => t.Owner)
             .Include(t => t.TasksInColumn);
+
     }
 }

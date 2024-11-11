@@ -12,6 +12,7 @@ public static class UserTaskColumnMapperExtensions
 
         var dto = new UserTaskColumnDto(entity.Title,
                                         entity.Description,
+                                        entity.Ordering,
                                         entity.TasksInColumn.ToResponses(),
                                         entity.Owner.Id,
                                         entity.Id

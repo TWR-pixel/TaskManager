@@ -35,7 +35,7 @@ public sealed class EfUnitOfWork(IRepositoryBase<UserTaskEntity> userTasks,
     public async Task<Guid> BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
         var result = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
-
+        
         return result.TransactionId;
     }   
 

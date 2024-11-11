@@ -5,12 +5,13 @@ using TaskManager.Domain.Entities.Tasks;
 using TaskManager.Domain.Entities.Users;
 using TaskManager.Infrastructure.Sqlite;
 using TaskManager.Infrastructure.Sqlite.Common;
+using UnitOfWork = TaskManager.Infrastructure.Sqlite.Common.EfUnitOfWork;
 
-namespace TaskManager.Tests.Infrastructure.Unit;
+namespace TaskManager.Tests.Infrastructure.Unit.EfUnitOfWork;
 
 public class EfUnitOfWorkTests
 {
-    private readonly EfUnitOfWork _unitOfWork;
+    private readonly UnitOfWork _unitOfWork;
     private readonly EfRepository<RoleEntity> _testRepo;
 
     public EfUnitOfWorkTests()
@@ -29,7 +30,7 @@ public class EfUnitOfWorkTests
         var userRepo = new EfRepository<UserEntity>(dbContext);
         var userTaskColumnsRepo = new EfRepository<UserTaskColumnEntity>(dbContext);
 
-        _unitOfWork = new EfUnitOfWork(userTasksRepo, userTaskColumnsRepo, roleRepo, userRepo, dbContext);
+        _unitOfWork = new UnitOfWork(userTasksRepo, userTaskColumnsRepo, roleRepo, userRepo, dbContext);
     }
 
     [Fact]

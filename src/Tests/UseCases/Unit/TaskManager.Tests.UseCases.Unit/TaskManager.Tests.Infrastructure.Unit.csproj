@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj" />
+    <ProjectReference Include="..\..\..\TaskManager.Tests.Unit.Common\TaskManager.Tests.Unit.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
