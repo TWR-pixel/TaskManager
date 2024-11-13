@@ -31,7 +31,7 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
     private readonly IPasswordHasher _passwordHasher = passwordHasher;
     private readonly IEmailSenderService _emailSender = emailSender;
     private readonly IAccessTokenFactory _tokenFactory = tokenFactory;
-    private readonly MailerooClientOptions _options = new(EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY")); // because from IOptions<> interface doesnt work
+    private readonly MailerooClientOptions _options = new(EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY") ?? throw new NullReferenceException("TM_MAILEROO_API_KEY doesnt exists")); // because from IOptions<> interface doesnt work
     private readonly IValidator<RegisterUserRequest> _validator = validator;
 
     public override async Task<AccessTokenResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
