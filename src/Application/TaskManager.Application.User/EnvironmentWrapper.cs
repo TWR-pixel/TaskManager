@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace TaskManager.PublicApi.Common.Wrappers;
+namespace TaskManager.Application.User;
 
 public static class EnvironmentWrapper
 {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TaskManager.Application.User;
 using TaskManager.Application.User.Common.Security.Auth.Options.Jwt;
-using TaskManager.PublicApi.Common.Wrappers;
 
 namespace TaskManager.PublicApi.Common.Extensions;
 

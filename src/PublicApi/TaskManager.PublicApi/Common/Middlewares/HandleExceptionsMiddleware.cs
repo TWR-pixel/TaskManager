@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.ComponentModel.DataAnnotations;
 using TaskManager.Domain.Entities.Common.Exceptions;
 using TaskManager.Domain.Entities.Users.Exceptions;
 
@@ -28,9 +30,28 @@ public sealed class HandleExceptionsMiddleware() : IMiddleware
         {
             await SendResponseAsync("Not verified", notVerified, StatusCodes.Status400BadRequest, context);
         }
+        catch (ValidationException ex)
+        {
+            var problemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Type = "ValidationFailure",
+                Title = "Validation error",
+                Detail = "One or more validation errors has occurred",
+            };
+
+            if (ex.Data is not null)
+            {
+                problemDetails.Extensions["errors"] = ex.Data;
+            }
+
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+            await context.Response.WriteAsJsonAsync(problemDetails);
+        }
         catch (Exception ex)
         {
-            await SendResponseAsync("Unknown exception", ex, StatusCodes.Status400BadRequest, context);
+            await SendResponseAsync("Exception", ex, StatusCodes.Status400BadRequest, context);
         }
     }
 

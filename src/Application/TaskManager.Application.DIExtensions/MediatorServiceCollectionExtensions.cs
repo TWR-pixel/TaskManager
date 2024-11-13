@@ -1,4 +1,5 @@
-﻿using MediatR.Pipeline;
+﻿using FluentValidation;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.Role;
@@ -22,9 +23,11 @@ public static class MediatorServiceCollectionExtensions
 
         services.AddRequestExceptionHandler();
 
+        services.AddValidatorsFromAssembly(typeof(UserDto).Assembly);
+
         return services;
     }
-
+        
     public static IServiceCollection AddRequestExceptionHandler(this IServiceCollection services)
     {
         services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));

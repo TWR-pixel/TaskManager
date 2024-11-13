@@ -1,6 +1,7 @@
-﻿using MailKit.Net.Smtp;
+﻿using MailerooClient.Email.Verification;
+using MailKit.Net.Smtp;
+using TaskManager.Application.User;
 using TaskManager.Application.User.Common.Email.Options;
-using TaskManager.PublicApi.Common.Wrappers;
 
 namespace TaskManager.PublicApi.Common.Extensions;
 
@@ -26,6 +27,18 @@ public static class EmailSenderServiceCollectionExtensions
             options.Port = smtpPort;
             options.Password = emailApiKey;
             options.SmtpClient = new SmtpClient();
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection ConfigureMailerooApiClientOptions(this IServiceCollection services)
+    {
+        var apiKey = EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY");
+
+        services.Configure<MailerooClientOptions>(options =>
+        {
+            options.ApiKey = apiKey;
         });
 
         return services;

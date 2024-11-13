@@ -22,7 +22,8 @@ public static class PublicApiServiceCollectionExtensions
 
         services
             .ConfigureJwtAuthenticationOptions(configuration)
-            .ConfigureEmailSenderOptions(configuration);
+            .ConfigureEmailSenderOptions(configuration)
+            .ConfigureMailerooApiClientOptions();
 
         return services;
     }

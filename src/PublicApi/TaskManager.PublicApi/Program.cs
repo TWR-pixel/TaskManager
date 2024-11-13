@@ -4,6 +4,8 @@ using TaskManager.Infrastructure.Sqlite.Common.Extensions;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
 using TaskManager.Application.DIExtensions;
+using MailerooClient.Email.Verification;
+using TaskManager.PublicApi.Common.Wrappers;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);
