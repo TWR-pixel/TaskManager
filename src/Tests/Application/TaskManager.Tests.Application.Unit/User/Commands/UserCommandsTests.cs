@@ -1,10 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using Org.BouncyCastle.Asn1.Crmf;
-using TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest;
 using TaskManager.Application.User.Commands.DeleteById;
 using TaskManager.Domain.Entities.Roles;
-using TaskManager.Domain.Entities.TaskColumns;
-using TaskManager.Domain.Entities.Tasks;
 using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Infrastructure.Sqlite.Common;

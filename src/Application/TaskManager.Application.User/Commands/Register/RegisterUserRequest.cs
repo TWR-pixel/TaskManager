@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MailerooClient.Email.Verification;
 using MailerooClient.Email.Verification.Requests.Check;
-using Microsoft.Extensions.Options;
 using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.User.Common.AccessToken;
@@ -26,13 +25,14 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
                                   IPasswordHasher passwordHasher,
                                   IEmailSenderService emailSender,
                                   IAccessTokenFactory tokenFactory,
-                                  IValidator<RegisterUserRequest> validator) : RequestHandlerBase<RegisterUserRequest, AccessTokenResponse>(unitOfWork)
+                                  IValidator<RegisterUserRequest> validator,
+                                  IHttpClientFactory httpFactory) : RequestHandlerBase<RegisterUserRequest, AccessTokenResponse>(unitOfWork)
 {
     private readonly IPasswordHasher _passwordHasher = passwordHasher;
     private readonly IEmailSenderService _emailSender = emailSender;
     private readonly IAccessTokenFactory _tokenFactory = tokenFactory;
-    private readonly MailerooClientOptions _options = new(EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY") ?? throw new NullReferenceException("TM_MAILEROO_API_KEY doesnt exists")); // because from IOptions<> interface doesnt work
     private readonly IValidator<RegisterUserRequest> _validator = validator;
+    private readonly IHttpClientFactory _httpFactory = httpFactory;
 
     public override async Task<AccessTokenResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
     {
@@ -41,11 +41,12 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
         var user = await UnitOfWork.Users
             .SingleOrDefaultAsync(new GetUserByEmailSpec(request.Email), cancellationToken);
 
-        if (user != null)
+        if (user is not null)
             throw new UserAlreadyExistsException(request.Email);
 
+        var httpClient = _httpFactory.CreateClient("Maileroo");
         var checkEmail = new CheckRequest(request.Email);
-        using var client = new MailerooApiClient(_options);
+        using var client = new MailerooApiClient(new MailerooClientOptions("123"), httpClient); // test this
         var checkResponse = await client.SendRequestAsync(checkEmail, cancellationToken);
 
         if (checkResponse.Data is null)
@@ -88,7 +89,6 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
         await SaveChangesAsync(cancellationToken);
 
         var response = _tokenFactory.Create(userEntity);
-
 
         return response;
     }

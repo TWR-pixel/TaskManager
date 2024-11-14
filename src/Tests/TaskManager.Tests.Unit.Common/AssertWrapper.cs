@@ -1,6 +1,8 @@
-﻿namespace TaskManager.Tests.Infrastructure.Unit;
+﻿using Xunit;
 
-internal static class AssertWrapper
+namespace TaskManager.Tests.Unit.Common;
+
+public static class AssertWrapper
 {
     public static void DoesntThrow<T>(Action testCode) where T : Exception
     {

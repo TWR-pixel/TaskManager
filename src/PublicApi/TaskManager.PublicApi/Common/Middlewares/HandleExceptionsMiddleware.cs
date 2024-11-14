@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.ComponentModel.DataAnnotations;
 using TaskManager.Domain.Entities.Common.Exceptions;
 using TaskManager.Domain.Entities.Users.Exceptions;

@@ -4,8 +4,7 @@ using TaskManager.Infrastructure.Sqlite.Common.Extensions;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
 using TaskManager.Application.DIExtensions;
-using MailerooClient.Email.Verification;
-using TaskManager.PublicApi.Common.Wrappers;
+using TaskManager.Application.User;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +22,10 @@ builder.Services
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddCors();
+builder.Services.AddHttpClient("Maileroo", client =>
+{
+    client.DefaultRequestHeaders.Add("X-API-KEY", EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY"));
+}).SetHandlerLifetime(TimeSpan.FromSeconds(5));
 
 builder.Services.AddSwaggerGen();
 
