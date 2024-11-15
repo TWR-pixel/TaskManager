@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System.Data;
 
 namespace TaskManager.Application.User.Commands.Register.Validators;
 
@@ -16,5 +17,6 @@ public class RegisterUserValidator : AbstractValidator<RegisterUserRequest>
             .NotEmpty()
             .NotNull()
             .MinimumLength(5);
+
     }
 }

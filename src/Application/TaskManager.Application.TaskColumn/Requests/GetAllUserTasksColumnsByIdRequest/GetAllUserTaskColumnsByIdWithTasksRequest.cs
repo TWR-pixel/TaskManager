@@ -42,7 +42,7 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
                                                                                                t.TaskColumn.Id)),
                                              u.Ordering
                                              )
-                ).OrderBy(t => t.Ordering)
+                )
         };
 
         return response;
