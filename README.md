@@ -1,6 +1,6 @@
 # TaskManager
 
-This repo is API for [https://github.com/MFGod/task-manager.git](https://github.com/MFGod/aera.git)
+This repo is API for https://github.com/MFGod/aera.git
 
 ## Building
 
@@ -25,7 +25,7 @@ For confirmation by mail to work, insert your email address here (don't forget t
 ```json
 {
   "EmailSenderOptions": {
-    "EmailFrom": "<COPY-YOU-ADDRESS-HERE>",
+    "EmailFrom": "<COPY-YOUR-ADDRESS-HERE>",
     "Port": "465",
     "Host": "smtp.yandex.ru"
   }
