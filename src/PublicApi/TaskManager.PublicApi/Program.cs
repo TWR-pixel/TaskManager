@@ -25,7 +25,7 @@ builder.Services.AddCors();
 builder.Services.AddHttpClient("Maileroo", client =>
 {
     client.DefaultRequestHeaders.Add("X-API-KEY", EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY"));
-}).SetHandlerLifetime(TimeSpan.FromSeconds(5));
+}).SetHandlerLifetime(TimeSpan.FromSeconds(30));
 
 builder.Services.AddSwaggerGen();
 

@@ -1,38 +1,25 @@
-﻿using TaskManager.Domain.Entities.Roles;
-using TaskManager.Domain.Entities.TaskColumns;
-using TaskManager.Domain.Entities.Tasks;
-using TaskManager.Domain.Entities.Users;
-using TaskManager.Domain.UseCases.Common.Repositories;
-using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+﻿using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Roles;
+using TaskManager.Domain.UseCases.TaskColumns;
+using TaskManager.Domain.UseCases.Tasks;
+using TaskManager.Domain.UseCases.Users;
 
 namespace TaskManager.Infrastructure.PostgreSql.Common;
 
-public sealed class EfUnitOfWork : IUnitOfWork
+public sealed class EfUnitOfWork(TaskManagerDbContext dbContext,
+                    IUserTaskRepository userTasks,
+                    IUserTaskColumnRepository userTaskColumns,
+                    IRoleRepository roles,
+                    IUserRepository users) : IUnitOfWork
 {
-    private readonly TaskManagerDbContext _dbContext;
-
-    public IRepositoryBase<UserTaskEntity> UserTasks { get; init; }
-    public IRepositoryBase<UserTaskColumnEntity> UserTaskColumns { get; init; }
-    public IRepositoryBase<RoleEntity> Roles { get; init; }
-    public IRepositoryBase<UserEntity> Users { get; init; }
-
-    public EfUnitOfWork(TaskManagerDbContext dbContext,
-                        IRepositoryBase<UserTaskEntity> userTasks,
-                        IRepositoryBase<UserTaskColumnEntity> userTaskColumns,
-                        IRepositoryBase<RoleEntity> roles,
-                        IRepositoryBase<UserEntity> users)
-    {
-        _dbContext = dbContext;
-        UserTasks = userTasks;
-        UserTaskColumns = userTaskColumns;
-        Roles = roles;
-        Users = users;
-    }
-
+    public IUserTaskRepository UserTasks { get; init; } = userTasks;
+    public IUserTaskColumnRepository UserTaskColumns { get; init; } = userTaskColumns;
+    public IRoleRepository Roles { get; init; } = roles;
+    public IUserRepository Users { get; init; } = users;
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        return await _dbContext.SaveChangesAsync(cancellationToken);
+        return await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public Task<Guid> BeginTransactionAsync(CancellationToken cancellationToken = default)

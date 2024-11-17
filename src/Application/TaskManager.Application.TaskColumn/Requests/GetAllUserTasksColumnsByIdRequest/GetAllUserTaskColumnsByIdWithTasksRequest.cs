@@ -3,7 +3,6 @@ using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest.Dtos;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
-using TaskManager.Domain.UseCases.TaskColumns.Specifications;
 
 namespace TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest;
 
@@ -18,8 +17,7 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
     public async override Task<GetAllUserTaskColumnsByIdWithTasksResponse> Handle(GetAllUserTaskColumnsByIdWithTasksRequest request,
                                                                          CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.Users
-            .SingleOrDefaultAsync(new ReadAllUserTaskColumnsWithTasksByIdSpec(request.UserId), cancellationToken)
+        var queryResult = await UnitOfWork.Users.GetAllUserTaskColumnsWithTasksByIdAsync(request.UserId, cancellationToken)
                 ?? throw new UserNotFoundException(request.UserId);
 
         queryResult.TaskColumns ??= [];

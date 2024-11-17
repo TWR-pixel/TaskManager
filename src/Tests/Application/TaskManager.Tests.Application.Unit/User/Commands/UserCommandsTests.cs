@@ -43,7 +43,7 @@ namespace TaskManager.Tests.Application.Unit.User.Commands
             var testRole = new RoleEntity("User");
             var testUser = new UserEntity(testRole, "iejwjf@mail.ru", "iojweoi", "ajjijefpiowehash", "saltioejfwoief", true) { Id = testUserId };
             var dbContext = InitDbContext(DefaultOptions);
-            var testRepository = new EfRepository<UserEntity>(dbContext);
+            var testRepository = new RepositoryBase<UserEntity>(dbContext);
             var uof = InitUOF(dbContext);
             var request = new DeleteUserByIdRequest(testUserId);
             var handler = new DeleteUserByIdRequestHandler(uof);

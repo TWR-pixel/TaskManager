@@ -2,7 +2,6 @@
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
-using TaskManager.Domain.UseCases.TaskColumns.Specifications;
 
 namespace TaskManager.Application.TaskColumn.Requests.GetById;
 
@@ -18,7 +17,7 @@ public sealed class GetTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
     public override async Task<UserTaskColumnDto> Handle(GetTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
         var queryResult = await UnitOfWork.UserTaskColumns
-            .SingleOrDefaultAsync(new ReadTaskColumnsByIdWithOwnerSpec(request.TaskColumnId), cancellationToken)
+            .GetByIdWithOwnerAndUserTasksAsync(request.TaskColumnId, cancellationToken)
                 ?? throw new TaskColumnNotFoundException(request.TaskColumnId);
 
         var response = queryResult.ToResponse();

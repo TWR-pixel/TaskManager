@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Application.UserTask.Requests.GetAllById;
+﻿namespace TaskManager.Application.User.Queries.GetAllUserTasksById;
 
 public sealed record UserTaskByIdResponse(string Title,
                                           string? Description,

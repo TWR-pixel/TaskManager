@@ -3,7 +3,6 @@ using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.User.Common.Email.Sender;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
-using TaskManager.Domain.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.User.Queries.ResendCode;
 
@@ -17,7 +16,7 @@ public sealed class ResendCodeRequestHandler(IUnitOfWork unitOfWork, IEmailSende
 
     public override async Task<ResendCodeResponse> Handle(ResendCodeRequest request, CancellationToken cancellationToken)
     {
-        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(request.Email), cancellationToken)
+        var user = await UnitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken)
             ?? throw new UserNotFoundException(request.Email);
 
         if (user.IsEmailVerified)

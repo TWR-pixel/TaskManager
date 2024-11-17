@@ -3,7 +3,6 @@ using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Domain.Entities.Tasks.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
-using TaskManager.Domain.UseCases.Tasks.Specifications;
 
 namespace TaskManager.Application.UserTask.Requests.GetByTitle;
 
@@ -29,7 +28,7 @@ public sealed class GetTaskByTitleRequestHandler(IUnitOfWork unitOfWork) : Reque
 {
     public override async Task<GetTaskByTitleResponse> Handle(GetTaskByTitleRequest request, CancellationToken cancellationToken)
     {
-        var result = await UnitOfWork.UserTasks.SingleOrDefaultAsync(new ReadTaskByTitleSpecification(request.Title), cancellationToken)
+        var result = await UnitOfWork.UserTasks.GetByTitle(request.Title, cancellationToken)
             ?? throw new TaskNotFoundException(request.Title);
 
         var response = new GetTaskByTitleResponse(result.Title, result.Description);

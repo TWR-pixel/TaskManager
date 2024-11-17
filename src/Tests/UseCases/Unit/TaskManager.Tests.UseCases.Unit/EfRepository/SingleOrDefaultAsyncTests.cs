@@ -1,5 +1,4 @@
-﻿using TaskManager.Domain.UseCases.Roles.Specifications;
-using TaskManager.Tests.Unit.Common;
+﻿using TaskManager.Tests.Unit.Common;
 
 namespace TaskManager.Tests.Infrastructure.Unit.EfRepository;
 

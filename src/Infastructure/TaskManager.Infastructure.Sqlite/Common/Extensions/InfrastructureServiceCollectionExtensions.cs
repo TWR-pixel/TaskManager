@@ -6,6 +6,14 @@ using TaskManager.Domain.Entities.Tasks;
 using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.UseCases.Common.Repositories;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
+using TaskManager.Domain.UseCases.Roles;
+using TaskManager.Domain.UseCases.TaskColumns;
+using TaskManager.Domain.UseCases.Tasks;
+using TaskManager.Domain.UseCases.Users;
+using TaskManager.Infrastructure.Sqlite.Role;
+using TaskManager.Infrastructure.Sqlite.User;
+using TaskManager.Infrastructure.Sqlite.UserTask;
+using TaskManager.Infrastructure.Sqlite.UserTaskColumn;
 
 namespace TaskManager.Infrastructure.Sqlite.Common.Extensions;
 
@@ -32,10 +40,10 @@ public static class InfrastructureServiceCollectionExtensions
     public static IServiceCollection AddReadRepositories(this IServiceCollection services)
     {
         services
-            .AddScoped<IReadRepositoryBase<UserEntity>, EfRepository<UserEntity>>()
-            .AddScoped<IReadRepositoryBase<RoleEntity>, EfRepository<RoleEntity>>()
-            .AddScoped<IReadRepositoryBase<UserTaskEntity>, EfRepository<UserTaskEntity>>()
-            .AddScoped<IReadRepositoryBase<UserTaskColumnEntity>, EfRepository<UserTaskColumnEntity>>();
+            .AddScoped<IReadRepositoryBase<UserEntity>, UserRepository>()
+            .AddScoped<IReadRepositoryBase<RoleEntity>, RoleRepository>()
+            .AddScoped<IReadRepositoryBase<UserTaskEntity>, UserTaskRepository>()
+            .AddScoped<IReadRepositoryBase<UserTaskColumnEntity>, UserTaskColumnRepository>();
 
         return services;
     }
@@ -43,10 +51,10 @@ public static class InfrastructureServiceCollectionExtensions
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services
-            .AddScoped<IRepositoryBase<UserEntity>, EfRepository<UserEntity>>()
-            .AddScoped<IRepositoryBase<RoleEntity>, EfRepository<RoleEntity>>()
-            .AddScoped<IRepositoryBase<UserTaskEntity>, EfRepository<UserTaskEntity>>()
-            .AddScoped<IRepositoryBase<UserTaskColumnEntity>, EfRepository<UserTaskColumnEntity>>();
+            .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IRoleRepository, RoleRepository>()
+            .AddScoped<IUserTaskRepository, UserTaskRepository>()
+            .AddScoped<IUserTaskColumnRepository, UserTaskColumnRepository>();
 
         return services;
     }
@@ -54,8 +62,8 @@ public static class InfrastructureServiceCollectionExtensions
     public static IServiceCollection AddUnitOfWorks(this IServiceCollection services)
     {
         services
-            .AddScoped<IUnitOfWork, EfUnitOfWork>()
-            .AddScoped<IReadUnitOfWork, EfReadUnitOfWork>();
+            .AddScoped<IUnitOfWork, UnitOfWork>()
+            .AddScoped<IReadUnitOfWork, ReadUnitOfWork>();
 
         return services;
     }

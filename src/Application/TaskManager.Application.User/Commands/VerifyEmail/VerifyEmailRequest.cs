@@ -5,7 +5,6 @@ using TaskManager.Application.User.Common.Email.Code.Verifier;
 using TaskManager.Domain.Entities.Common.Exceptions;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
-using TaskManager.Domain.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.User.Commands.VerifyEmail;
 
@@ -23,7 +22,7 @@ public sealed class VerifyEmailRequestHandler(IUnitOfWork unitOfWork,
         if (!isCodeCorrect)
             throw new CodeNotVerifiedException("code not found, try resend it");
 
-        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(email), cancellationToken)
+        var user = await UnitOfWork.Users.GetByEmailAsync(email, cancellationToken)
             ?? throw new UserNotFoundException(email);
 
         if (user.IsEmailVerified)

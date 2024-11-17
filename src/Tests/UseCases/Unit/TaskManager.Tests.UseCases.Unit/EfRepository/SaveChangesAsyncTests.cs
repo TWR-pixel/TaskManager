@@ -13,7 +13,7 @@ public class SaveChangesAsyncTests : TestInitializer
         var testRepository = InitRepo(dbContext);
 
 #pragma warning disable CS0618 // Type or member is obsolete
-        Assert.ThrowsAsync<DoNotUseThisMethodException>(() => testRepository.SaveChangesAsync());
+        Assert.ThrowsAsync<DontUseThisMethodException>(() => testRepository.SaveChangesAsync());
 #pragma warning restore CS0618 // Type or member is obsolete
     }
 }

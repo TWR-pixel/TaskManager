@@ -1,34 +1,33 @@
 ﻿using TaskManager.Application.Common.Requests;
 using TaskManager.Application.Common.Requests.Handlers;
+using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
-using TaskManager.Domain.UseCases.Tasks.Specifications;
 
-namespace TaskManager.Application.UserTask.Requests.GetAllById;
+namespace TaskManager.Application.User.Queries.GetAllUserTasksById;
 
-/// <summary>
-/// Returns all user's tasks by id in database
-/// </summary>
-public sealed record GetAllUserTasksByIdRequest(int UserId) : RequestBase<GetAllUserTasksByIdResponse>;
+public sealed record GetAllUserTasksByIdRequest : RequestBase<GetAllUserTasksByIdResponse>
+{
+    public required int UserId { get; set; }
+}
 
 public sealed record GetAllUserTasksByIdResponse(int UserId,
                                                  string Username,
                                                  string UserEmail,
                                                  IEnumerable<UserTaskByIdResponse> UserTasks) : ResponseBase;
 
-public sealed class GetAllUserTasksByIdRequestHandler(IUnitOfWork unitOfWork)
-    : RequestHandlerBase<GetAllUserTasksByIdRequest, GetAllUserTasksByIdResponse>(unitOfWork)
+public sealed class GetAllUserTasksByIdRequestHandler(IUnitOfWork unitOfWork) : RequestHandlerBase<GetAllUserTasksByIdRequest, GetAllUserTasksByIdResponse>(unitOfWork)
 {
     public override async Task<GetAllUserTasksByIdResponse> Handle(GetAllUserTasksByIdRequest request, CancellationToken cancellationToken)
     {
-        var userEntity = await UnitOfWork.Users.SingleOrDefaultAsync(new ReadAllUserTasksByIdSpecification(request.UserId), cancellationToken)
+        var userEntity = await UnitOfWork.Users.GetAllUserTasks(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
 
         userEntity.Tasks ??= [];
 
         var response = new GetAllUserTasksByIdResponse
         (
-            request.UserId,
+            userEntity.Id,
             userEntity.Username,
             userEntity.EmailLogin,
 
