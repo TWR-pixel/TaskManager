@@ -33,7 +33,7 @@ public class GetAllUserTaskColumnsByIdWithTasksQueryTests : TestInitializer
         testUser.TaskColumns = testUserTaskColumnsWithTasks;
 
         var dbContext = InitDbContext(DefaultOptions);
-        var testRepository = new EfRepository<UserEntity>(dbContext);
+        var testRepository = new RepositoryBase<UserEntity>(dbContext);
         var uof = InitUOF(dbContext);
         var request = new GetAllUserTaskColumnsByIdWithTasksRequest() { UserId = testUserId };
         var handler = new GetAllUserTaskColumnsByIdWithTasksRequestHandler(uof);

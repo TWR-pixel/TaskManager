@@ -13,8 +13,6 @@ using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.Roles;
-using TaskManager.Domain.UseCases.Roles.Specifications;
-using TaskManager.Domain.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.User.Commands.Register;
 
@@ -38,25 +36,24 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var user = await UnitOfWork.Users
-            .SingleOrDefaultAsync(new GetUserByEmailSpec(request.Email), cancellationToken);
+        var user = await UnitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
 
         if (user is not null)
             throw new UserAlreadyExistsException(request.Email);
 
         var httpClient = _httpFactory.CreateClient("Maileroo");
         var checkEmail = new CheckRequest(request.Email);
-        using var client = new MailerooApiClient(new MailerooClientOptions("123"), httpClient); // test this
+        var client = new MailerooApiClient(new MailerooClientOptions("123"), httpClient); // test this
         var checkResponse = await client.SendRequestAsync(checkEmail, cancellationToken);
 
         if (checkResponse.Data is null)
             throw new HttpRequestException();
 
         if (!checkResponse.Data.MxFound) // This means if the mail does not exist
-            throw new MxNotFoundException(request.Email);
+            throw new EmailDoesntExistException(request.Email);
 
         var userRole = RoleConstants.USER;
-        var roleEntity = await UnitOfWork.Roles.SingleOrDefaultAsync(new GetRoleByNameSpec(userRole), cancellationToken)
+        var roleEntity = await UnitOfWork.Roles.GetByNameAsync(userRole, cancellationToken)
             ?? throw new RoleNotFoundException(userRole);
 
         var passwordSalt = _passwordHasher.GenerateSalt();
@@ -76,14 +73,12 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
         //};
         //await _emailSender.SendVerificationMessageAsync(request.Email, cancellationToken);
 
-        #region Default columns adding
         var defaultColumns = new List<UserTaskColumnEntity>()
-            {
-                new(userEntity, "Нужно сделать", 1),
-                new(userEntity,"В процессе", 2),
-                new(userEntity, "Завершенные", 3),
-            };
-        #endregion
+        {
+            new(userEntity, "Нужно сделать", 1),
+            new(userEntity,"В процессе", 2),
+            new(userEntity, "Завершенные", 3),
+        };
 
         await UnitOfWork.UserTaskColumns.AddRangeAsync(defaultColumns, cancellationToken);
         await SaveChangesAsync(cancellationToken);

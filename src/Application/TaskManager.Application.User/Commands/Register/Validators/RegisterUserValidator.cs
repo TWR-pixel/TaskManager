@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System.Data;
 
 namespace TaskManager.Application.User.Commands.Register.Validators;
 

@@ -1,15 +1,14 @@
-﻿using TaskManager.Domain.Entities.Roles;
-using TaskManager.Domain.Entities.TaskColumns;
-using TaskManager.Domain.Entities.Tasks;
-using TaskManager.Domain.Entities.Users;
-using TaskManager.Domain.UseCases.Common.Repositories;
+﻿using TaskManager.Domain.UseCases.Roles;
+using TaskManager.Domain.UseCases.TaskColumns;
+using TaskManager.Domain.UseCases.Tasks;
+using TaskManager.Domain.UseCases.Users;
 
 namespace TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 public interface IReadUnitOfWork
 {
-    public IReadRepositoryBase<UserTaskEntity> UserTasks { get; init; }
-    public IReadRepositoryBase<UserTaskColumnEntity> UserTaskColumns { get; init; }
-    public IReadRepositoryBase<RoleEntity> Roles { get; init; }
-    public IReadRepositoryBase<UserEntity> Users { get; init; }
+    public IUserTaskRepository UserTasks { get; init; }
+    public IUserTaskColumnRepository UserTaskColumns { get; init; }
+    public IRoleRepository Roles { get; init; }
+    public IUserRepository Users { get; init; }
 }

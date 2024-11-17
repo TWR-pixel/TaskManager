@@ -5,7 +5,6 @@ using TaskManager.Application.User.Common.Security.Hashers;
 using TaskManager.Domain.Entities.Common.Exceptions;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
-using TaskManager.Domain.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.User.Commands.RecoverPassword;
 
@@ -39,7 +38,7 @@ public sealed class RecoverPasswordRequestHandler : CommandRequestHandlerBase<Re
         if (!isVerified)
             throw new CodeNotVerifiedException(email);
 
-        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(email), cancellationToken)
+        var user = await UnitOfWork.Users.GetByEmailAsync(email, cancellationToken)
             ?? throw new UserNotFoundException(email);
 
         if (!user.IsEmailVerified)

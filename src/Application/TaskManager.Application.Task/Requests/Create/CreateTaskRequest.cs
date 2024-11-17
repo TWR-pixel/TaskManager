@@ -10,7 +10,7 @@ namespace TaskManager.Application.UserTask.Requests.Create;
 public sealed record CreateTaskRequest(int UserId,
                                        int ColumnId,
                                        string Title,
-                                       string? Description,
+                                       string Description,
                                        DateOnly? CompletedAt,
                                        bool IsCompleted = false,
                                        bool IsInProgress = true) : RequestBase<CreateTaskResponse>;
@@ -18,7 +18,7 @@ public sealed record CreateTaskRequest(int UserId,
 public sealed record CreateTaskResponse(int CreatedTaskId,
                                         int ColumnId,
                                         string Title,
-                                        string? Description,
+                                        string Description,
                                         bool IsCompleted,
                                         bool IsInProgress,
                                         DateOnly? CompletedAt);

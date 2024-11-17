@@ -5,7 +5,6 @@ using TaskManager.Application.User.Common.Security.Hashers;
 using TaskManager.Domain.Entities.Common.Exceptions;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
-using TaskManager.Domain.UseCases.Users.Specifications;
 
 namespace TaskManager.Application.User.Queries.Login;
 
@@ -28,7 +27,7 @@ public sealed class LoginUserRequestHandler :
 
     public override async Task<AccessTokenResponse> Handle(LoginUserRequest request, CancellationToken cancellationToken)
     {
-        var user = await UnitOfWork.Users.SingleOrDefaultAsync(new GetUserByEmailSpec(request.EmailLogin), cancellationToken)
+        var user = await UnitOfWork.Users.GetByEmailAsync(request.EmailLogin, cancellationToken)
                    ?? throw new UserNotFoundException(request.EmailLogin); // get refresh token from db
 
         user.IsEmailVerified = true;

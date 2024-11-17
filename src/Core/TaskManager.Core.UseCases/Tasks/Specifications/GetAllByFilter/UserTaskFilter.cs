@@ -1,1 +1,0 @@
-﻿namespace TaskManager.Domain.UseCases.Tasks.Specifications.GetAllByFilter;
