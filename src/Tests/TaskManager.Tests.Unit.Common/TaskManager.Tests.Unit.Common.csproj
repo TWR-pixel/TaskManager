@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.PostgreSql\TaskManager.Infrastructure.PostgreSql.csproj" />
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.DALImplementation.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,12 +13,13 @@ namespace TaskManager.Domain.Entities.TaskColumns;
 public sealed class UserTaskColumnEntity : EntityBase
 {
     [SetsRequiredMembers]
-    public UserTaskColumnEntity(UserEntity owner, string title,int ordering, string? description = null)
+    public UserTaskColumnEntity(UserEntity owner, string title, int ordering, string? description = null)
     {
         Owner = owner;
         Title = title;
         Description = description;
         Ordering = ordering;
+       // UserBoard = userBoard;
     }
 
     public UserTaskColumnEntity() { }
@@ -41,4 +42,7 @@ public sealed class UserTaskColumnEntity : EntityBase
 
     [ForeignKey("owner_id")]
     public required UserEntity Owner { get; set; }
+
+    //[ForeignKey("user_board_id")]
+    //public required UserBoardEntity UserBoard { get; set; }
 }

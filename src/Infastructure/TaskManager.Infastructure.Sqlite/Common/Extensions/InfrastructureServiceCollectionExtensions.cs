@@ -1,21 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TaskManager.DALImplementation.Sqlite.Role;
+using TaskManager.DALImplementation.Sqlite.User;
+using TaskManager.DALImplementation.Sqlite.UserBoard;
+using TaskManager.DALImplementation.Sqlite.UserTask;
+using TaskManager.DALImplementation.Sqlite.UserTaskColumn;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Tasks;
+using TaskManager.Domain.Entities.UserBoard;
 using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.UseCases.Common.Repositories;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.Roles;
 using TaskManager.Domain.UseCases.TaskColumns;
 using TaskManager.Domain.UseCases.Tasks;
+using TaskManager.Domain.UseCases.UserBoard;
 using TaskManager.Domain.UseCases.Users;
-using TaskManager.Infrastructure.Sqlite.Role;
-using TaskManager.Infrastructure.Sqlite.User;
-using TaskManager.Infrastructure.Sqlite.UserTask;
-using TaskManager.Infrastructure.Sqlite.UserTaskColumn;
 
-namespace TaskManager.Infrastructure.Sqlite.Common.Extensions;
+namespace TaskManager.DALImplementation.Sqlite.Common.Extensions;
 
 public static class InfrastructureServiceCollectionExtensions
 {
@@ -43,7 +46,8 @@ public static class InfrastructureServiceCollectionExtensions
             .AddScoped<IReadRepositoryBase<UserEntity>, UserRepository>()
             .AddScoped<IReadRepositoryBase<RoleEntity>, RoleRepository>()
             .AddScoped<IReadRepositoryBase<UserTaskEntity>, UserTaskRepository>()
-            .AddScoped<IReadRepositoryBase<UserTaskColumnEntity>, UserTaskColumnRepository>();
+            .AddScoped<IReadRepositoryBase<UserTaskColumnEntity>, UserTaskColumnRepository>()
+            .AddScoped<IReadRepositoryBase<UserBoardEntity>, UserBoardRepository>();
 
         return services;
     }
@@ -54,7 +58,8 @@ public static class InfrastructureServiceCollectionExtensions
             .AddScoped<IUserRepository, UserRepository>()
             .AddScoped<IRoleRepository, RoleRepository>()
             .AddScoped<IUserTaskRepository, UserTaskRepository>()
-            .AddScoped<IUserTaskColumnRepository, UserTaskColumnRepository>();
+            .AddScoped<IUserTaskColumnRepository, UserTaskColumnRepository>()
+            .AddScoped<IUserBoardRepository, UserBoardRepository>();
 
         return services;
     }

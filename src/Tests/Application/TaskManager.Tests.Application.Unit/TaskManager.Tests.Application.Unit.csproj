@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Application\TaskManager.Application.User\TaskManager.Application.User.csproj" />
     <ProjectReference Include="..\..\TaskManager.Tests.Unit.Common\TaskManager.Tests.Unit.Common.csproj" />
   </ItemGroup>
 

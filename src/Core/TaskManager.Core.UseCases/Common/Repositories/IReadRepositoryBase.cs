@@ -8,4 +8,5 @@ public interface IReadRepositoryBase<TEntity>
     public Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     public Task<int> CountAsync(CancellationToken cancellationToken = default);
     public Task<bool> AnyAsync(CancellationToken cancellationToken = default);
+    public Task<IEnumerable<TEntity>?> GetAllAsync(CancellationToken cancellationToken = default);
 }

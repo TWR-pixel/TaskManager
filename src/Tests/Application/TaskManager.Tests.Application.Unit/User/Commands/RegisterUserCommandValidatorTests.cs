@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using TaskManager.Application.User.Commands.Register;
-using TaskManager.Application.User.Commands.Register.Validators;
-using TaskManager.Tests.Unit.Common;
+﻿using TaskManager.Tests.Unit.Common;
 
 namespace TaskManager.Tests.Application.Unit.User.Commands;
 

@@ -2,7 +2,7 @@
 using TaskManager.Domain.Entities.Common.Entities;
 using TaskManager.Domain.UseCases.Common.Repositories;
 
-namespace TaskManager.Infrastructure.Sqlite.Common;
+namespace TaskManager.DALImplementation.Sqlite.Common;
 
 /// <summary>
 /// Class doesnt save changes in database, use unit of work for this
@@ -75,5 +75,12 @@ public abstract class RepositoryBase<TEntity>(TaskManagerDbContext dbContext) : 
         var count = await DbContext.Set<TEntity>().CountAsync(cancellationToken);
 
         return count;
+    }
+
+    public virtual async Task<IEnumerable<TEntity>?> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        var entities = await DbContext.Set<TEntity>().ToListAsync(cancellationToken);
+
+        return entities;
     }
 }

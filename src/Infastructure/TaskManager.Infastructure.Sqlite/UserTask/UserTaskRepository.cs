@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskManager.DALImplementation.Sqlite.Common;
 using TaskManager.Domain.Entities.Tasks;
 using TaskManager.Domain.UseCases.Tasks;
-using TaskManager.Infrastructure.Sqlite.Common;
 
-namespace TaskManager.Infrastructure.Sqlite.UserTask;
+namespace TaskManager.DALImplementation.Sqlite.UserTask;
 
 public sealed class UserTaskRepository(TaskManagerDbContext dbContext) : RepositoryBase<UserTaskEntity>(dbContext), IUserTaskRepository
 {

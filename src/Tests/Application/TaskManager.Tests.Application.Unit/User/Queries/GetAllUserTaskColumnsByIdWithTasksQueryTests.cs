@@ -1,9 +1,7 @@
 ﻿using System.Diagnostics;
-using TaskManager.Application.TaskColumn.Requests.GetAllUserTasksColumnsByIdRequest;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Users;
-using TaskManager.Infrastructure.Sqlite.Common;
 using TaskManager.Tests.Unit.Common;
 
 namespace TaskManager.Tests.Application.Unit.User.Queries;

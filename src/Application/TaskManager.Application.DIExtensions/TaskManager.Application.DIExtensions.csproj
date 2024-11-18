@@ -9,8 +9,9 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskManager.Application.Common\TaskManager.Application.Common.csproj" />
     <ProjectReference Include="..\TaskManager.Application.Role\TaskManager.Application.Role.csproj" />
-    <ProjectReference Include="..\TaskManager.Application.TaskColumn\TaskManager.Application.TaskColumn.csproj" />
+    <ProjectReference Include="..\TaskManager.Application.TaskColumn\TaskManager.Application.UserTaskColumn.csproj" />
     <ProjectReference Include="..\TaskManager.Application.Task\TaskManager.Application.UserTask.csproj" />
+    <ProjectReference Include="..\TaskManager.Application.UserBoard\TaskManager.Application.UserBoard.csproj" />
     <ProjectReference Include="..\TaskManager.Application.User\TaskManager.Application.User.csproj" />
   </ItemGroup>
 

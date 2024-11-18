@@ -10,7 +10,7 @@ public sealed class PasswordRecoveryController(IMediatorWrapper mediator) : ApiC
 {
     [HttpPost("send-code")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<SendPasswordRecoveryCodeResponse>> SendRecoveryCode([FromBody] SendPasswordRecoveryCodeRequest request,
+    public async Task<ActionResult<SendPasswordRecoveryCodeResponse>> SendRecoveryCode([FromBody] SendRecoveryCodeRequest request,
                                                                                    CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
@@ -20,7 +20,7 @@ public sealed class PasswordRecoveryController(IMediatorWrapper mediator) : ApiC
 
     [HttpPost("verify-code")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<RecoverPasswordResponse>> VerifyCode([FromBody] RecoverPasswordRequest request,
+    public async Task<ActionResult<RecoverPasswordResponse>> RecoverPassword([FromBody] RecoverPasswordRequest request,
                                                                         CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);

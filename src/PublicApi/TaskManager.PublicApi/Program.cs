@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using TaskManager.PublicApi.Common.Middlewares;
-using TaskManager.Infrastructure.Sqlite.Common.Extensions;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
-using TaskManager.Application.DIExtensions;
 using TaskManager.Application.User;
+using TaskManager.PublicApi.Controllers;
+using TaskManager.Application.Common.Extensions;
+using TaskManager.DALImplementation.Sqlite.Common.Extensions;
+using TaskManager.Persistence.Email.Extensions;
+using TaskManager.Persistence.Code.Extensions;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);
@@ -17,18 +20,22 @@ var sqliteConnectionStr = builder.Configuration.GetConnectionString("Sqlite")
 builder.Services
     .AddInfrastructureServices(sqliteConnectionStr)
     .AddApplicationServices()
-    .AddPublicApiServices(builder.Configuration);
+    .AddPublicApiServices(builder.Configuration)
+    .AddEmailExistingChecker()
+    .AddEmailSender()
+    .AddCodeGenerator()
+    .AddCodeStorage()
+    .AddCodeVerifier();
 
 builder.Services.AddMemoryCache();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddApplicationPart(typeof(RoleController).Assembly);
 builder.Services.AddCors();
 builder.Services.AddHttpClient("Maileroo", client =>
 {
     client.DefaultRequestHeaders.Add("X-API-KEY", EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY"));
-}).SetHandlerLifetime(TimeSpan.FromSeconds(30));
+}).SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
 builder.Services.AddSwaggerGen();
-
 #endregion
 
 #region Configure middlewares
@@ -60,5 +67,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
 #endregion

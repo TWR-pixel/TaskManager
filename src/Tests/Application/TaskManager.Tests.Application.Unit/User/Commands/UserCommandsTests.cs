@@ -1,9 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using TaskManager.Application.User.Commands.DeleteById;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.Entities.Users.Exceptions;
-using TaskManager.Infrastructure.Sqlite.Common;
 using TaskManager.Tests.Unit.Common;
 
 namespace TaskManager.Tests.Application.Unit.User.Commands

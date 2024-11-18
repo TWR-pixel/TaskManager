@@ -21,7 +21,9 @@ public static class PublicApiServiceCollectionExtensions
             .AddMediatorWrapper();
 
         services
-            .ConfigureJwtAuthenticationOptions(configuration)
+            .ConfigureJwtAuthenticationOptionsAndAddJwtBearerAuthenticationScheme(configuration);
+
+        services
             .ConfigureEmailSenderOptions(configuration)
             .ConfigureMailerooApiClientOptions();
 
@@ -36,7 +38,7 @@ public static class PublicApiServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds Transient HandleExceptionsMiddleware 
+    /// Adds Transient <see cref="HandleExceptionsMiddleware"/>
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
@@ -56,7 +58,7 @@ public static class PublicApiServiceCollectionExtensions
             .CreateLogger();
 
         builder.Logging.AddSerilog();
-        builder.Logging.SetMinimumLevel(LogLevel.Information);
+        //builder.Logging.SetMinimumLevel(LogLevel.Information);
 
         builder.Host.UseSerilog((hostringContext, loggerConfiguration) =>
         {

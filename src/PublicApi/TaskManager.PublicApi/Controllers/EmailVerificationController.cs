@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.User.Commands.VerifyEmail;
-using TaskManager.Application.User.Common.AccessToken;
+using TaskManager.Application.User.Common.Security.AccessToken;
 using TaskManager.Application.User.Queries.ResendCode;
 
 namespace TaskManager.PublicApi.Controllers;

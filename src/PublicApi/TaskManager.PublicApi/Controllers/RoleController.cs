@@ -6,7 +6,7 @@ namespace TaskManager.PublicApi.Controllers;
 
 [ApiController]
 [Route("api/roles")]
-public sealed class RoleController(IMediatorWrapper mediator, ILogger<RoleController> logger) : ApiControllerBase(mediator)
+public sealed class RoleController(IMediatorWrapper mediator, ILogger<RoleController> logger) : ControllerBase
 {
     private readonly ILogger<RoleController> _logger = logger;
 
@@ -18,7 +18,7 @@ public sealed class RoleController(IMediatorWrapper mediator, ILogger<RoleContro
     {
         _logger.LogInformation("Requested to create a new role {Title}", request.Name);
 
-        var response = await Mediator.SendAsync(request, cancellation);
+        var response = await mediator.SendAsync(request, cancellation);
 
         return CreatedAtAction(nameof(Create), response);
     }

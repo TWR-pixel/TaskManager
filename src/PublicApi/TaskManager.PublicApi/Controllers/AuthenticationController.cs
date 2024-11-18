@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.User.Commands.Register;
-using TaskManager.Application.User.Common.AccessToken;
+using TaskManager.Application.User.Common.Security.AccessToken;
 using TaskManager.Application.User.Queries.Login;
 
 namespace TaskManager.PublicApi.Controllers;

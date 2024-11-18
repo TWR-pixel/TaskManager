@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskManager.DALImplementation.Sqlite.Common;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.UseCases.Roles;
-using TaskManager.Infrastructure.Sqlite.Common;
 
-namespace TaskManager.Infrastructure.Sqlite.Role;
+namespace TaskManager.DALImplementation.Sqlite.Role;
 
 public sealed class RoleRepository(TaskManagerDbContext dbContext) : RepositoryBase<RoleEntity>(dbContext), IRoleRepository
 {

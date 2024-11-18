@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace TaskManager.Infrastructure.Sqlite.Common.Interceptors;
+namespace TaskManager.DALImplementation.Sqlite.Common.Interceptors;
 
 public class InterceptorTest : SaveChangesInterceptor
 {

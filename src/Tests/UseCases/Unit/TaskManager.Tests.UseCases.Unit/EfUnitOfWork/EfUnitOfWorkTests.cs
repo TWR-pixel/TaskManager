@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskManager.DALImplementation.Sqlite;
+using TaskManager.DALImplementation.Sqlite.Common;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Tasks;
 using TaskManager.Domain.Entities.Users;
-using TaskManager.Infrastructure.Sqlite;
-using TaskManager.Infrastructure.Sqlite.Common;
-using UnitOfWork = TaskManager.Infrastructure.Sqlite.Common.UnitOfWork;
+using UnitOfWork = TaskManager.DALImplementation.Sqlite.Common.UnitOfWork;
 
 namespace TaskManager.Tests.Infrastructure.Unit.EfUnitOfWork;
 

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
@@ -22,8 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Application\TaskManager.Application.DIExtensions\TaskManager.Application.DIExtensions.csproj" />
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.DALImplementation.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Code\TaskManager.Persistence.Code.csproj" />
+    <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Email\TaskManager.Persistence.Email.csproj" />
   </ItemGroup>
 
 </Project>
