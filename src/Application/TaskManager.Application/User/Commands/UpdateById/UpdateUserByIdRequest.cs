@@ -1,5 +1,5 @@
 ﻿using TaskManager.Application.Common.Requests;
-using TaskManager.Application.User.Common.Security.Hashers;
+using TaskManager.Application.Common.Security;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 

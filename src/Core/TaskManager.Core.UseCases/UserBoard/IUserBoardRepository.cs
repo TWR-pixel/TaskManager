@@ -3,7 +3,7 @@ using TaskManager.Domain.UseCases.Common.Repositories;
 
 namespace TaskManager.Domain.UseCases.UserBoard;
 
-public interface IUserBoardRepository : IRepositoryBase<UserBoardEntity>
+public interface IUserBoardRepository : IRepository<UserBoardEntity>
 {
     public Task<IEnumerable<UserBoardEntity>> GetAllByOwnerId(int ownerId, CancellationToken cancellationToken = default);
 }

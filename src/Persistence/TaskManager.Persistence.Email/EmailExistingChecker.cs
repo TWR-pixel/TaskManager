@@ -1,6 +1,6 @@
 ﻿using MailerooClient.Email.Verification.Requests.Check;
 using MailerooClient.Email.Verification;
-using TaskManager.Application.User.Common.Email;
+using TaskManager.Application.Common.Email;
 
 namespace TaskManager.Persistence.Email;
 

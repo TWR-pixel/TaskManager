@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Persistence.Ema
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Persistence.Code", "src\Persistence\TaskManager.Persistence.Code\TaskManager.Persistence.Code.csproj", "{27A3FC16-C430-402B-95E4-E46CA3D884FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Persistence.Security", "src\Persistence\TaskManager.Persistence.Security\TaskManager.Persistence.Security.csproj", "{BE4DDB48-8E1E-4F29-8BF0-B064A9EE601B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{27A3FC16-C430-402B-95E4-E46CA3D884FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27A3FC16-C430-402B-95E4-E46CA3D884FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27A3FC16-C430-402B-95E4-E46CA3D884FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE4DDB48-8E1E-4F29-8BF0-B064A9EE601B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE4DDB48-8E1E-4F29-8BF0-B064A9EE601B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE4DDB48-8E1E-4F29-8BF0-B064A9EE601B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE4DDB48-8E1E-4F29-8BF0-B064A9EE601B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,6 +125,7 @@ Global
 		{99DC2184-3452-433D-B2AF-C2DFE40804F1} = {D9601ACB-0390-4B9D-B3D9-BE47FE5FCF75}
 		{AEBC27B2-4ADD-4D35-9DC6-CE3B1E811319} = {99DC2184-3452-433D-B2AF-C2DFE40804F1}
 		{27A3FC16-C430-402B-95E4-E46CA3D884FC} = {99DC2184-3452-433D-B2AF-C2DFE40804F1}
+		{BE4DDB48-8E1E-4F29-8BF0-B064A9EE601B} = {99DC2184-3452-433D-B2AF-C2DFE40804F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D21E1920-7EA2-41F3-AA5D-A598681BB756}

@@ -3,7 +3,7 @@ using TaskManager.Domain.UseCases.Common.Repositories;
 
 namespace TaskManager.Domain.UseCases.Users;
 
-public interface IUserRepository : IRepositoryBase<UserEntity>
+public interface IUserRepository : IRepository<UserEntity>
 {
     public Task<UserEntity?> GetAllUserTaskColumnsWithTasksByIdAsync(int userId, CancellationToken cancellationToken = default);
     public Task<UserEntity?> GetAllUserTasksByIdAsync(int userId, CancellationToken cancellationToken = default);

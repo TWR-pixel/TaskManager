@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TaskManager.Application.User.Common.Email;
+using TaskManager.Application.Common.Email;
 
 namespace TaskManager.Persistence.Email.Extensions;
 

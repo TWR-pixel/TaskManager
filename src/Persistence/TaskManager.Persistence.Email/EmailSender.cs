@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using TaskManager.Application.User.Common.Email;
+using TaskManager.Application.Common.Email;
 
 namespace TaskManager.Persistence.Email;
 

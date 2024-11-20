@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
-using Microsoft.Extensions.Caching.Memory;
-using System.Security.Cryptography;
+using TaskManager.Application.Common.Code;
+using TaskManager.Application.Common.Email;
 using TaskManager.Application.Common.Requests;
-using TaskManager.Application.User.Common.Email;
-using TaskManager.Application.User.Common.Security.AccessToken;
-using TaskManager.Application.User.Common.Security.Hashers;
+using TaskManager.Application.Common.Security;
+using TaskManager.Application.Common.Security.AccessToken;
 using TaskManager.Domain.Entities.Common.Exceptions;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
@@ -19,19 +18,21 @@ public sealed record RegisterUserRequest(string Username, string Email, string P
 public sealed record RegisterUserResponse() : ResponseBase;
 
 public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
-                                  IPasswordHasher passwordHasher,
-                                  IEmailSender emailSender,
-                                  IEmailExistingChecker emailChecker,
-                                  IAccessTokenFactory tokenFactory,
-                                  IValidator<RegisterUserRequest> validator,
-                                  IMemoryCache cache) : RequestHandlerBase<RegisterUserRequest, AccessTokenResponse>(unitOfWork)
+                                               IPasswordHasher passwordHasher,
+                                               IEmailSender emailSender,
+                                               IEmailExistingChecker emailChecker,
+                                               IAccessTokenFactory tokenFactory,
+                                               IValidator<RegisterUserRequest> validator,
+                                               ICodeStorage codeStorage,
+                                               ICodeGenerator<string> codeGenerator) : RequestHandlerBase<RegisterUserRequest, AccessTokenResponse>(unitOfWork)
 {
     private readonly IPasswordHasher _passwordHasher = passwordHasher;
     private readonly IEmailSender _emailSender = emailSender;
     private readonly IAccessTokenFactory _tokenFactory = tokenFactory;
     private readonly IValidator<RegisterUserRequest> _validator = validator;
     private readonly IEmailExistingChecker _emailChecker = emailChecker;
-    private readonly IMemoryCache _cache = cache;
+    private readonly ICodeStorage _codeStorage = codeStorage;
+    private readonly ICodeGenerator<string> _codeGenerator = codeGenerator;
 
     public override async Task<AccessTokenResponse> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
     {
@@ -47,8 +48,8 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
         if (!doesEmailExists)
             throw new EmailDoesntExistException(request.Email); ;
 
-        var randomCode = RandomNumberGenerator.GetHexString(20);
-        _cache.Set(randomCode, request.Email);
+        var randomVerificationCode = _codeGenerator.GenerateCode(20);
+        _codeStorage.Add(randomVerificationCode, request.Email);
 
         var userRole = RoleConstants.USER;
         var roleEntity = await UnitOfWork.Roles.GetByNameAsync(userRole, cancellationToken)

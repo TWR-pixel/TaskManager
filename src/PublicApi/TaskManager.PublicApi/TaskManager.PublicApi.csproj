@@ -26,6 +26,7 @@
     <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.DALImplementation.Sqlite.csproj" />
     <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Code\TaskManager.Persistence.Code.csproj" />
     <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Email\TaskManager.Persistence.Email.csproj" />
+    <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Security\TaskManager.Persistence.Security.csproj" />
   </ItemGroup>
 
 </Project>

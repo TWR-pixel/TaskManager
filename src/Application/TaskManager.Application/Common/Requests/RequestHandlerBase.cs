@@ -4,7 +4,7 @@ using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 namespace TaskManager.Application.Common.Requests;
 
 /// <summary>
-/// Базовый обработчик для всех запросов
+/// Base class for all request handlers
 /// </summary>
 /// <typeparam name="TRequest"></typeparam>
 /// <typeparam name="TResponse"></typeparam>

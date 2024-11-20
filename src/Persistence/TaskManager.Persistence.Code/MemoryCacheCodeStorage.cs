@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using TaskManager.Application.User.Common.Email.Code;
+using TaskManager.Application.Common.Code;
 
 namespace TaskManager.Persistence.Code;
 
@@ -11,7 +11,7 @@ public sealed class MemoryCacheCodeStorage(IMemoryCache memoryCache) : ICodeStor
 {
     private readonly IMemoryCache _memoryCache = memoryCache;
 
-    public void Create(string code, string email)
+    public void Add(string code, string email)
     {
         _memoryCache.Set(code, email);
     }

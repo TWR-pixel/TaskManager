@@ -1,4 +1,4 @@
-﻿using TaskManager.Application.User.Common.Security.AccessToken;
+﻿using TaskManager.Application.Common.Security.AccessToken;
 
 namespace TaskManager.PublicApi.Common.Models.Response;
 

@@ -8,6 +8,7 @@ using TaskManager.Application.Common.Extensions;
 using TaskManager.DALImplementation.Sqlite.Common.Extensions;
 using TaskManager.Persistence.Email.Extensions;
 using TaskManager.Persistence.Code.Extensions;
+using TaskManager.Persistence.Security;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,8 @@ builder.Services
     .AddEmailSender()
     .AddCodeGenerator()
     .AddCodeStorage()
-    .AddCodeVerifier();
+    .AddCodeVerifier()
+    .AddJwtAuthentication();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers().AddApplicationPart(typeof(RoleController).Assembly);

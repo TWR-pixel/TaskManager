@@ -43,11 +43,11 @@ public static class InfrastructureServiceCollectionExtensions
     public static IServiceCollection AddReadRepositories(this IServiceCollection services)
     {
         services
-            .AddScoped<IReadRepositoryBase<UserEntity>, UserRepository>()
-            .AddScoped<IReadRepositoryBase<RoleEntity>, RoleRepository>()
-            .AddScoped<IReadRepositoryBase<UserTaskEntity>, UserTaskRepository>()
-            .AddScoped<IReadRepositoryBase<UserTaskColumnEntity>, UserTaskColumnRepository>()
-            .AddScoped<IReadRepositoryBase<UserBoardEntity>, UserBoardRepository>();
+            .AddScoped<IReadableRepository<UserEntity>, UserRepository>()
+            .AddScoped<IReadableRepository<RoleEntity>, RoleRepository>()
+            .AddScoped<IReadableRepository<UserTaskEntity>, UserTaskRepository>()
+            .AddScoped<IReadableRepository<UserTaskColumnEntity>, UserTaskColumnRepository>()
+            .AddScoped<IReadableRepository<UserBoardEntity>, UserBoardRepository>();
 
         return services;
     }

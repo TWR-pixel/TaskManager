@@ -9,7 +9,7 @@ namespace TaskManager.DALImplementation.Sqlite.Common;
 /// </summary>
 /// <typeparam name="TEntity"></typeparam>
 /// <param name="dbContext"></param>
-public abstract class RepositoryBase<TEntity>(TaskManagerDbContext dbContext) : IRepositoryBase<TEntity>
+public abstract class RepositoryBase<TEntity>(TaskManagerDbContext dbContext) : IRepository<TEntity>
     where TEntity : EntityBase
 {
     protected readonly TaskManagerDbContext DbContext = dbContext;
