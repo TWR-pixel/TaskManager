@@ -35,7 +35,7 @@ builder.Services.AddCors();
 builder.Services.AddHttpClient("Maileroo", client =>
 {
     client.DefaultRequestHeaders.Add("X-API-KEY", builder.Configuration["TM_MAILEROO_API_KEY"] ?? throw new NullReferenceException());
-}).SetHandlerLifetime(TimeSpan.FromMinutes(5));
+}).SetHandlerLifetime(TimeSpan.FromMinutes(6));
 
 builder.Services.AddSwaggerGen();
 #endregion
