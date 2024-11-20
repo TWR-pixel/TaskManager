@@ -9,8 +9,8 @@ public static class EmailSenderServiceCollectionExtensions
 {
     public static IServiceCollection ConfigureEmailSenderOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        var emailApiKey = EnvironmentWrapper.GetEnvironmentVariable("TM_EMAIL_API_KEY");
-        
+        var emailApiKey = configuration["TM_EMAIL_API_KEY"] ?? throw new NullReferenceException();
+
         var emailFrom = configuration["EmailSenderOptions:EmailFrom"]!;
 
         if (string.IsNullOrWhiteSpace(emailFrom))

@@ -15,7 +15,7 @@ public static class DevelopmentEnvironmentMiddlewareExtensions
         Console.WriteLine("development environment");
 
         app.UseDeveloperExceptionPage();
-
+        
         app.UseCors(builder => builder
              .WithOrigins(
              "http://localhost:3000",

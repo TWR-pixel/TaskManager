@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using TaskManager.Application.Common.Requests;
 
-namespace TaskManager.PublicApi.Common.Wrappers.Mediator;
+namespace TaskManager.PublicApi.Common.Wrappers;
 
 public sealed class MediatorWrapper(IMediator mediator) : IMediatorWrapper
 {

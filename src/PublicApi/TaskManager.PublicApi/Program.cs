@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using TaskManager.PublicApi.Common.Middlewares;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
-using TaskManager.Application.User;
 using TaskManager.PublicApi.Controllers;
 using TaskManager.Application.Common.Extensions;
 using TaskManager.DALImplementation.Sqlite.Common.Extensions;
@@ -29,12 +28,13 @@ builder.Services
     .AddCodeVerifier()
     .AddJwtAuthentication();
 
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers().AddApplicationPart(typeof(RoleController).Assembly);
 builder.Services.AddCors();
 builder.Services.AddHttpClient("Maileroo", client =>
 {
-    client.DefaultRequestHeaders.Add("X-API-KEY", EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY"));
+    client.DefaultRequestHeaders.Add("X-API-KEY", builder.Configuration["TM_MAILEROO_API_KEY"] ?? throw new NullReferenceException());
 }).SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
 builder.Services.AddSwaggerGen();

@@ -1,1 +1,1 @@
-﻿global using TaskManager.PublicApi.Common.Wrappers.Mediator;
+﻿global using TaskManager.PublicApi.Common.Wrappers;

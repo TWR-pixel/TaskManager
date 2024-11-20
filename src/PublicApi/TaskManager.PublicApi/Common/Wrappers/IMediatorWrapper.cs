@@ -1,6 +1,6 @@
 ﻿using TaskManager.Application.Common.Requests;
 
-namespace TaskManager.PublicApi.Common.Wrappers.Mediator;
+namespace TaskManager.PublicApi.Common.Wrappers;
 
 public interface IMediatorWrapper
 {

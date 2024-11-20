@@ -25,6 +25,8 @@ public sealed class VerifyEmailVerificationCodeRequestHandler(IUnitOfWork unitOf
         if (!isCodeCorrect)
             throw new CodeNotVerifiedException("code not found, try resend it");
 
+        codeStorage.Remove(request.Code);
+
         var user = await UnitOfWork.Users.GetByEmailAsync(email, cancellationToken)
             ?? throw new UserNotFoundException(email);
 

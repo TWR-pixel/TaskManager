@@ -33,6 +33,8 @@ public sealed class VerifyPasswordRecoveryCodeRequestHandler(IUnitOfWork unitOfW
         if (!isVerified)
             throw new CodeNotVerifiedException(email);
 
+        codeStorage.Remove(request.Code);
+
         var user = await UnitOfWork.Users.GetByEmailAsync(email, cancellationToken)
             ?? throw new UserNotFoundException(email);
 
@@ -47,7 +49,7 @@ public sealed class VerifyPasswordRecoveryCodeRequestHandler(IUnitOfWork unitOfW
 
         await UnitOfWork.Users.UpdateAsync(user, cancellationToken);
         await SaveChangesAsync(cancellationToken);
-        
+
         var response = new VerifyPasswordRecoveryCodeResponse();
 
         return response;

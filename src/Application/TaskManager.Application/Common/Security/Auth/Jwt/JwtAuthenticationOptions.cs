@@ -1,7 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.Text;
-
-namespace TaskManager.Application.Common.Security.Auth.Jwt;
+﻿namespace TaskManager.Application.Common.Security.Auth.Jwt;
 
 public class JwtAuthenticationOptions
 {

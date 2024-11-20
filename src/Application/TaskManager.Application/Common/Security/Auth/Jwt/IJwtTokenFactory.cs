@@ -1,6 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using TaskManager.Application.Common.Security.Auth;
 
 namespace TaskManager.Application.Common.Security.Auth.Jwt;
 
