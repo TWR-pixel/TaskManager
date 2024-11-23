@@ -5,19 +5,17 @@ namespace TaskManager.Application.UserTaskColumn.Requests.GetAllUserTasksColumns
 public sealed record UserTaskColumnsResponse
 {
     [SetsRequiredMembers]
-    public UserTaskColumnsResponse(int id, string title, string content, IEnumerable<UserTaskResponse>? tasks, int ordering)
+    public UserTaskColumnsResponse(int id, string title, string content, IEnumerable<UserTaskResponse>? tasks)
     {
         Id = id;
         Title = title;
         Content = content;
         Tasks = tasks;
-        Ordering = ordering;
     }
 
     public required int Id { get; set; }
     public required string Title { get; set; }
     public required string Content { get; set; }
-    public required int Ordering { get; set; }
 
     public IEnumerable<UserTaskResponse>? Tasks { get; set; }
 }

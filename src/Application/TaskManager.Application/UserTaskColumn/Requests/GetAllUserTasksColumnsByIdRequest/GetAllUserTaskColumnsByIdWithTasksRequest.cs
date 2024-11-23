@@ -36,8 +36,7 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
                                                                                                t.CreatedAt,
                                                                                                t.CompletedAt,
                                                                                                t.Id,
-                                                                                               t.TaskColumn.Id)),
-                                             u.Ordering
+                                                                                               t.TaskColumn.Id))
                                              )
                 )
         };

@@ -6,7 +6,6 @@ using TaskManager.Domain.Entities.Common.Entities;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Tasks;
-using TaskManager.Domain.Entities.UserBoard;
 
 namespace TaskManager.Domain.Entities.Users;
 
@@ -62,7 +61,6 @@ public sealed class UserEntity : EntityBase
 
     public IEnumerable<UserTaskColumnEntity>? TaskColumns { get; set; }
     public IEnumerable<UserTaskEntity>? Tasks { get; set; }
-    public IEnumerable<UserBoardEntity>? UserBoards { get; set; }
 
     [ForeignKey("role_id")]
     public required RoleEntity Role { get; set; }

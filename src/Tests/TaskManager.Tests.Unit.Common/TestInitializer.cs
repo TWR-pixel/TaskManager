@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManager.DALImplementation.Sqlite;
-using TaskManager.DALImplementation.Sqlite.Common;
 using TaskManager.Domain.Entities.Roles;
+using TaskManager.Infrastructure.Sqlite;
+using TaskManager.Infrastructure.Sqlite.Common;
 
 namespace TaskManager.Tests.Unit.Common;
 

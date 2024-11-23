@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Application.Common.Requests.Handlers;
 using TaskManager.Application.Role;
 using TaskManager.Application.User;
-using TaskManager.Application.UserBoard;
 using TaskManager.Application.UserTask;
 using TaskManager.Application.UserTaskColumn;
 
@@ -16,16 +15,12 @@ public static class MediatorServiceCollectionExtensions
     {
         services.AddMediatR(c =>
         {
-            c.RegisterServicesFromAssembly(typeof(UserDto).Assembly);
-            c.RegisterServicesFromAssembly(typeof(RoleDto).Assembly);
-            c.RegisterServicesFromAssembly(typeof(UserTaskDto).Assembly);
-            c.RegisterServicesFromAssembly(typeof(UserTaskColumnDto).Assembly);
-            c.RegisterServicesFromAssembly(typeof(UserBoardDto).Assembly);
+            c.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
         });
 
         services.AddRequestExceptionHandler();
 
-        services.AddValidatorsFromAssembly(typeof(UserDto).Assembly);
+        services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 
         return services;
     }

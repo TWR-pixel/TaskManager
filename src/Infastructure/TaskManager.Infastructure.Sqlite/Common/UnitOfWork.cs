@@ -2,17 +2,16 @@
 using TaskManager.Domain.UseCases.Roles;
 using TaskManager.Domain.UseCases.TaskColumns;
 using TaskManager.Domain.UseCases.Tasks;
-using TaskManager.Domain.UseCases.UserBoard;
 using TaskManager.Domain.UseCases.Users;
+using TaskManager.Infrastructure.Sqlite;
 
-namespace TaskManager.DALImplementation.Sqlite.Common;
+namespace TaskManager.Infrastructure.Sqlite.Common;
 
 public sealed class UnitOfWork(TaskManagerDbContext dbContext,
                                  IUserTaskRepository userTasks,
                                  IUserTaskColumnRepository userTaskColumns,
                                  IRoleRepository roles,
-                                 IUserRepository users,
-                                 IUserBoardRepository userBoards) : IUnitOfWork
+                                 IUserRepository users) : IUnitOfWork
 {
     private readonly TaskManagerDbContext _dbContext = dbContext;
 
@@ -20,7 +19,6 @@ public sealed class UnitOfWork(TaskManagerDbContext dbContext,
     public IUserTaskColumnRepository UserTaskColumns { get; init; } = userTaskColumns;
     public IRoleRepository Roles { get; init; } = roles;
     public IUserRepository Users { get; init; } = users;
-    public IUserBoardRepository UserBoards { get; init; } = userBoards;
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Domain.Entities", "src\Core\TaskManager.Core.Entities\TaskManager.Domain.Entities.csproj", "{D9E91C75-450E-4BC8-8D4D-492438962030}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DALImplementation", "DALImplementation", "{EF77468F-D4D7-41D4-8351-6E35AAAB5182}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{EF77468F-D4D7-41D4-8351-6E35AAAB5182}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Domain.UseCases", "src\Core\TaskManager.Core.UseCases\TaskManager.Domain.UseCases.csproj", "{B8AA6B86-EE9D-4357-BBBA-B485F073E233}"
 EndProject
@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublicApi", "PublicApi", "{99C5450C-955A-4856-B720-421F16B4930A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.DALImplementation.Sqlite", "src\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.DALImplementation.Sqlite.csproj", "{72F6A589-D4A8-4BD5-897B-06BF813248DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Infrastructure.Sqlite", "src\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj", "{72F6A589-D4A8-4BD5-897B-06BF813248DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.PublicApi", "src\PublicApi\TaskManager.PublicApi\TaskManager.PublicApi.csproj", "{467B8092-1CF7-4956-BFEA-FB1D0A371FF1}"
 EndProject

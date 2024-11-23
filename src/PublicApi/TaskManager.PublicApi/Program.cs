@@ -4,10 +4,10 @@ using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
 using TaskManager.PublicApi.Controllers;
 using TaskManager.Application.Common.Extensions;
-using TaskManager.DALImplementation.Sqlite.Common.Extensions;
 using TaskManager.Persistence.Email.Extensions;
 using TaskManager.Persistence.Code.Extensions;
 using TaskManager.Persistence.Security;
+using TaskManager.Infrastructure.Sqlite.Common.Extensions;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);

@@ -8,11 +8,10 @@ namespace TaskManager.Application.UserTaskColumn.Requests.UpdateById;
 public sealed record UpdateTaskColumnByIdRequest(int TaskColumnId,
                                                  int? UserId,
                                                  string? Title,
-                                                 string? Description,
-                                                 int? Ordering)
+                                                 string? Description)
     : RequestBase<UpdateTaskColumnByIdResponse>;
 
-public sealed record UpdateTaskColumnByIdResponse(int? UserId, string? Title, string? Description, int? Ordering)
+public sealed record UpdateTaskColumnByIdResponse(int? UserId, string? Title, string? Description)
     : ResponseBase;
 
 #region Handler
@@ -41,15 +40,9 @@ public sealed class UpdateTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) :
             taskColumnEntity.Owner = userEntity;
         }
 
-        if (request.Ordering is not null)
-        {
-            taskColumnEntity.Ordering = (int)request.Ordering;
-        }
-
         var response = new UpdateTaskColumnByIdResponse(taskColumnEntity.Owner.Id,
                                                         taskColumnEntity.Title,
-                                                        taskColumnEntity.Description,
-                                                        taskColumnEntity.Ordering);
+                                                        taskColumnEntity.Description);
 
         await UnitOfWork.UserTaskColumns.UpdateAsync(taskColumnEntity, cancellationToken);
         await SaveChangesAsync(cancellationToken);

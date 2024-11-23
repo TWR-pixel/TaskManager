@@ -2,11 +2,10 @@
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Tasks;
-using TaskManager.Domain.Entities.UserBoard;
 using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.UseCases.Roles;
 
-namespace TaskManager.DALImplementation.Sqlite;
+namespace TaskManager.Infrastructure.Sqlite;
 
 public sealed class TaskManagerDbContext : DbContext
 {
@@ -14,7 +13,6 @@ public sealed class TaskManagerDbContext : DbContext
     public DbSet<UserTaskColumnEntity> TaskColumns { get; set; }
     public DbSet<UserTaskEntity> UserTasks { get; set; }
     public DbSet<RoleEntity> UserRoles { get; set; }
-    public DbSet<UserBoardEntity> UserBoards { get; set; }
 
     public TaskManagerDbContext(DbContextOptions<TaskManagerDbContext> options) : base(options)
         => Database.EnsureCreated();
@@ -24,7 +22,7 @@ public sealed class TaskManagerDbContext : DbContext
         modelBuilder.Entity<RoleEntity>().HasData(new RoleEntity
         {
             Id = 1,
-            Name = RoleConstants.USER
+            Name = RoleConstants.User
         });
 
         base.OnModelCreating(modelBuilder);

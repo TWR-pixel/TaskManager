@@ -2,7 +2,7 @@
 using TaskManager.Domain.Entities.Common.Entities;
 using TaskManager.Domain.UseCases.Common.Repositories;
 
-namespace TaskManager.DALImplementation.Sqlite.Common;
+namespace TaskManager.Infrastructure.Sqlite.Common;
 
 /// <summary>
 /// Class doesnt save changes in database, use unit of work for this

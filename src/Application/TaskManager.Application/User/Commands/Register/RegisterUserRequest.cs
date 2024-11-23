@@ -51,10 +51,9 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
         var randomVerificationCode = _codeGenerator.GenerateCode(20);
         _codeStorage.Add(randomVerificationCode, request.Email);
 
-        var userRole = RoleConstants.USER;
-        var roleEntity = await UnitOfWork.Roles.GetByNameAsync(userRole, cancellationToken)
-            ?? throw new RoleNotFoundException(userRole);
-
+        var roleEntity = await UnitOfWork.Roles.GetByNameAsync(RoleConstants.User, cancellationToken)
+            ?? throw new RoleNotFoundException(RoleConstants.User);
+        
         var passwordSalt = _passwordHasher.GenerateSalt();
         var passwordHash = _passwordHasher.HashPassword(request.Password, passwordSalt);
 
@@ -74,14 +73,14 @@ public sealed class RegisterUserRequestHandler(IUnitOfWork unitOfWork,
 
         var defaultColumns = new List<UserTaskColumnEntity>()
         {
-            new(userEntity, "Нужно сделать", 1),
-            new(userEntity,"В процессе", 2),
-            new(userEntity, "Завершенные", 3),
+            new(userEntity, "Нужно сделать"),
+            new(userEntity,"В процессе"),
+            new(userEntity, "Завершенные"),
         };
 
         await UnitOfWork.UserTaskColumns.AddRangeAsync(defaultColumns, cancellationToken);
         await SaveChangesAsync(cancellationToken);
-
+        
         var response = _tokenFactory.Create(userEntity);
 
         return response;

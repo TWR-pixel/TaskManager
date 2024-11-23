@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManager.DALImplementation.Sqlite.Common;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.UseCases.TaskColumns;
+using TaskManager.Infrastructure.Sqlite.Common;
 
-namespace TaskManager.DALImplementation.Sqlite.UserTaskColumn;
+namespace TaskManager.Infrastructure.Sqlite.UserTaskColumn;
 
 public sealed class UserTaskColumnRepository(TaskManagerDbContext dbContext) : RepositoryBase<UserTaskColumnEntity>(dbContext), IUserTaskColumnRepository
 {
