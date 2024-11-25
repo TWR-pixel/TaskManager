@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using TaskManager.Application.Role;
 using TaskManager.Application.Role.Requests;
 
@@ -17,6 +19,8 @@ public sealed class RoleController(IMediatorWrapper mediator, ILogger<RoleContro
                                                                CancellationToken cancellation)
     {
         _logger.LogInformation("Requested to create a new role {Title}", request.Name);
+
+
 
         var response = await mediator.SendAsync(request, cancellation);
 

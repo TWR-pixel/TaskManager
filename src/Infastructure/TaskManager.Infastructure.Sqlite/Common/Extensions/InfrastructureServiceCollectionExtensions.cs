@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Tasks;
@@ -29,7 +30,6 @@ public static class InfrastructureServiceCollectionExtensions
 
         return services;
     }
-
     public static IServiceCollection AddTaskManagerDbContext(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<TaskManagerDbContext>(d => d.UseSqlite(connectionString));
@@ -67,4 +67,6 @@ public static class InfrastructureServiceCollectionExtensions
 
         return services;
     }
+
+
 }

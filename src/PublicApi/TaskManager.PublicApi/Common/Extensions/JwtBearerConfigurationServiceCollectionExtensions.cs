@@ -17,8 +17,8 @@ public static class JwtBearerConfigurationServiceCollectionExtensions
     /// <returns>The <see cref="IServiceCollection"/></returns>
     public static IServiceCollection ConfigureJwtAuthenticationOptionsAndAddJwtBearerAuthenticationScheme(this IServiceCollection services, IConfiguration configuration)
     {
-        var jwtSecretKey = configuration["TM_JWT_SECRET_KEY"] ?? throw new NullReferenceException();
-        
+        var jwtSecretKey = configuration["TmJwtSecretKey"] ?? throw new NullReferenceException();
+
         var validIssuer = configuration["JwtAuthenticationOptions:Issuer"];
         var validAudience = configuration["JwtAuthenticationOptions:Audience"];
         var expiresTokenHours = configuration["JwtAuthenticationOptions:ExpiresTokenHours"];

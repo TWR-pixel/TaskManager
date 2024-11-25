@@ -11,10 +11,11 @@ using TaskManager.Infrastructure.Sqlite.Common.Extensions;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 builder.AddSerilog();
 
-var sqliteConnectionStr = builder.Configuration.GetConnectionString("Sqlite")
+var sqliteConnectionStr = config.GetConnectionString("Sqlite")
     ?? throw new NullReferenceException("connection string not found or empty");
 
 builder.Services
@@ -30,11 +31,11 @@ builder.Services
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddMemoryCache();
-builder.Services.AddControllers().AddApplicationPart(typeof(RoleController).Assembly);
+builder.Services.AddControllers();
 builder.Services.AddCors();
 builder.Services.AddHttpClient("Maileroo", client =>
 {
-    client.DefaultRequestHeaders.Add("X-API-KEY", builder.Configuration["TM_MAILEROO_API_KEY"] ?? throw new NullReferenceException());
+    client.DefaultRequestHeaders.Add("X-API-KEY", config["TmMailerooApiKey"] ?? throw new NullReferenceException());
 }).SetHandlerLifetime(TimeSpan.FromMinutes(7));
 
 builder.Services.AddSwaggerGen();

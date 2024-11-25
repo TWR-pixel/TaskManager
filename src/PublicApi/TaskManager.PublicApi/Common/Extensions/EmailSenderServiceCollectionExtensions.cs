@@ -9,7 +9,7 @@ public static class EmailSenderServiceCollectionExtensions
 {
     public static IServiceCollection ConfigureEmailSenderOptions(this IServiceCollection services, IConfiguration configuration)
     {
-        var emailApiKey = configuration["TM_EMAIL_API_KEY"] ?? throw new NullReferenceException();
+        var emailApiKey = configuration["TmMailerooApiKey"] ?? throw new NullReferenceException();
 
         var emailFrom = configuration["EmailSenderOptions:EmailFrom"]!;
 
@@ -32,9 +32,9 @@ public static class EmailSenderServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection ConfigureMailerooApiClientOptions(this IServiceCollection services)
+    public static IServiceCollection ConfigureMailerooApiClientOptions(this IServiceCollection services, IConfiguration config)
     {
-        var apiKey = EnvironmentWrapper.GetEnvironmentVariable("TM_MAILEROO_API_KEY");
+        var apiKey = config["TmMailerooApiKey"] ?? throw new NullReferenceException("apiKey");
 
         services.Configure<MailerooClientOptions>(options =>
         {

@@ -25,7 +25,7 @@ public static class PublicApiServiceCollectionExtensions
 
         services
             .ConfigureEmailSenderOptions(configuration)
-            .ConfigureMailerooApiClientOptions();
+            .ConfigureMailerooApiClientOptions(configuration);
 
         return services;
     }

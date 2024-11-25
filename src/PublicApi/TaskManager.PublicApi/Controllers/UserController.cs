@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using TaskManager.Application.User;
 using TaskManager.Application.User.Commands.DeleteById;
 using TaskManager.Application.User.Commands.UpdateById;
@@ -10,7 +12,7 @@ namespace TaskManager.PublicApi.Controllers;
 [ApiController]
 [Authorize]
 [Route("api/users")]
-public sealed class UserController(IMediatorWrapper mediator) : ApiControllerBase(mediator)
+public sealed class UserController(IMediatorWrapper mediator, IOptions<JwtBearerOptions> jwtOptions) : ApiControllerBase(mediator)
 {
     #region HTTP methods
     [HttpGet]
@@ -19,6 +21,12 @@ public sealed class UserController(IMediatorWrapper mediator) : ApiControllerBas
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<UserDto>> GetById([FromQuery] GetUserByIdRequest request, CancellationToken cancellationToken)
     {
+        foreach (var claim in User.Claims)
+        {
+            Console.WriteLine(claim.Value + " " + claim.Issuer);
+        }
+        Console.WriteLine(HttpContext.Connection.RemoteIpAddress.ToString());
+        Console.WriteLine(jwtOptions.Value.Audience);
         var result = await Mediator.SendAsync(request, cancellationToken);
 
         return Ok(result);
