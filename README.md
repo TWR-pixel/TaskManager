@@ -14,11 +14,13 @@ git clone https://github.com/TWR-pixel/TaskManager.git
 cd TaskManager
 ```
 Read this docs to get application code for mail.yandex.ru https://yandex.ru/support/id/ru/authorization/app-passwords
-Then set this environment variables:
+Then set this user secrets variables:
 
 ```bash
-set JWT_SECRET_KEY=DEFAULT_VALUE
-set EMAIL_SENDER_API_KEY=<INSERT_YOUR_APPLICATION_CODE>
+dotnet user-secrets set "TmMailerooApiKey" "YourApiKey"
+dotnet user-secrets set "TmJwtSecretKey" "AWOIEJFPOAIWEJFJEWPIOFJWPEOIJFFOIJWEPOIFJWEOPIJFIO"
+dotnet user-secrets set "TmEmailApiKey" "YouEmailApiKey"
+
 ```
 
 For confirmation by mail to work, insert your email address here (don't forget to create an environment variable EMAIL_SENDER_API_KEY with your key value):
