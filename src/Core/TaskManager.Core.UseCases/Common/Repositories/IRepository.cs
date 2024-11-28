@@ -2,7 +2,7 @@
 
 namespace TaskManager.Domain.UseCases.Common.Repositories;
 
-public interface IRepository<TEntity> : IReadableRepository<TEntity>, IWritableRepository<TEntity>
+public interface IRepository<TEntity> : IReadonlyRepository<TEntity>, IWritableRepository<TEntity>
     where TEntity : EntityBase
 {
 

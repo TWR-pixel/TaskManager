@@ -2,10 +2,6 @@
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Application.Common.Requests.Handlers;
-using TaskManager.Application.Role;
-using TaskManager.Application.User;
-using TaskManager.Application.UserTask;
-using TaskManager.Application.UserTaskColumn;
 
 namespace TaskManager.Application.Common.Extensions;
 

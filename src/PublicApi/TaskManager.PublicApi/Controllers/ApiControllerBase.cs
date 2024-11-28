@@ -16,4 +16,20 @@ public abstract class ApiControllerBase(IMediatorWrapper mediator) : ControllerB
 
         return response;
     }
+
+    protected virtual async Task<ActionResult<TResponse>> OkAsync<TResponse>(RequestBase<TResponse> request, CancellationToken cancellationToken = default)
+        where TResponse : class
+    {
+        var response = await _mediator.SendAsync(request, cancellationToken);
+
+        return Ok(response);
+    }
+
+    protected virtual async Task<ActionResult<TResponse>> CreatedAtActionAsync<TResponse>(string actionName, RequestBase<TResponse> request, CancellationToken cancellationToken = default)
+        where TResponse : class
+    {
+        var response = await _mediator.SendAsync(request, cancellationToken);
+
+        return CreatedAtAction(actionName, response);
+    }
 }

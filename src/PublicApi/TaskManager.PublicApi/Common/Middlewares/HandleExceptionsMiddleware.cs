@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using TaskManager.Domain.Entities.Common.Exceptions;
 using TaskManager.Domain.Entities.Users.Exceptions;
 

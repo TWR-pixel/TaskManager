@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TaskManager.Application.Common.Security.Auth.Jwt;
-using TaskManager.Application.User;
 
 namespace TaskManager.PublicApi.Common.Extensions;
 

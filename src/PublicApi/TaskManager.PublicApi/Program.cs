@@ -2,14 +2,16 @@ using Microsoft.AspNetCore.HttpOverrides;
 using TaskManager.PublicApi.Common.Middlewares;
 using TaskManager.PublicApi.Common.Extensions;
 using Serilog;
-using TaskManager.PublicApi.Controllers;
 using TaskManager.Application.Common.Extensions;
-using TaskManager.Persistence.Email.Extensions;
-using TaskManager.Persistence.Code.Extensions;
-using TaskManager.Persistence.Security;
-using TaskManager.Infrastructure.Sqlite.Common.Extensions;
+using TaskManager.Infrastructure.Email.Extensions;
+using TaskManager.Infrastructure.Code.Extensions;
+using TaskManager.Infrastructure.Security;
+using TaskManager.Persistence.Sqlite.Common.Extensions;
+using TaskManager.Infrastructure.File;
+using TaskManager.Application.Common;
 
 #region Configure services
+Console.WriteLine(Directory.GetCurrentDirectory());
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
@@ -19,21 +21,21 @@ var sqliteConnectionStr = config.GetConnectionString("Sqlite")
     ?? throw new NullReferenceException("connection string not found or empty");
 
 builder.Services
-    .AddInfrastructureServices(sqliteConnectionStr)
+    .AddPersistenceServices(sqliteConnectionStr)
     .AddApplicationServices()
-    .AddPublicApiServices(builder.Configuration)
+    .AddPublicApiServices(config)
     .AddEmailExistingChecker()
     .AddEmailSender()
     .AddCodeGenerator()
     .AddCodeStorage()
     .AddCodeVerifier()
-    .AddJwtAuthentication();
+    .AddJwtAuthentication()
+    .AddFileServices(config);
 
-builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddCors();
-builder.Services.AddHttpClient("Maileroo", client =>
+builder.Services.AddHttpClient(HttpClientNameConstants.Maileroo, client =>
 {
     client.DefaultRequestHeaders.Add("X-API-KEY", config["TmMailerooApiKey"] ?? throw new NullReferenceException());
 }).SetHandlerLifetime(TimeSpan.FromMinutes(7));

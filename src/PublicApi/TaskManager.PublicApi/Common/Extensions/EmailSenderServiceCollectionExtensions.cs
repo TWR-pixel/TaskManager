@@ -1,7 +1,6 @@
 ﻿using MailerooClient.Email.Verification;
 using MailKit.Net.Smtp;
 using TaskManager.Application.Common.Email;
-using TaskManager.Application.User;
 
 namespace TaskManager.PublicApi.Common.Extensions;
 

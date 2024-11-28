@@ -6,14 +6,14 @@ namespace TaskManager.Application.User.Queries.GetById;
 
 public sealed record GetUserByIdRequest(int UserId) : QueryRequestBase<UserDto>;
 
-public sealed class GetUserByIdRequestHandler(IReadUnitOfWork unitOfWork) : QueryRequestHandlerBase<GetUserByIdRequest, UserDto>(unitOfWork)
+public sealed class GetUserByIdRequestHandler(IReadonlyUnitOfWork unitOfWork) : QueryRequestHandlerBase<GetUserByIdRequest, UserDto>(unitOfWork)
 {
     public override async Task<UserDto> Handle(GetUserByIdRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.Users.GetByIdWithRoleByIdAsync(request.UserId)
+        var userEntity = await UnitOfWork.Users.GetWithRoleByIdAsync(request.UserId, cancellationToken)
                 ?? throw new UserNotFoundException(request.UserId);
 
-        var response = queryResult.ToResponse();
+        var response = userEntity.ToResponse();
 
         return response;
     }

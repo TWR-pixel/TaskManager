@@ -29,10 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj" />
-    <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Code\TaskManager.Persistence.Code.csproj" />
-    <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Email\TaskManager.Persistence.Email.csproj" />
-    <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Security\TaskManager.Persistence.Security.csproj" />
+    <ProjectReference Include="..\..\Application\TaskManager.Application\TaskManager.Application.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infrastructure.Code\TaskManager.Infrastructure.Code.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infrastructure.Email\TaskManager.Infrastructure.Email.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infrastructure.File\TaskManager.Infrastructure.File.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infrastructure.Security\TaskManager.Infrastructure.Security.csproj" />
+    <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Sqlite\TaskManager.Persistence.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>

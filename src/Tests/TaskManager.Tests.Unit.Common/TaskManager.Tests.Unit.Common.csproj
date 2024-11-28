@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Infrastructure.Sqlite.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infastructure.Sqlite\TaskManager.Persistence.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>
