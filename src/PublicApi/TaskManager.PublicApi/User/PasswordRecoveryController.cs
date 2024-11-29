@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.User.Commands;
 using TaskManager.Application.User.Queries;
+using TaskManager.PublicApi.Common.Controllers;
 
-namespace TaskManager.PublicApi.Controllers;
+namespace TaskManager.PublicApi.User;
 
 [ApiController]
 [Route("api/password-recovery")]

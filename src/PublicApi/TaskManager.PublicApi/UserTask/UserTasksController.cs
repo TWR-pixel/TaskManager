@@ -4,8 +4,9 @@ using TaskManager.Application.User.Queries.GetAllUserTasksById;
 using TaskManager.Application.UserTask;
 using TaskManager.Application.UserTask.Requests.Commands;
 using TaskManager.Application.UserTask.Requests.Queries;
+using TaskManager.PublicApi.Common.Controllers;
 
-namespace TaskManager.PublicApi.Controllers;
+namespace TaskManager.PublicApi.UserTask;
 
 [ApiController]
 [Authorize]

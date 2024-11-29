@@ -2,7 +2,7 @@
 using TaskManager.Application.Role;
 using TaskManager.Application.Role.Commands;
 
-namespace TaskManager.PublicApi.Controllers;
+namespace TaskManager.PublicApi.Role;
 
 [ApiController]
 [Route("api/roles")]

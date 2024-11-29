@@ -5,8 +5,9 @@ using TaskManager.Application.UserTaskColumn.Requests.Commands;
 using TaskManager.Application.UserTaskColumn.Requests.Queries.GetAllUserTasksColumnsByIdRequest;
 using TaskManager.Application.UserTaskColumn.Requests.Queries.GetAllUserTasksColumnsByIdRequest.Dtos;
 using TaskManager.Application.UserTaskColumn.Requests.Queries.GetById;
+using TaskManager.PublicApi.Common.Controllers;
 
-namespace TaskManager.PublicApi.Controllers;
+namespace TaskManager.PublicApi.UserTaskColumn;
 
 [ApiController]
 [Authorize]
@@ -42,7 +43,7 @@ public sealed class TaskColumnController(IMediatorWrapper mediator) : ApiControl
                                                                                                       CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
-        
+
         return Ok(result);
     }
 

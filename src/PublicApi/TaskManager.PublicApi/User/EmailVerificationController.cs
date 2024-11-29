@@ -2,8 +2,9 @@
 using TaskManager.Application.Common.Security.AccessToken;
 using TaskManager.Application.User.Commands;
 using TaskManager.Application.User.Queries;
+using TaskManager.PublicApi.Common.Controllers;
 
-namespace TaskManager.PublicApi.Controllers;
+namespace TaskManager.PublicApi.User;
 
 [ApiController]
 [Route("api/email-verification")]

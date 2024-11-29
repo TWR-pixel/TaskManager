@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Common.Requests;
 
-namespace TaskManager.PublicApi.Controllers;
+namespace TaskManager.PublicApi.Common.Controllers;
 
 public abstract class ApiControllerBase(IMediatorWrapper mediator) : ControllerBase
 {

@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.User;
 using TaskManager.Application.User.Commands;
 using TaskManager.Application.User.Queries;
+using TaskManager.PublicApi.Common.Controllers;
 using TaskManager.PublicApi.Common.Models;
 
-namespace TaskManager.PublicApi.Controllers;
+namespace TaskManager.PublicApi.User;
 
 [ApiController]
 [Authorize]
