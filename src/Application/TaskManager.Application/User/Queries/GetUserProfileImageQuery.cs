@@ -4,13 +4,13 @@ using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.User.Queries;
 
-public sealed record GetUserProfileImageQuery : QueryRequestBase<FileStream>
+public sealed record GetUserProfileImageQuery : QueryBase<FileStream>
 {
     public required string ImageName { get; set; }
 }
 
 public sealed class GetUserProfileImageQueryHandler(IReadonlyUnitOfWork unitOfWork,
-                                                    IFileReader fileReader) : QueryRequestHandlerBase<GetUserProfileImageQuery, FileStream>(unitOfWork)
+                                                    IFileReader fileReader) : QueryHandlerBase<GetUserProfileImageQuery, FileStream>(unitOfWork)
 {
     public override async Task<FileStream> Handle(GetUserProfileImageQuery request, CancellationToken cancellationToken)
     {

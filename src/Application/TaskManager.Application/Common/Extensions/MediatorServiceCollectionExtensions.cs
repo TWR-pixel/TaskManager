@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MediatR.Pipeline;
+﻿using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Application.Common.Requests.Handlers;
 
@@ -16,7 +15,6 @@ public static class MediatorServiceCollectionExtensions
 
         services.AddRequestExceptionHandler();
 
-        services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 
         return services;
     }

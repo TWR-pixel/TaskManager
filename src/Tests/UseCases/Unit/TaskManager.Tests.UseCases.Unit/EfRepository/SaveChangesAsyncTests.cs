@@ -1,5 +1,4 @@
-﻿using TaskManager.Persistence.Sqlite.Common.Exceptions;
-using TaskManager.Tests.Unit.Common;
+﻿using TaskManager.Tests.Unit.Common;
 
 namespace TaskManager.Tests.Infrastructure.Unit.EfRepository;
 

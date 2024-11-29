@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure.Code", "src\Infastructure\TaskManager.Infrastructure.Code\TaskManager.Infrastructure.Code.csproj", "{02BD1E53-C9C4-49A7-B4A8-8482A2EA5EC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure.Validator", "src\Infastructure\TaskManager.Infrastructure.Validator\TaskManager.Infrastructure.Validator.csproj", "{25A7F0F9-6D38-4013-818F-8D3DA13B116C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{02BD1E53-C9C4-49A7-B4A8-8482A2EA5EC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02BD1E53-C9C4-49A7-B4A8-8482A2EA5EC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02BD1E53-C9C4-49A7-B4A8-8482A2EA5EC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25A7F0F9-6D38-4013-818F-8D3DA13B116C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25A7F0F9-6D38-4013-818F-8D3DA13B116C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25A7F0F9-6D38-4013-818F-8D3DA13B116C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25A7F0F9-6D38-4013-818F-8D3DA13B116C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +139,7 @@ Global
 		{8CC555EB-28B1-404F-9434-1613692A4F22} = {99DC2184-3452-433D-B2AF-C2DFE40804F1}
 		{F7193CDA-5328-4C74-84F4-ECD5E6D47BD6} = {99DC2184-3452-433D-B2AF-C2DFE40804F1}
 		{02BD1E53-C9C4-49A7-B4A8-8482A2EA5EC7} = {99DC2184-3452-433D-B2AF-C2DFE40804F1}
+		{25A7F0F9-6D38-4013-818F-8D3DA13B116C} = {EF77468F-D4D7-41D4-8351-6E35AAAB5182}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D21E1920-7EA2-41F3-AA5D-A598681BB756}

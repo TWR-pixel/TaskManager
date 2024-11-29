@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace TaskManager.PublicApi.Common.Models;
+﻿namespace TaskManager.PublicApi.Common.Models;
 
 public class UploadUserProfileImageModel
 {

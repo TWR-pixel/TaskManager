@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using TaskManager.Application.Common.File;
 

@@ -34,6 +34,7 @@
     <ProjectReference Include="..\..\Infastructure\TaskManager.Infrastructure.Email\TaskManager.Infrastructure.Email.csproj" />
     <ProjectReference Include="..\..\Infastructure\TaskManager.Infrastructure.File\TaskManager.Infrastructure.File.csproj" />
     <ProjectReference Include="..\..\Infastructure\TaskManager.Infrastructure.Security\TaskManager.Infrastructure.Security.csproj" />
+    <ProjectReference Include="..\..\Infastructure\TaskManager.Infrastructure.Validator\TaskManager.Infrastructure.Validator.csproj" />
     <ProjectReference Include="..\..\Persistence\TaskManager.Persistence.Sqlite\TaskManager.Persistence.Sqlite.csproj" />
   </ItemGroup>
 

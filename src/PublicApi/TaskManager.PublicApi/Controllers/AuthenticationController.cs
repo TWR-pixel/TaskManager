@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.Common.Security.AccessToken;
-using TaskManager.Application.User.Commands.Register;
-using TaskManager.Application.User.Queries.Login;
+using TaskManager.Application.User.Commands;
+using TaskManager.Application.User.Queries;
 
 namespace TaskManager.PublicApi.Controllers;
 
@@ -18,7 +18,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     /// <returns></returns>
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<AccessTokenResponse>> LoginUser([FromBody] LoginUserRequest request,
+    public async Task<ActionResult<AccessTokenResponse>> LoginUser([FromBody] LoginUserQuery request,
                                                                  CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
@@ -30,7 +30,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserRequest request,
+    public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserCommand request,
                                                                        CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);

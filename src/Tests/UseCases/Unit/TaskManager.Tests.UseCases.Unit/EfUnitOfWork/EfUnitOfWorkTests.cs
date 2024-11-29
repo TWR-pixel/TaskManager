@@ -3,8 +3,6 @@ using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Tasks;
 using TaskManager.Domain.Entities.Users;
-using TaskManager.Persistence.Sqlite;
-using TaskManager.Persistence.Sqlite.Common;
 using UnitOfWork = TaskManager.Persistence.Sqlite.Common.UnitOfWork;
 
 namespace TaskManager.Tests.Infrastructure.Unit.EfUnitOfWork;

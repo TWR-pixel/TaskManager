@@ -10,7 +10,7 @@ public sealed class FileWriter(IOptions<FileWriterOptions> options) : IFileWrite
 
     public FileStream WriteToFromFormFile(string fileName, IFormFile formFile)
     {
-        using var stream = System.IO.File.Create(options.PathBase + "\\" + fileName);
+        using var stream = System.IO.File.Create(options.PathForUserProfileImages + "\\" + fileName);
 
         formFile.CopyTo(stream);
 

@@ -9,9 +9,9 @@ using TaskManager.Infrastructure.Security;
 using TaskManager.Persistence.Sqlite.Common.Extensions;
 using TaskManager.Infrastructure.File;
 using TaskManager.Application.Common;
+using TaskManager.Infrastructure.Validator;
 
 #region Configure services
-Console.WriteLine(Directory.GetCurrentDirectory());
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
@@ -30,7 +30,8 @@ builder.Services
     .AddCodeStorage()
     .AddCodeVerifier()
     .AddJwtAuthentication()
-    .AddFileServices(config);
+    .AddFileServices(config)
+    .AddValidators();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();

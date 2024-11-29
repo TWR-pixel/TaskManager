@@ -8,14 +8,14 @@ public static class InfrastructureFileServiceCollectionExtensions
 {
     public static IServiceCollection AddFileServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var pathForUserProfileImages = Directory.GetCurrentDirectory() + configuration["UploadingFilePath"];
+        var pathForUserProfileImages = Directory.GetCurrentDirectory() + configuration["PathForUserProfileImages"];
 
         if (!Directory.Exists(pathForUserProfileImages))
             Directory.CreateDirectory(pathForUserProfileImages);
 
         services.Configure<FileWriterOptions>(options =>
         {
-            options.PathBase = pathForUserProfileImages;
+            options.PathForUserProfileImages = pathForUserProfileImages;
         });
 
         services.AddScoped<IRandomFileNameGenerator, RandomFileNameGenerator>();

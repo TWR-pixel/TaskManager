@@ -2,5 +2,5 @@
 
 public sealed class FileWriterOptions
 {
-    public required string PathBase { get; set; }
+    public required string PathForUserProfileImages { get; set; }
 }

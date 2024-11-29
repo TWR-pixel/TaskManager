@@ -1,4 +1,4 @@
-﻿using TaskManager.Application.UserTask.Requests.GetById;
+﻿using TaskManager.Application.UserTask.Requests.Queries;
 using TaskManager.Domain.Entities.Tasks;
 
 namespace TaskManager.Application.UserTask;

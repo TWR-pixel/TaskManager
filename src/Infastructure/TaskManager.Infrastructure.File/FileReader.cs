@@ -9,7 +9,7 @@ public sealed class FileReader(IOptions<FileWriterOptions> options) : IFileReade
 
     public FileStream OpenRead(string imageName)
     {
-        var stream = System.IO.File.OpenRead(options.PathBase + "\\" + imageName);
+        var stream = System.IO.File.OpenRead(options.PathForUserProfileImages + "\\" + imageName);
 
         return stream;
     }
