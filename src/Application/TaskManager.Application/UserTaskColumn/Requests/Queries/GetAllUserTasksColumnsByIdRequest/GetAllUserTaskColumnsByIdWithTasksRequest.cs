@@ -23,7 +23,7 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
 
         var response = new GetAllUserTaskColumnsByIdWithTasksResponse
         {
-            Username = queryResult.Username,
+            Username = queryResult.UserName,
 
             TaskColumns = queryResult.TaskColumns.Select(u => // select not right, maybe create domain model with this
                 new UserTaskColumnsResponse(u.Id,

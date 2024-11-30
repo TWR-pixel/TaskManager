@@ -31,7 +31,15 @@ builder.Services
     .AddCodeVerifier()
     .AddJwtAuthentication()
     .AddFileServices(config)
-    .AddValidators();
+    .AddValidators()
+    .AddIdentityServices();
+
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = config["GoogleClientId"] ?? "";
+        options.ClientSecret = config["GoogleClientSecret"] ?? "";
+    });
 
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
@@ -42,6 +50,7 @@ builder.Services.AddHttpClient(HttpClientNameConstants.Maileroo, client =>
 }).SetHandlerLifetime(TimeSpan.FromMinutes(7));
 
 builder.Services.AddSwaggerGen();
+
 #endregion
 
 #region Configure middlewares

@@ -2,7 +2,7 @@
 
 namespace TaskManager.Domain.Entities.Common.Entities;
 
-public abstract class EntityBase
+public interface IEntity
 {
     [Key]
     public int Id { get; set; }

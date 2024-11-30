@@ -36,7 +36,7 @@ public sealed class VerifyPasswordRecoveryCodeCommandHandler(IUnitOfWork unitOfW
         var user = await UnitOfWork.Users.GetByEmailAsync(email, cancellationToken)
             ?? throw new UserNotFoundException(email);
 
-        if (!user.IsEmailVerified)
+        if (!user.EmailConfirmed)
             throw new EmailNotVerifiedException(user.EmailLogin);
 
         var salt = hasher.GenerateSalt();

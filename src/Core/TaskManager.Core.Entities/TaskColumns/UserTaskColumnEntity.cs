@@ -6,17 +6,9 @@ using TaskManager.Domain.Entities.Users;
 
 namespace TaskManager.Domain.Entities.TaskColumns;
 
-public sealed class UserTaskColumnEntity : EntityBase
+public sealed class UserTaskColumnEntity : IEntity
 {
-    [SetsRequiredMembers]
-    public UserTaskColumnEntity(UserEntity owner, string title, string? description = null)
-    {
-        Owner = owner;
-        Title = title;
-        Description = description;
-    }
-
-    public UserTaskColumnEntity() { }
+    public int Id { get; set; }
 
     [StringLength(128, MinimumLength = 3)]
     public required string Title { get; set; }
@@ -28,4 +20,14 @@ public sealed class UserTaskColumnEntity : EntityBase
     public IEnumerable<UserTaskEntity>? TasksInColumn { get; set; }
 
     public required UserEntity Owner { get; set; }
+
+    [SetsRequiredMembers]
+    public UserTaskColumnEntity(UserEntity owner, string title, string? description = null)
+    {
+        Owner = owner;
+        Title = title;
+        Description = description;
+    }
+
+    public UserTaskColumnEntity() { }
 }

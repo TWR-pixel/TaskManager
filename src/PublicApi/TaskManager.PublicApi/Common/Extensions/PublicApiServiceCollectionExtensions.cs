@@ -37,6 +37,13 @@ public static class PublicApiServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddGoogleIdentity(this IServiceCollection services)
+    {
+        
+
+        return services;
+    }
+
     /// <summary>
     /// Adds Transient <see cref="HandleExceptionsMiddleware"/>
     /// </summary>

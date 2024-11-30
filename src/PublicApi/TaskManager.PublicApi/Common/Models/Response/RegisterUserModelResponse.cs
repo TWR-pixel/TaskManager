@@ -17,6 +17,6 @@ public class RegisterUserModelResponse
     //    RoleId = response.RoleId,
     //    RoleName = response.RoleName,
     //    UserId = response.UserId,
-    //    Username = response.Username,
+    //    UserName = response.UserName,
     //};
 }

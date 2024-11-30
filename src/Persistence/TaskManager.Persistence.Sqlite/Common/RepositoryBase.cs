@@ -10,7 +10,7 @@ namespace TaskManager.Persistence.Sqlite.Common;
 /// <typeparam name="TEntity"></typeparam>
 /// <param name="dbContext"></param>
 public abstract class RepositoryBase<TEntity>(TaskManagerDbContext dbContext) : IRepository<TEntity>
-    where TEntity : EntityBase
+    where TEntity : class, IEntity
 {
     protected readonly TaskManagerDbContext DbContext = dbContext;
 

@@ -14,7 +14,7 @@ public static class UserMapperExtensions
         entity.Tasks ??= [];
 
         var dto = new UserDto(entity.EmailLogin,
-                              entity.Username,
+                              entity.UserName,
                               entity.TaskColumns.ToResponses(),
                               entity.Tasks.ToResponses(),
                               entity.Role.ToResponse(),

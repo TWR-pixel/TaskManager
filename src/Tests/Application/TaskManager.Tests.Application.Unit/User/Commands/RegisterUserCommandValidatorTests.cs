@@ -4,7 +4,7 @@ namespace TaskManager.Tests.Application.Unit.User.Commands;
 
 public class RegisterUserCommandValidatorTests : TestInitializer
 {
-    private readonly RegisterUserRequest DefaultRequest = new("Username", "1@1.mail.ru", "123456");
+    private readonly RegisterUserRequest DefaultRequest = new("UserName", "1@1.mail.ru", "123456");
 
     [Fact]
     public void ValidEmail_ShouldNotThrowsValidationException()
@@ -18,7 +18,7 @@ public class RegisterUserCommandValidatorTests : TestInitializer
     public void InvalidEmail_ShouldThrowsValidationException()
     {
         var validator = new RegisterUserValidator();
-        var request = new RegisterUserRequest("Username", "1@1", "123456");
+        var request = new RegisterUserRequest("UserName", "1@1", "123456");
 
         Assert.Throws<ValidationException>(() => validator.ValidateAndThrow(request));
     }

@@ -20,9 +20,9 @@ public sealed class LoginUserQueryHandler(IReadonlyUnitOfWork unitOfWork,
         var user = await UnitOfWork.Users.GetByEmailAsync(request.EmailLogin, cancellationToken)
                    ?? throw new UserNotFoundException(request.EmailLogin); // get refresh token from db
 
-        user.IsEmailVerified = true;
+        user.EmailConfirmed = true;
 
-        if (!user.IsEmailVerified)
+        if (!user.EmailConfirmed)
             throw new EmailNotVerifiedException($"User with email '{request.EmailLogin}' didn't confirmed email.");
 
         if (!hasher.Verify(request.Password, user.PasswordHash))

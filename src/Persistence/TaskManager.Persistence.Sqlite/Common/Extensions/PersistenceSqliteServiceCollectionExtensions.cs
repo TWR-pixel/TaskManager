@@ -37,6 +37,16 @@ public static class PersistenceSqliteServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddIdentityServices(this IServiceCollection services)
+    {
+        services.AddIdentityCore<UserEntity>()
+            .AddRoles<RoleEntity>()
+            .AddEntityFrameworkStores<TaskManagerDbContext>();
+
+
+        return services;
+    }
+
     public static IServiceCollection AddReadRepositories(this IServiceCollection services)
     {
         services

@@ -12,20 +12,12 @@ public sealed class PasswordRecoveryController(IMediatorWrapper mediator) : ApiC
     [HttpPost("send-code")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<SendPasswordRecoveryCodeResponse>> SendRecoveryCode([FromBody] SendPasswordRecoveryCodeQuery request,
-                                                                                   CancellationToken cancellationToken)
-    {
-        var response = await Mediator.SendAsync(request, cancellationToken);
-
-        return Ok(response);
-    }
+                                                                                       CancellationToken cancellationToken)
+        => await OkAsync(request, cancellationToken);
 
     [HttpPost("verify-code")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<VerifyPasswordRecoveryCodeResponse>> RecoverPassword([FromBody] VerifyPasswordRecoveryCodeCommand request,
-                                                                        CancellationToken cancellationToken)
-    {
-        var response = await Mediator.SendAsync(request, cancellationToken);
-
-        return Ok(response);
-    }
+                                                                                        CancellationToken cancellationToken)
+        => await OkAsync(request, cancellationToken);
 }

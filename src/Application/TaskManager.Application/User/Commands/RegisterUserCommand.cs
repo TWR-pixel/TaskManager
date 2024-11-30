@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using TaskManager.Application.Common.Code;
 using TaskManager.Application.Common.Email;
 using TaskManager.Application.Common.Requests;
@@ -25,14 +26,15 @@ public sealed class RegisterUserCommandHandler(IUnitOfWork unitOfWork,
                                                IAccessTokenFactory tokenFactory,
                                                IValidator<RegisterUserCommand> validator,
                                                ICodeStorage codeStorage,
-                                               ICodeGenerator<string> codeGenerator) : CommandHandlerBase<RegisterUserCommand, AccessTokenResponse>(unitOfWork)
+                                               ICodeGenerator<string> codeGenerator,
+                                               UserManager<UserEntity> userManager) : CommandHandlerBase<RegisterUserCommand, AccessTokenResponse>(unitOfWork)
 {
 
     public override async Task<AccessTokenResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var user = await UnitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+        var user = await userManager.FindByEmailAsync(request.Email);
 
         if (user is not null)
             throw new UserAlreadyExistsException(request.Email);
@@ -40,10 +42,7 @@ public sealed class RegisterUserCommandHandler(IUnitOfWork unitOfWork,
         var doesEmailExists = await emailChecker.DoesEmailExistAsync(request.Email, cancellationToken);
 
         if (!doesEmailExists)
-            throw new EmailDoesntExistException(request.Email); ;
-
-        var randomVerificationCode = codeGenerator.GenerateCode(20);
-        codeStorage.Add(randomVerificationCode, request.Email);
+            throw new EmailDoesntExistException(request.Email);
 
         var roleEntity = await UnitOfWork.Roles.GetByNameAsync(RoleConstants.User, cancellationToken)
             ?? throw new RoleNotFoundException(RoleConstants.User);
@@ -54,11 +53,12 @@ public sealed class RegisterUserCommandHandler(IUnitOfWork unitOfWork,
         var userEntity = new UserEntity(roleEntity,
                                         request.Email,
                                         request.Username,
-                                        passwordHash,
-                                        passwordSalt,
                                         string.Empty);
 
-        userEntity = await UnitOfWork.Users.AddAsync(userEntity, cancellationToken);
+        var randomVerificationCode = codeGenerator.GenerateCode(20);
+        codeStorage.Add(randomVerificationCode, request.Email);
+
+        await userManager.CreateAsync(userEntity, request.Password);
         await SaveChangesAsync(cancellationToken);
 
         var defaultColumns = new List<UserTaskColumnEntity>()

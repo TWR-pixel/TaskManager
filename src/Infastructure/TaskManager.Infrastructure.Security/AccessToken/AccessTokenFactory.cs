@@ -22,12 +22,12 @@ public sealed class AccessTokenFactory : IAccessTokenFactory
         if (user.Role is null)
             throw new NullReferenceException(nameof(user.Role));
 
-        var claims = _claimsFactory.Create(user.Id, user.Role.Id, user.Username, user.Role.Name);
+        var claims = _claimsFactory.Create(user.Id, user.Role.Id, user.UserName, user.Role.Name);
         var token = _tokenFactory.Create(claims);
 
         var accessToken = new AccessTokenResponse(new JwtSecurityTokenHandler().WriteToken(token),
                                                   user.Id,
-                                                  user.Username,
+                                                  user.UserName,
                                                   user.Role.Id,
                                                   user.Role.Name);
 

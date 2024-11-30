@@ -2,8 +2,8 @@
 
 namespace TaskManager.Domain.UseCases.Common.Repositories;
 
-public interface IWritableRepository<TEntity>
-    where TEntity : EntityBase
+public interface IWriteonlyRepository<TEntity>
+    where TEntity : class, IEntity
 {
     public Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
     public Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);

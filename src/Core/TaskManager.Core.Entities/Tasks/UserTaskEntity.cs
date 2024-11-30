@@ -6,8 +6,25 @@ using TaskManager.Domain.Entities.Users;
 
 namespace TaskManager.Domain.Entities.Tasks;
 
-public sealed class UserTaskEntity : EntityBase
+public sealed class UserTaskEntity : IEntity
 {
+    public int Id { get; set; }
+    [StringLength(256, MinimumLength = 1)]
+    public required string Title { get; set; }
+
+    [MinLength(1)]
+    public string? Description { get; set; }
+
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateOnly? CompletedAt { get; set; }
+
+    public required bool IsCompleted { get; set; }
+    public required bool IsInProgress { get; set; }
+
+    public required UserEntity Owner { get; set; }
+    public required UserTaskColumnEntity TaskColumn { get; set; }
+
+
     [SetsRequiredMembers]
     public UserTaskEntity(bool isCompleted,
                           bool isInProgress,
@@ -28,18 +45,4 @@ public sealed class UserTaskEntity : EntityBase
 
     public UserTaskEntity() { }
 
-    [StringLength(256, MinimumLength = 1)]
-    public required string Title { get; set; }
-
-    [MinLength(1)]
-    public string? Description { get; set; }
-
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateOnly? CompletedAt { get; set; }
-
-    public required bool IsCompleted { get; set; }
-    public required bool IsInProgress { get; set; }
-
-    public required UserEntity Owner { get; set; }
-    public required UserTaskColumnEntity TaskColumn { get; set; }
 }

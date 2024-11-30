@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.User;
 using TaskManager.Application.User.Commands;
@@ -14,6 +16,22 @@ namespace TaskManager.PublicApi.User;
 public sealed class UserController(IMediatorWrapper mediator, IConfiguration configuration) : ApiControllerBase(mediator)
 {
     #region HTTP methods
+    //[HttpPost("google-login")]
+    //public ActionResult GoogleLogin()
+    //{
+    //    var url = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=945416324135-t9o7je9k0b07vf7qr2g600rpirht4qba.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&redirect_uri=localhost";
+        
+
+    //    return Challenge();
+    //}
+
+    //[HttpGet("google-callback")]
+    //public ActionResult GoogleCallback()
+    //{
+
+    //    return Ok();
+    //}
+
     [HttpPost("upload-user-profile-image")]
     public async Task<ActionResult<UserDto>> UploadUserProfileImage(UploadUserProfileImageModel model, CancellationToken cancellationToken = default)
     {

@@ -20,7 +20,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<AccessTokenResponse>> LoginUser([FromBody] LoginUserQuery request,
-                                                                 CancellationToken cancellationToken)
+                                                                   CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
 

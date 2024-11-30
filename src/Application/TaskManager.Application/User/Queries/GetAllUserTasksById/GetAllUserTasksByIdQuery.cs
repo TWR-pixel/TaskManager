@@ -27,7 +27,7 @@ public sealed class GetAllUserTasksByIdQueryHandler(IReadonlyUnitOfWork unitOfWo
         var response = new GetAllUserTasksByIdResponse
         (
             userEntity.Id,
-            userEntity.Username,
+            userEntity.UserName,
             userEntity.EmailLogin,
 
             userEntity.Tasks.Select(static t => new UserTaskByIdResponse(t.Title,

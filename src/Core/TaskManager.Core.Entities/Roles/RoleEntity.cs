@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Diagnostics.CodeAnalysis;
 using TaskManager.Domain.Entities.Common.Entities;
 
 namespace TaskManager.Domain.Entities.Roles;
 
-public sealed class RoleEntity : EntityBase
+public sealed class RoleEntity :IdentityRole<int>, IEntity
 {
-
-    [MinLength(3)]
-    public required string Name { get; set; }
 
     public RoleEntity() { }
 

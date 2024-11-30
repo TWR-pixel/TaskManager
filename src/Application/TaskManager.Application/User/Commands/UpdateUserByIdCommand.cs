@@ -21,7 +21,7 @@ public sealed class UpdateUserByIdCommandHandler(IUnitOfWork unitOfWork, IPasswo
             ?? throw new UserNotFoundException(request.UserId);
 
         if (request.Username != null)
-            userEntity.Username = request.Username;
+            userEntity.UserName = request.Username;
 
         if (request.UserEmail != null)
             userEntity.EmailLogin = request.UserEmail;
@@ -45,7 +45,7 @@ public sealed class UpdateUserByIdCommandHandler(IUnitOfWork unitOfWork, IPasswo
         await UnitOfWork.Users.UpdateAsync(userEntity, cancellationToken);
         await SaveChangesAsync(cancellationToken);
 
-        var response = new UpdateUserByIdResponse(userEntity.Id, userEntity.Username, userEntity.EmailLogin);
+        var response = new UpdateUserByIdResponse(userEntity.Id, userEntity.UserName, userEntity.EmailLogin);
 
         return response;
     }

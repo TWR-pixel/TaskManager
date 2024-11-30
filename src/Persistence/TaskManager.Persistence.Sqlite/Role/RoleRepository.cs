@@ -9,7 +9,7 @@ public sealed class RoleRepository(TaskManagerDbContext dbContext) : RepositoryB
 {
     public async Task<RoleEntity?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
     {
-        var roleEntity = await DbContext.UserRoles
+        var roleEntity = await DbContext.Roles
             .FirstOrDefaultAsync(r => r.Name.ToUpper() == name.ToUpper(), cancellationToken);
 
         return roleEntity;

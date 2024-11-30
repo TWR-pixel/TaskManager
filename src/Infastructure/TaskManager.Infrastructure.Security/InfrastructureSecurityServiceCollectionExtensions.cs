@@ -18,6 +18,8 @@ public static class InfrastructureSecurityServiceCollectionExtensions
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
         services.AddScoped<IAccessTokenFactory, AccessTokenFactory>();
 
+
+
         return services;
     }
 }

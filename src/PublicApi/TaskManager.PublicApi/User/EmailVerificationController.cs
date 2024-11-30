@@ -25,7 +25,7 @@ public class EmailVerificationController(IMediatorWrapper mediator) : ApiControl
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<ResendVerificationCodeResponse>> ResendCode([FromBody] ResendVerificationCodeQuery request,
-                                                                   CancellationToken cancellationToken)
+                                                                               CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
 

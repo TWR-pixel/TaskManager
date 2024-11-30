@@ -20,7 +20,7 @@ public sealed class ResendVerificationCodeQueryHandler(IReadonlyUnitOfWork unitO
         var user = await UnitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken)
             ?? throw new UserNotFoundException(request.Email);
 
-        if (user.IsEmailVerified)
+        if (user.EmailConfirmed)
             throw new UserAlreadyVerifiedException();
 
         var randomEmailVerificationCode = codeGenerator.GenerateCode(20);

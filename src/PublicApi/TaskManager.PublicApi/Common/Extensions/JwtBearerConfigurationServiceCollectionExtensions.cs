@@ -8,7 +8,7 @@ namespace TaskManager.PublicApi.Common.Extensions;
 public static class JwtBearerConfigurationServiceCollectionExtensions
 {
     /// <summary>
-    /// Gets the secret key from environment variables, using <see cref="EnvironmentWrapper"/>,
+    /// Gets the secret key from environment variables, using user-secrets
     /// Injects the configuration from IConfiguration into <see cref="JwtAuthenticationOptions"/> and <see cref="JwtBearerOptions"/> instances
     /// </summary>
     /// <param name="services">Services</param>
@@ -32,7 +32,12 @@ public static class JwtBearerConfigurationServiceCollectionExtensions
             options.SecretKey = jwtSecretKey;
         });
 
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+        })
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -46,6 +51,7 @@ public static class JwtBearerConfigurationServiceCollectionExtensions
                     ValidateIssuerSigningKey = true,
                 };
             });
+
 
         return services;
     }

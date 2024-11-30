@@ -3,7 +3,7 @@
 namespace TaskManager.Domain.UseCases.Common.Repositories;
 
 public interface IReadonlyRepository<TEntity>
-    where TEntity : EntityBase
+    where TEntity : class, IEntity
 {
     public Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     public Task<int> CountAsync(CancellationToken cancellationToken = default);

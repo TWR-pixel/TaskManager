@@ -30,9 +30,9 @@ public sealed class VerifyEmailVerificationCodeCommandHandler(IUnitOfWork unitOf
         var user = await UnitOfWork.Users.GetByEmailAsync(email, cancellationToken)
             ?? throw new UserNotFoundException(email);
 
-        if (user.IsEmailVerified)
+        if (user.EmailConfirmed)
             throw new UserAlreadyVerifiedException(email);
-        user.IsEmailVerified = true; // change in production
+        user.EmailConfirmed = true; // change in production
 
         await UnitOfWork.Users.UpdateAsync(user, cancellationToken);
         await SaveChangesAsync(cancellationToken);
