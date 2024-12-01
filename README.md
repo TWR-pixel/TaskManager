@@ -20,8 +20,8 @@ To create google client secret and client id (https://console.cloud.google.com/)
 ```bash
 dotnet user-secrets set "Google:ClientSecret" "YourClientSecret"
 dotnet user-secrets set "Google:ClientId" "YourClientId"
-dotnet user-secrets set "Google:ServerRedirectUri" "https://localhost:7049/api/oauth/google-login"
-dotnet user-secrets set "Google:ClientRedirectUri" "http://localhost:3000/"
+dotnet user-secrets set "Google:ServerRedirectUri" "https://localhost:7049/api/oauth/google-callback"
+dotnet user-secrets set "Google:ClientRedirectUri" "http://localhost:3000"
 dotnet user-secrets set "TmMailerooApiKey" "YourApiKey"
 dotnet user-secrets set "TmJwtSecretKey" "AWOIEJFPOAIWEJFJEWPIOFJWPEOIJFFOIJWEPOIFJWEOPIJFIO"
 dotnet user-secrets set "TmEmailApiKey" "YouEmailApiKey"
