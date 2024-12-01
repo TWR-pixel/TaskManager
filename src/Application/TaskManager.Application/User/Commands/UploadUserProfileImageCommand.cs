@@ -31,6 +31,12 @@ public sealed class UploadUserProfileImageCommandHandler(IUnitOfWork unitOfWork,
 
         userEntity.ProfileImageLink = profileImageLink;
         await SaveChangesAsync(cancellationToken);
+        var fileExtension = Path.GetExtension(command.FormFile.FileName);
+
+        if (string.IsNullOrWhiteSpace(fileExtension))
+            throw new NotSupportedException(nameof(fileExtension));
+
+
 
         fileWriter.WriteToFromFormFile(randomFileName, command.FormFile);
 

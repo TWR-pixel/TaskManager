@@ -19,7 +19,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     /// <returns></returns>
     [HttpPost("login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<AccessTokenResponse>> LoginUser([FromBody] LoginUserQuery request,
+    public async Task<ActionResult<AccessTokenResponse>> LoginUser([FromBody] LoginUserWithJwtBearerSchemeQuery request,
                                                                    CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);
@@ -31,7 +31,7 @@ public sealed class AuthenticationController(IMediatorWrapper mediator) : ApiCon
     [HttpPost("register")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserCommand request,
+    public async Task<ActionResult<RegisterUserResponse>> RegisterUser([FromBody] RegisterUserWithJwtBearerSchemeCommand request,
                                                                        CancellationToken cancellationToken)
     {
         var response = await Mediator.SendAsync(request, cancellationToken);

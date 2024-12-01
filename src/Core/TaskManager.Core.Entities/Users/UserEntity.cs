@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using TaskManager.Domain.Entities.Common;
 using TaskManager.Domain.Entities.Common.Entities;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
@@ -32,6 +33,8 @@ public sealed class UserEntity : IdentityUser<int>, IEntity
 
     [StringLength(128, MinimumLength = 3)]
     public string? ProfileImageLink { get; set; }
+
+    public string AuthenticationScheme { get; set; } = DefaultAuthenticationScheme.AuthenticationScheme;
 
     [StringLength(256, MinimumLength = 3)]
     public string PasswordSalt { get; set; } = "default";

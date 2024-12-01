@@ -8,6 +8,7 @@ public static class InfrastructureFileServiceCollectionExtensions
 {
     public static IServiceCollection AddFileServices(this IServiceCollection services, IConfiguration configuration)
     {
+        var availableFileExtensionsForUploadingUserProfileImages = configuration["AvailableFileExtensionsForUploadingUserProfileImages"]!.Split('+').ToArray();
         var pathForUserProfileImages = Directory.GetCurrentDirectory() + configuration["PathForUserProfileImages"];
 
         if (!Directory.Exists(pathForUserProfileImages))
@@ -16,6 +17,7 @@ public static class InfrastructureFileServiceCollectionExtensions
         services.Configure<FileWriterOptions>(options =>
         {
             options.PathForUserProfileImages = pathForUserProfileImages;
+            options.AvailableFileExtensions = availableFileExtensionsForUploadingUserProfileImages;
         });
 
         services.AddScoped<IRandomFileNameGenerator, RandomFileNameGenerator>();

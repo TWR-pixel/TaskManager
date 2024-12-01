@@ -10,6 +10,7 @@ using TaskManager.Persistence.Sqlite.Common.Extensions;
 using TaskManager.Infrastructure.File;
 using TaskManager.Application.Common;
 using TaskManager.Infrastructure.Validator;
+using TaskManager.Application.Common.Security.Auth.OAuth.Google;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);
@@ -34,12 +35,13 @@ builder.Services
     .AddValidators()
     .AddIdentityServices();
 
-builder.Services.AddAuthentication()
-    .AddGoogle(options =>
-    {
-        options.ClientId = config["GoogleClientId"] ?? "";
-        options.ClientSecret = config["GoogleClientSecret"] ?? "";
-    });
+builder.Services.Configure<GoogleOAuthOptions>(options =>
+{
+    options.ClientId = config["GoogleClientId"] ?? "";
+    options.ClientSecret = config["GoogleClientSecret"] ?? "";
+    options.RedirectUri = config["GoogleRedirectUri"] ?? "";
+    options.GrantType = "authorization_code";
+});
 
 builder.Services.AddMemoryCache();
 builder.Services.AddControllers();

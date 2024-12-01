@@ -3,9 +3,9 @@ using TaskManager.Application.User.Commands;
 
 namespace TaskManager.Infrastructure.Validator.User;
 
-public sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+public sealed class RegisterUserWithJwtBearerSchemeCommandValidator : AbstractValidator<RegisterUserWithJwtBearerSchemeCommand>
 {
-    public RegisterUserCommandValidator()
+    public RegisterUserWithJwtBearerSchemeCommandValidator()
     {
         RuleFor(x => x.Email)
             .NotEmpty()
