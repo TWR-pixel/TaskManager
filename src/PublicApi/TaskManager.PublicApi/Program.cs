@@ -37,9 +37,10 @@ builder.Services
 
 builder.Services.Configure<GoogleOAuthOptions>(options =>
 {
-    options.ClientId = config["GoogleClientId"] ?? "";
-    options.ClientSecret = config["GoogleClientSecret"] ?? "";
-    options.RedirectUri = config["GoogleRedirectUri"] ?? "";
+    options.ClientId = config["Google:ClientId"] ?? "";
+    options.ClientSecret = config["Google:ClientSecret"] ?? "";
+    options.ServerRedirectUri = config["Google:ServerRedirectUri"] ?? "";
+    options.ClientRedirectUri = config["Google:ClientRedirectUri"] ?? "";
     options.GrantType = "authorization_code";
 });
 

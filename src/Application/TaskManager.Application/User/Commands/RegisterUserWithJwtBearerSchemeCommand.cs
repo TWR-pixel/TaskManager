@@ -34,7 +34,7 @@ public sealed class RegisterUserWithJwtBearerScheme(IUnitOfWork unitOfWork,
     {
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
-        var user = await userManager.FindByEmailAsync(request.Email);
+        var user = await UnitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
 
         if (user is not null)
             throw new UserAlreadyExistsException(request.Email);

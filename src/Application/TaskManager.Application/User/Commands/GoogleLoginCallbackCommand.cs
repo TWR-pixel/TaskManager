@@ -23,7 +23,7 @@ public sealed class GoogleLoginCallbackCommandHandler(IUnitOfWork unitOfWork,
                                                       UserManager<UserEntity> userManager,
                                                       IAccessTokenFactory tokenFactory) : CommandHandlerBase<GoogleLoginCallbackCommand, AccessTokenResponse>(unitOfWork)
 {
-    public override async Task<AccessTokenResponse> Handle(GoogleLoginCallbackCommand request, CancellationToken cancellationToken)
+    public override async Task<AccessTokenResponse> Handle(GoogleLoginCallbackCommand command, CancellationToken cancellationToken)
     {
         var value = googleOptions.Value;
 
@@ -33,30 +33,42 @@ public sealed class GoogleLoginCallbackCommandHandler(IUnitOfWork unitOfWork,
         formData.Add(new StringContent(value.GrantType), "grant_type");
         formData.Add(new StringContent(value.ClientId), "client_id");
         formData.Add(new StringContent(value.ClientSecret), "client_secret");
-        formData.Add(new StringContent(value.RedirectUri), "redirect_uri");
-        formData.Add(new StringContent(request.Code), "code");
+        formData.Add(new StringContent(value.ServerRedirectUri), "redirect_uri");
+        formData.Add(new StringContent(command.Code), "code");
 
         Console.WriteLine(await formData.ReadAsStringAsync(cancellationToken));
+
         var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://accounts.google.com/o/oauth2/token")
         {
             Content = formData
         };
 
-        var response = await client.SendAsync(httpRequest, cancellationToken);
-        Console.WriteLine(await response.Content.ReadAsStringAsync(cancellationToken));
-        var deserializedData = await JsonSerializer.DeserializeAsync<GoogleOAuthTokenResponse>(response.Content.ReadAsStream(cancellationToken), cancellationToken: cancellationToken);
+        var userEmailResponse = await client.SendAsync(httpRequest, cancellationToken);
+        
+        Console.WriteLine(await userEmailResponse.Content.ReadAsStringAsync(cancellationToken));
+        
+        var deserializedData = await JsonSerializer.DeserializeAsync<GoogleOAuthTokenResponse>(userEmailResponse.Content.ReadAsStream(cancellationToken), cancellationToken: cancellationToken);
+        
         var jwtHandler = new JwtSecurityTokenHandler();
         var decodedJwtToken = jwtHandler.ReadJwtToken(deserializedData.IdToken);
+        
         var email = decodedJwtToken.Payload["email"] as string ?? throw new HttpRequestException();
         var userFromDatabase = await UnitOfWork.Users.GetByEmailAsync(email, cancellationToken);
 
         if (userFromDatabase is not null)
             return tokenFactory.Create(userFromDatabase);
 
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://openidconnect.googleapis.com/v1/userinfo");
+        request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", deserializedData.AccessToken);
+
+        var resp = await client.SendAsync(request, cancellationToken);
+        var profileInfo = await JsonSerializer.DeserializeAsync<GoogleOAuthProfileInfoResponse>(resp.Content.ReadAsStream(cancellationToken), cancellationToken: cancellationToken)
+                          ?? throw new JsonException();
+
         var role = await UnitOfWork.Roles.GetByNameAsync(RoleConstants.User, cancellationToken)
             ?? throw new RoleNotFoundException(RoleConstants.User);
 
-        var userEntity = new UserEntity(role, email, "Default", "", true)
+        var userEntity = new UserEntity(role, email, profileInfo.Name, profileInfo.Picture, profileInfo.EmailVerified)
         {
             AuthenticationScheme = GoogleOAuthDefaults.AuthenticationScheme
         };
