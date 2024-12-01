@@ -16,7 +16,10 @@ cd TaskManager
 Read this docs to get application code for mail.yandex.ru https://yandex.ru/support/id/ru/authorization/app-passwords
 Then set this user secrets variables:
 
+To create google client secret and client id (https://console.cloud.google.com/)
 ```bash
+dotnet user-secrets set "GoogleClientSecret" "YourClientSecret"
+dotnet user-secrets set "GoogleClientId" "YourClientId"
 dotnet user-secrets set "TmMailerooApiKey" "YourApiKey"
 dotnet user-secrets set "TmJwtSecretKey" "AWOIEJFPOAIWEJFJEWPIOFJWPEOIJFFOIJWEPOIFJWEOPIJFIO"
 dotnet user-secrets set "TmEmailApiKey" "YouEmailApiKey"
