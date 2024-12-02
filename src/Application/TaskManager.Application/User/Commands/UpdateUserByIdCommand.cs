@@ -17,7 +17,7 @@ public sealed class UpdateUserByIdCommandHandler(IUnitOfWork unitOfWork, IPasswo
 {
     public override async Task<UpdateUserByIdResponse> Handle(UpdateUserByIdCommand request, CancellationToken cancellationToken)
     {
-        var userEntity = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
+        var userEntity = await UnitOfWork.Users.FindByIdAsync(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
 
         if (request.Username != null)

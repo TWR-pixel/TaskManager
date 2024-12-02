@@ -27,7 +27,7 @@ public sealed class UpdateTaskCommandHandler(IUnitOfWork unitOfWork)
 {
     public override async Task<UpdateUserTaskResponse> Handle(UpdateTaskCommand request, CancellationToken cancellationToken)
     {
-        var taskEntity = await UnitOfWork.UserTasks.GetByIdAsync(request.UpdatingTaskId, cancellationToken)
+        var taskEntity = await UnitOfWork.UserTasks.FindByIdAsync(request.UpdatingTaskId, cancellationToken)
             ?? throw new TaskNotFoundException(request.UpdatingTaskId);
 
         if (!string.IsNullOrWhiteSpace(request.Title))
@@ -35,7 +35,7 @@ public sealed class UpdateTaskCommandHandler(IUnitOfWork unitOfWork)
 
         if (request.ColumnId != null)
         {
-            var columnEntity = await UnitOfWork.UserTaskColumns.GetByIdAsync((int)request.ColumnId, cancellationToken)
+            var columnEntity = await UnitOfWork.UserTaskColumns.FindByIdAsync((int)request.ColumnId, cancellationToken)
                 ?? throw new TaskColumnNotFoundException((int)request.ColumnId);
 
             taskEntity.TaskColumn = columnEntity;

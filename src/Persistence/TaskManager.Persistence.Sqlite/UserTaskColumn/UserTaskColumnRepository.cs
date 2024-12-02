@@ -9,7 +9,7 @@ public sealed class UserTaskColumnRepository(TaskManagerDbContext dbContext) : R
 {
     public async Task<UserTaskColumnEntity?> GetByIdWithOwnerAndUserTasksAsync(int id, CancellationToken cancellationToken = default)
     {
-        var userTaskColumnEntity = await DbContext.TaskColumns
+        var userTaskColumnEntity = await DbContext.UserTaskColumns
                 .Include(u => u.Owner)
                 .Include(u => u.TasksInColumn)
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
@@ -19,7 +19,7 @@ public sealed class UserTaskColumnRepository(TaskManagerDbContext dbContext) : R
 
     public async Task<UserTaskColumnEntity?> GetByIdWithUserTasksAsync(int id, CancellationToken cancellationToken = default)
     {
-        var userTaskColumnEntity = await DbContext.TaskColumns
+        var userTaskColumnEntity = await DbContext.UserTaskColumns
                 .Include(u => u.TasksInColumn)
            .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
 

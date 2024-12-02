@@ -19,13 +19,13 @@ public sealed class GetAllUserTaskColumnsByIdWithTasksRequestHandler(IUnitOfWork
         var queryResult = await UnitOfWork.Users.GetAllUserTaskColumnsWithTasksByIdAsync(request.UserId, cancellationToken)
                 ?? throw new UserNotFoundException(request.UserId);
 
-        queryResult.TaskColumns ??= [];
+        queryResult.UserTaskColumns ??= [];
 
         var response = new GetAllUserTaskColumnsByIdWithTasksResponse
         {
             Username = queryResult.UserName,
 
-            TaskColumns = queryResult.TaskColumns.Select(u => // select not right, maybe create domain model with this
+            TaskColumns = queryResult.UserTaskColumns.Select(u => // select not right, maybe create domain model with this
                 new UserTaskColumnsResponse(u.Id,
                                              u.Title,
                                              u.Description ?? "", // if null return ''

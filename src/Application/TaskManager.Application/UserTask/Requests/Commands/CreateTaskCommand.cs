@@ -26,10 +26,10 @@ public sealed class CreateTaskCommandHandler(IUnitOfWork unitOfWork) : CommandHa
 {
     public override async Task<CreateTaskResponse> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
     {
-        var userOwner = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
+        var userOwner = await UnitOfWork.Users.FindByIdAsync(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
 
-        var taskColumn = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.ColumnId, cancellationToken)
+        var taskColumn = await UnitOfWork.UserTaskColumns.FindByIdAsync(request.ColumnId, cancellationToken)
             ?? throw new TaskColumnNotFoundException(request.ColumnId);
 
         var taskEntity = new UserTaskEntity(request.IsCompleted,

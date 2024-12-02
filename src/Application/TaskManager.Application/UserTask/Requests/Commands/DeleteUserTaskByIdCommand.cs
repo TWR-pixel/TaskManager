@@ -13,7 +13,7 @@ public sealed class DeleteUserTaskByIdCommandHandler(IUnitOfWork unitOfWork)
 {
     public override async Task<DeleteUserTaskByIdResponse> Handle(DeleteUserTaskByIdCommand request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.UserTasks.GetByIdAsync(request.TaskId, cancellationToken)
+        var queryResult = await UnitOfWork.UserTasks.FindByIdAsync(request.TaskId, cancellationToken)
             ?? throw new TaskNotFoundException(request.TaskId);
 
         await UnitOfWork.UserTasks.DeleteAsync(queryResult, cancellationToken);

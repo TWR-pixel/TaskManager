@@ -35,6 +35,8 @@ builder.Services
     .AddValidators()
     .AddIdentityServices();
 
+
+
 builder.Services.Configure<GoogleOAuthOptions>(options =>
 {
     options.ClientId = config["Google:ClientId"] ?? "";

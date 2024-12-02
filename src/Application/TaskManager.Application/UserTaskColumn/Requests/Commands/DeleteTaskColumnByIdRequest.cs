@@ -12,7 +12,7 @@ public sealed class DeleteTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork)
 {
     public override async Task<DeleteTaskColumnByIdResponse> Handle(DeleteTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
-        var entity = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.TaskColumnId, cancellationToken)
+        var entity = await UnitOfWork.UserTaskColumns.FindByIdAsync(request.TaskColumnId, cancellationToken)
             ?? throw new TaskColumnNotFoundException(request.TaskColumnId);
 
         await UnitOfWork.UserTaskColumns.DeleteAsync(entity, cancellationToken);

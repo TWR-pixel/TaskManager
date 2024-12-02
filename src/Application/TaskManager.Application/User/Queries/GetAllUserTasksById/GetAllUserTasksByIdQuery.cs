@@ -22,7 +22,7 @@ public sealed class GetAllUserTasksByIdQueryHandler(IReadonlyUnitOfWork unitOfWo
         var userEntity = await UnitOfWork.Users.GetAllUserTasks(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
 
-        userEntity.Tasks ??= [];
+        userEntity.UserTasks ??= [];
 
         var response = new GetAllUserTasksByIdResponse
         (
@@ -30,7 +30,7 @@ public sealed class GetAllUserTasksByIdQueryHandler(IReadonlyUnitOfWork unitOfWo
             userEntity.UserName,
             userEntity.EmailLogin,
 
-            userEntity.Tasks.Select(static t => new UserTaskByIdResponse(t.Title,
+            userEntity.UserTasks.Select(static t => new UserTaskByIdResponse(t.Title,
                                                                               t.Description,
                                                                               t.IsCompleted,
                                                                               t.IsInProgress,

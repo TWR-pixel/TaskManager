@@ -10,7 +10,7 @@ public sealed class DeleteUserByIdCommandHandler(IUnitOfWork unitOfWork) : Comma
 {
     public override async Task<UserDto> Handle(DeleteUserByIdCommand request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
+        var queryResult = await UnitOfWork.Users.FindByIdAsync(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException($"User with id '{request.UserId}' not found. ");
 
         await UnitOfWork.Users.DeleteAsync(queryResult, cancellationToken);

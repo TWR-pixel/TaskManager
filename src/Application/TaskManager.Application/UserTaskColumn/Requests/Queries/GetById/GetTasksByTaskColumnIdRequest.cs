@@ -58,7 +58,7 @@ public sealed class GetTasksByTaskColumnIdRequestHandler : RequestHandlerBase<Ge
 
     public override async Task<GetTasksByColumnIdResponse> Handle(GetTasksByTaskColumnIdRequest request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.TaskColumnId, cancellationToken)
+        var queryResult = await UnitOfWork.UserTaskColumns.FindByIdAsync(request.TaskColumnId, cancellationToken)
             ?? throw new TaskColumnNotFoundException(request.TaskColumnId);
 
         queryResult.TasksInColumn ??= []; // if null initialize empty array

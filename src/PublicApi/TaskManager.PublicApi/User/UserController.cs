@@ -14,23 +14,15 @@ namespace TaskManager.PublicApi.User;
 public sealed class UserController(IMediatorWrapper mediator, IConfiguration configuration) : ApiControllerBase(mediator)
 {
     #region HTTP methods
-    //[HttpPost("google-login")]
-    //public ActionResult GoogleLogin()
-    //{
-    //    var url = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=945416324135-t9o7je9k0b07vf7qr2g600rpirht4qba.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&redirect_uri=localhost";
-        
 
-    //    return Challenge();
-    //}
-
-    //[HttpGet("google-callback")]
-    //public ActionResult GoogleCallback()
-    //{
-
-    //    return Ok();
-    //}
+    [HttpGet("all-user-organizations")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<UserDto>> GetAllUserOrganizations(GetAllUserOrganizationsQuery query, CancellationToken cancellationToken)
+        => await OkAsync(query, cancellationToken);
 
     [HttpPost("upload-user-profile-image")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<UserDto>> UploadUserProfileImage(UploadUserProfileImageModel model, CancellationToken cancellationToken = default)
     {
         var command = new UploadUserProfileImageCommand
@@ -42,7 +34,7 @@ public sealed class UserController(IMediatorWrapper mediator, IConfiguration con
 
         UserDto? response = await Mediator.SendAsync(command, cancellationToken);
 
-        return Ok(response);
+        return CreatedAtAction(nameof(UploadUserProfileImage), response);
     }
 
     [HttpGet("profile-image")]

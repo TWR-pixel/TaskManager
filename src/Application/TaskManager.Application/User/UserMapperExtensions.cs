@@ -1,5 +1,6 @@
 ﻿using TaskManager.Application.Role;
 using TaskManager.Application.User;
+using TaskManager.Application.UserOrganization;
 using TaskManager.Application.UserTask;
 using TaskManager.Application.UserTaskColumn;
 using TaskManager.Domain.Entities.Users;
@@ -10,13 +11,15 @@ public static class UserMapperExtensions
 {
     public static UserDto ToResponse(this UserEntity entity)
     {
-        entity.TaskColumns ??= [];
-        entity.Tasks ??= [];
+        entity.UserTaskColumns ??= [];
+        entity.UserTasks ??= [];
+        entity.UserOrganizations ??= [];
 
         var dto = new UserDto(entity.EmailLogin,
                               entity.UserName,
-                              entity.TaskColumns.ToResponses(),
-                              entity.Tasks.ToResponses(),
+                              entity.UserTaskColumns.ToResponses(),
+                              entity.UserTasks.ToResponses(),
+                              entity.UserOrganizations.ToResponses(),
                               entity.Role.ToResponse(),
                               entity.ProfileImageLink);
 

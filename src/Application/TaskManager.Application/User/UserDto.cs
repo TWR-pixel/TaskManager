@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TaskManager.Application.Role;
+using TaskManager.Application.UserOrganization;
 using TaskManager.Application.UserTask;
 using TaskManager.Application.UserTaskColumn;
 
@@ -12,6 +13,7 @@ public sealed record UserDto
                    string? username,
                    IEnumerable<UserTaskColumnDto>? taskColumns,
                    IEnumerable<UserTaskDto>? tasks,
+                   IEnumerable<UserOrganizationResponse>? userOrganizations,
                    RoleDto role,
                    string? profileImageLink)
     {
@@ -29,6 +31,7 @@ public sealed record UserDto
 
     public IEnumerable<UserTaskColumnDto>? TaskColumns { get; set; }
     public IEnumerable<UserTaskDto>? Tasks { get; set; }
+    public IEnumerable<UserOrganizationResponse>? UserOrganizations { get; set; }
 
     public required RoleDto Role { get; set; }
 }

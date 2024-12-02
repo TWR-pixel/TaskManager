@@ -6,6 +6,7 @@ using TaskManager.Domain.Entities.Common.Entities;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Tasks;
+using TaskManager.Domain.Entities.UserOrganization;
 
 namespace TaskManager.Domain.Entities.Users;
 
@@ -43,8 +44,9 @@ public sealed class UserEntity : IdentityUser<int>, IEntity
     public DateTime LastLoginAt { get; set; } = DateTime.UtcNow;
     public DateTime PasswordUpdatedAt { get; set; } = DateTime.UtcNow;
 
-    public IEnumerable<UserTaskColumnEntity>? TaskColumns { get; set; }
-    public IEnumerable<UserTaskEntity>? Tasks { get; set; }
+    public IEnumerable<UserTaskColumnEntity>? UserTaskColumns { get; set; }
+    public IEnumerable<UserTaskEntity>? UserTasks { get; set; }
+    public IEnumerable<UserOrganizationEntity>? UserOrganizations { get; set; }
 
     public RoleEntity Role { get; set; }
 }

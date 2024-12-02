@@ -3,15 +3,18 @@ using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Tasks;
+using TaskManager.Domain.Entities.UserOrganization;
 using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.UseCases.Common.Repositories;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 using TaskManager.Domain.UseCases.Roles;
 using TaskManager.Domain.UseCases.TaskColumns;
 using TaskManager.Domain.UseCases.Tasks;
+using TaskManager.Domain.UseCases.UserOrganization;
 using TaskManager.Domain.UseCases.Users;
 using TaskManager.Persistence.Sqlite.Role;
 using TaskManager.Persistence.Sqlite.User;
+using TaskManager.Persistence.Sqlite.UserOrganization;
 using TaskManager.Persistence.Sqlite.UserTask;
 using TaskManager.Persistence.Sqlite.UserTaskColumn;
 
@@ -53,7 +56,8 @@ public static class PersistenceSqliteServiceCollectionExtensions
             .AddScoped<IReadonlyRepository<UserEntity>, UserRepository>()
             .AddScoped<IReadonlyRepository<RoleEntity>, RoleRepository>()
             .AddScoped<IReadonlyRepository<UserTaskEntity>, UserTaskRepository>()
-            .AddScoped<IReadonlyRepository<UserTaskColumnEntity>, UserTaskColumnRepository>();
+            .AddScoped<IReadonlyRepository<UserTaskColumnEntity>, UserTaskColumnRepository>()
+            .AddScoped<IReadonlyRepository<UserOrganizationEntity>, UserOrgranizationRepository>();
 
         return services;
     }
@@ -64,7 +68,8 @@ public static class PersistenceSqliteServiceCollectionExtensions
             .AddScoped<IUserRepository, UserRepository>()
             .AddScoped<IRoleRepository, RoleRepository>()
             .AddScoped<IUserTaskRepository, UserTaskRepository>()
-            .AddScoped<IUserTaskColumnRepository, UserTaskColumnRepository>();
+            .AddScoped<IUserTaskColumnRepository, UserTaskColumnRepository>()
+            .AddScoped<IUserOrganizationRepository, UserOrgranizationRepository>();
 
         return services;
     }

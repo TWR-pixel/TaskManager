@@ -28,7 +28,7 @@ public class GetAllUserTaskColumnsByIdWithTasksQueryTests : TestInitializer
             CreatedAt = DateTime.UtcNow,
             Ordering = 5
         });
-        testUser.TaskColumns = testUserTaskColumnsWithTasks;
+        testUser.UserTaskColumns = testUserTaskColumnsWithTasks;
 
         var dbContext = InitDbContext(DefaultOptions);
         var testRepository = new RepositoryBase<UserEntity>(dbContext);

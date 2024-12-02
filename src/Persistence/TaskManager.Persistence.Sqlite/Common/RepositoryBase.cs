@@ -56,7 +56,7 @@ public abstract class RepositoryBase<TEntity>(TaskManagerDbContext dbContext) : 
         return Task.CompletedTask;
     }
 
-    public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<TEntity?> FindByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         var entity = await DbContext.Set<TEntity>().FindAsync([id], cancellationToken: cancellationToken);
 

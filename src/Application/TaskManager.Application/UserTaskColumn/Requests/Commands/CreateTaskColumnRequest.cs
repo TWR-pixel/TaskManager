@@ -18,7 +18,7 @@ public sealed class CreateTaskColumnRequestHandler(IUnitOfWork unitOfWork)
 {
     public override async Task<UserTaskColumnDto> Handle(CreateTaskColumnRequest request, CancellationToken cancellationToken)
     {
-        var userEntity = await UnitOfWork.Users.GetByIdAsync(request.UserId, cancellationToken)
+        var userEntity = await UnitOfWork.Users.FindByIdAsync(request.UserId, cancellationToken)
             ?? throw new UserNotFoundException(request.UserId);
 
         var entity = new UserTaskColumnEntity(userEntity, request.Title, request.Description);

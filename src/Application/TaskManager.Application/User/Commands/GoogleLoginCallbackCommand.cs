@@ -44,19 +44,16 @@ public sealed class GoogleLoginCallbackCommandHandler(IUnitOfWork unitOfWork,
         };
 
         var userEmailResponse = await client.SendAsync(httpRequest, cancellationToken);
-        
         Console.WriteLine(await userEmailResponse.Content.ReadAsStringAsync(cancellationToken));
-        
-        var deserializedData = await JsonSerializer.DeserializeAsync<GoogleOAuthTokenResponse>(userEmailResponse.Content.ReadAsStream(cancellationToken), cancellationToken: cancellationToken);
-        
+
+        var deserializedData = await JsonSerializer.DeserializeAsync<GoogleOAuthTokenResponse>(userEmailResponse.Content.ReadAsStream(cancellationToken), cancellationToken: cancellationToken)
+            ?? throw new JsonException();
+
         var jwtHandler = new JwtSecurityTokenHandler();
         var decodedJwtToken = jwtHandler.ReadJwtToken(deserializedData.IdToken);
-        
+
         var email = decodedJwtToken.Payload["email"] as string ?? throw new HttpRequestException();
         var userFromDatabase = await UnitOfWork.Users.GetByEmailAsync(email, cancellationToken);
-
-        if (userFromDatabase is not null)
-            return tokenFactory.Create(userFromDatabase);
 
         var request = new HttpRequestMessage(HttpMethod.Get, "https://openidconnect.googleapis.com/v1/userinfo");
         request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", deserializedData.AccessToken);
@@ -64,6 +61,18 @@ public sealed class GoogleLoginCallbackCommandHandler(IUnitOfWork unitOfWork,
         var resp = await client.SendAsync(request, cancellationToken);
         var profileInfo = await JsonSerializer.DeserializeAsync<GoogleOAuthProfileInfoResponse>(resp.Content.ReadAsStream(cancellationToken), cancellationToken: cancellationToken)
                           ?? throw new JsonException();
+
+        if (userFromDatabase is not null)
+        {
+            userFromDatabase.UserName = profileInfo.Name;
+            userFromDatabase.Email = email;
+            userFromDatabase.ProfileImageLink = profileInfo.Picture;
+            userFromDatabase.EmailConfirmed = profileInfo.EmailVerified;
+
+            await SaveChangesAsync(cancellationToken);
+
+            return tokenFactory.Create(userFromDatabase);
+        }
 
         var role = await UnitOfWork.Roles.GetByNameAsync(RoleConstants.User, cancellationToken)
             ?? throw new RoleNotFoundException(RoleConstants.User);

@@ -19,7 +19,7 @@ public sealed class UpdateTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) :
 {
     public override async Task<UpdateTaskColumnByIdResponse> Handle(UpdateTaskColumnByIdRequest request, CancellationToken cancellationToken)
     {
-        var taskColumnEntity = await UnitOfWork.UserTaskColumns.GetByIdAsync(request.TaskColumnId, cancellationToken)
+        var taskColumnEntity = await UnitOfWork.UserTaskColumns.FindByIdAsync(request.TaskColumnId, cancellationToken)
             ?? throw new EntityNotFoundException($"Task column with id '{request.TaskColumnId}' not found");
 
         if (!string.IsNullOrWhiteSpace(request.Title))
@@ -34,7 +34,7 @@ public sealed class UpdateTaskColumnByIdRequestHandler(IUnitOfWork unitOfWork) :
 
         if (request.UserId is not null)
         {
-            var userEntity = await UnitOfWork.Users.GetByIdAsync((int)request.UserId, cancellationToken)
+            var userEntity = await UnitOfWork.Users.FindByIdAsync((int)request.UserId, cancellationToken)
                 ?? throw new UserNotFoundException((int)request.UserId);
 
             taskColumnEntity.Owner = userEntity;

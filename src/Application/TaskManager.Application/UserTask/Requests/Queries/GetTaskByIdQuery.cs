@@ -17,7 +17,7 @@ public sealed class GetTaskByIdQueryHandler(IReadonlyUnitOfWork unitOfWork) : Qu
 {
     public override async Task<GetTaskByIdResponse> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.UserTasks.GetByIdAsync(request.TaskId, cancellationToken)
+        var queryResult = await UnitOfWork.UserTasks.FindByIdAsync(request.TaskId, cancellationToken)
             ?? throw new TaskNotFoundException(request.TaskId);
 
         var response = queryResult.ToGetTaskByIdResponse();
