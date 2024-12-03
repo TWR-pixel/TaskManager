@@ -16,21 +16,21 @@ using TaskManager.Domain.UseCases.Roles;
 
 namespace TaskManager.Application.User.Commands;
 
-public sealed record RegisterUserWithJwtBearerSchemeCommand(string Username, string Email, string Password) : CommandBase<AccessTokenResponse>;
+public sealed record RegisterUserCommand(string Username, string Email, string Password) : CommandBase<AccessTokenResponse>;
 public sealed record RegisterUserResponse() : ResponseBase;
 
-public sealed class RegisterUserWithJwtBearerScheme(IUnitOfWork unitOfWork,
+public sealed class RegisterUserCommandHandler(IUnitOfWork unitOfWork,
                                                IPasswordHasher passwordHasher,
                                                IEmailSender emailSender,
                                                IEmailExistingChecker emailChecker,
                                                IAccessTokenFactory tokenFactory,
-                                               IValidator<RegisterUserWithJwtBearerSchemeCommand> validator,
+                                               IValidator<RegisterUserCommand> validator,
                                                ICodeStorage codeStorage,
                                                ICodeGenerator<string> codeGenerator,
-                                               UserManager<UserEntity> userManager) : CommandHandlerBase<RegisterUserWithJwtBearerSchemeCommand, AccessTokenResponse>(unitOfWork)
+                                               UserManager<UserEntity> userManager) : CommandHandlerBase<RegisterUserCommand, AccessTokenResponse>(unitOfWork)
 {
 
-    public override async Task<AccessTokenResponse> Handle(RegisterUserWithJwtBearerSchemeCommand request, CancellationToken cancellationToken)
+    public override async Task<AccessTokenResponse> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(request, cancellationToken);
 
@@ -53,8 +53,8 @@ public sealed class RegisterUserWithJwtBearerScheme(IUnitOfWork unitOfWork,
         var userEntity = new UserEntity(roleEntity,
                                         request.Email,
                                         request.Username,
-                                        string.Empty); 
-        
+                                        string.Empty);
+
         var randomVerificationCode = codeGenerator.GenerateCode(20);
         codeStorage.Add(randomVerificationCode, request.Email);
 

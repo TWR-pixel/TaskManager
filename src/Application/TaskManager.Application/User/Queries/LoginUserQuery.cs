@@ -10,21 +10,20 @@ using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.User.Queries;
 
-public sealed record LoginUserWithJwtBearerSchemeQuery(string EmailLogin, string Password) :
+public sealed record LoginUserQuery(string EmailLogin, string Password) :
     QueryBase<AccessTokenResponse>;
 
-public sealed class LoginUserWithJwtBearerSchemeQueryHandler(IReadonlyUnitOfWork unitOfWork,
+public sealed class LoginUserQueryHandler(IReadonlyUnitOfWork unitOfWork,
                                           IPasswordHasher hasher,
                                           IAccessTokenFactory accessTokenFactory,
-                                          UserManager<UserEntity> userManager) :
-    QueryHandlerBase<LoginUserWithJwtBearerSchemeQuery, AccessTokenResponse>(unitOfWork)
+                                          UserManager<UserEntity> userManager) : QueryHandlerBase<LoginUserQuery, AccessTokenResponse>(unitOfWork)
 {
-    public override async Task<AccessTokenResponse> Handle(LoginUserWithJwtBearerSchemeQuery request, CancellationToken cancellationToken)
+    public override async Task<AccessTokenResponse> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
         var user = await UnitOfWork.Users.GetByEmailAsync(request.EmailLogin, cancellationToken)
                    ?? throw new UserNotFoundException(request.EmailLogin);
 
-          if (user.AuthenticationScheme == GoogleOAuthDefaults.AuthenticationScheme)
+        if (user.AuthenticationScheme == GoogleOAuthDefaults.AuthenticationScheme)
             throw new GoogleOAuthRegisteredException(user.Email!);
 
         user.EmailConfirmed = true;

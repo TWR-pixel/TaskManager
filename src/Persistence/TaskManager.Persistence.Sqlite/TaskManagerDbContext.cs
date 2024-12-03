@@ -25,7 +25,6 @@ public sealed class TaskManagerDbContext : IdentityDbContext<UserEntity, RoleEnt
             Id = 1,
             Name = RoleConstants.User
         });
-        
 
 
         base.OnModelCreating(modelBuilder);

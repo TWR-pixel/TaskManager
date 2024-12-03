@@ -3,7 +3,7 @@ using TaskManager.Application.User.Commands;
 
 namespace TaskManager.Infrastructure.Validator.User;
 
-public sealed class RegisterUserWithJwtBearerSchemeCommandValidator : AbstractValidator<RegisterUserWithJwtBearerSchemeCommand>
+public sealed class RegisterUserWithJwtBearerSchemeCommandValidator : AbstractValidator<RegisterUserCommand>
 {
     public RegisterUserWithJwtBearerSchemeCommandValidator()
     {
