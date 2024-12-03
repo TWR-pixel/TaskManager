@@ -1,8 +1,6 @@
-﻿using MediatR.Pipeline;
-using Microsoft.Extensions.DependencyInjection;
-using TaskManager.Application.Common.Requests.Handlers;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace TaskManager.Application.Common.Extensions;
+namespace TaskManager.Application.Common.Extensions;    
 
 public static class MediatorServiceCollectionExtensions
 {
@@ -13,16 +11,8 @@ public static class MediatorServiceCollectionExtensions
             c.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
         });
 
-        services.AddRequestExceptionHandler();
-
 
         return services;
     }
 
-    public static IServiceCollection AddRequestExceptionHandler(this IServiceCollection services)
-    {
-        services.AddTransient(typeof(IRequestExceptionHandler<,,>), typeof(RequestExceptionHandler<,,>));
-
-        return services;
-    }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.Common.Requests.Commands;
 using TaskManager.Application.User;
 using TaskManager.Application.User.Commands;
 using TaskManager.Application.User.Queries;
@@ -71,7 +72,7 @@ public sealed class UserController(IMediatorWrapper mediator, IConfiguration con
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<UserDto>> DeleteById([FromBody] DeleteUserByIdCommand request, CancellationToken cancellationToken)
+    public async Task<ActionResult<UserDto>> DeleteById([FromBody] DeleteByIdCommandBase<UserDto> request, CancellationToken cancellationToken)
     {
         var result = await Mediator.SendAsync(request, cancellationToken);
 

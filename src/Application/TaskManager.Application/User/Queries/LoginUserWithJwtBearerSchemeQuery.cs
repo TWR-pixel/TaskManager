@@ -24,7 +24,7 @@ public sealed class LoginUserWithJwtBearerSchemeQueryHandler(IReadonlyUnitOfWork
         var user = await UnitOfWork.Users.GetByEmailAsync(request.EmailLogin, cancellationToken)
                    ?? throw new UserNotFoundException(request.EmailLogin);
 
-        if (user.AuthenticationScheme == GoogleOAuthDefaults.AuthenticationScheme)
+          if (user.AuthenticationScheme == GoogleOAuthDefaults.AuthenticationScheme)
             throw new GoogleOAuthRegisteredException(user.Email!);
 
         user.EmailConfirmed = true;

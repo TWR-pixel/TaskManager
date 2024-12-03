@@ -4,14 +4,12 @@ using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
 namespace TaskManager.Application.User.Commands;
 
-public sealed record DeleteUserByIdCommand(int UserId) : CommandBase<UserDto>;
-
-public sealed class DeleteUserByIdCommandHandler(IUnitOfWork unitOfWork) : CommandHandlerBase<DeleteUserByIdCommand, UserDto>(unitOfWork)
+public sealed class DeleteUserByIdCommandHandler(IUnitOfWork unitOfWork) : CommandHandlerBase<DeleteByIdCommandBase<UserDto>, UserDto>(unitOfWork)
 {
-    public override async Task<UserDto> Handle(DeleteUserByIdCommand request, CancellationToken cancellationToken)
+    public override async Task<UserDto> Handle(DeleteByIdCommandBase<UserDto> request, CancellationToken cancellationToken)
     {
-        var queryResult = await UnitOfWork.Users.FindByIdAsync(request.UserId, cancellationToken)
-            ?? throw new UserNotFoundException($"User with id '{request.UserId}' not found. ");
+        var queryResult = await UnitOfWork.Users.GetWithRoleByIdAsync(request.Id, cancellationToken)
+            ?? throw new UserNotFoundException($"User with id '{request.Id}' not found. ");
 
         await UnitOfWork.Users.DeleteAsync(queryResult, cancellationToken);
         await SaveChangesAsync(cancellationToken);

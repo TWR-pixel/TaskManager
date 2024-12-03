@@ -13,8 +13,6 @@ public static class DevelopmentEnvironmentMiddlewareExtensions
     public static IApplicationBuilder UseDevelopment(this IApplicationBuilder app)
     {
         Console.WriteLine("development environment");
-
-        app.UseDeveloperExceptionPage();
         
         app.UseCors(builder => builder
              .WithOrigins(

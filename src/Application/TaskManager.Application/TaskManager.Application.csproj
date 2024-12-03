@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\Core\TaskManager.Core.UseCases\TaskManager.Domain.UseCases.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Requests\Handlers\" />
+  </ItemGroup>
+
 </Project>

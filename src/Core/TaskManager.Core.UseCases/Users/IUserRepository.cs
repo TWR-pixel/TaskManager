@@ -1,5 +1,4 @@
-﻿using TaskManager.Domain.Entities.UserOrganization;
-using TaskManager.Domain.Entities.Users;
+﻿using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.UseCases.Common.Repositories;
 
 namespace TaskManager.Domain.UseCases.Users;

@@ -1,10 +1,9 @@
-﻿namespace TaskManager.Domain.Entities.Users.Exceptions;
+﻿using TaskManager.Domain.Entities.Common.Exceptions;
 
-public class UserNotFoundException : Exception
+namespace TaskManager.Domain.Entities.Users.Exceptions;
+
+public class UserNotFoundException : NotFoundException
 {
-    public UserNotFoundException()
-    {
-    }
 
     public UserNotFoundException(string email)
         : base($"User with email '{email}' not found.") { }

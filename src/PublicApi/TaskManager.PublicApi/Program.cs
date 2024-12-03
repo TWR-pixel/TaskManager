@@ -62,7 +62,6 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseMiddleware<HandleExceptionsMiddleware>(); // catches all exceptions in app and logging them
-
 app.UseSerilogRequestLogging();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions

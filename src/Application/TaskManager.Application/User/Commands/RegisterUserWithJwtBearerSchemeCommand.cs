@@ -53,8 +53,8 @@ public sealed class RegisterUserWithJwtBearerScheme(IUnitOfWork unitOfWork,
         var userEntity = new UserEntity(roleEntity,
                                         request.Email,
                                         request.Username,
-                                        string.Empty);
-
+                                        string.Empty); 
+        
         var randomVerificationCode = codeGenerator.GenerateCode(20);
         codeStorage.Add(randomVerificationCode, request.Email);
 

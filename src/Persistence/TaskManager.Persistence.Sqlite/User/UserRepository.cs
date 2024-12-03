@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskManager.Domain.Entities.UserOrganization;
 using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.UseCases.Users;
 using TaskManager.Persistence.Sqlite.Common;
