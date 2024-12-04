@@ -28,7 +28,7 @@ dotnet user-secrets set "TmEmailApiKey" "YouEmailApiKey"
 
 ```
 
-For confirmation by mail to work, insert your email address here (don't forget to create an environment variable EMAIL_SENDER_API_KEY with your key value):
+For confirmation by mail to work, insert your email address here:
 ```json
 {
   "EmailSenderOptions": {
