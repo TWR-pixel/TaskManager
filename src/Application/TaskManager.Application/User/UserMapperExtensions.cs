@@ -21,7 +21,10 @@ public static class UserMapperExtensions
                               entity.UserTasks.ToResponses(),
                               entity.UserOrganizations.ToResponses(),
                               entity.Role.ToResponse(),
-                              entity.ProfileImageLink);
+                              entity.ProfileImageLink,
+                              entity.RegisteredAt,
+                              entity.LastLoginAt,
+                              entity.PasswordUpdatedAt);
 
         return dto;
     }

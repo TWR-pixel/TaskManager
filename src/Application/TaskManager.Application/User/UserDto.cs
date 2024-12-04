@@ -15,7 +15,10 @@ public sealed record UserDto
                    IEnumerable<UserTaskDto>? tasks,
                    IEnumerable<UserOrganizationResponse>? userOrganizations,
                    RoleDto role,
-                   string? profileImageLink)
+                   string? profileImageLink,
+                   DateTime registeredAt,
+                   DateTime lastLoginAt,
+                   DateTime passwordUpdatedAt)
     {
         EmailLogin = emailLogin;
         Username = username;
@@ -23,11 +26,18 @@ public sealed record UserDto
         Tasks = tasks;
         Role = role;
         ProfileImageLink = profileImageLink;
+        RegisteredAt = registeredAt;
+        LastLoginAt = lastLoginAt;
+        PasswordUpdatedAt = passwordUpdatedAt;
     }
 
     public required string? EmailLogin { get; set; }
     public required string? Username { get; set; }
     public string? ProfileImageLink { get; set; }
+
+    public DateTime RegisteredAt { get; set; }
+    public DateTime LastLoginAt { get; set; }
+    public DateTime PasswordUpdatedAt { get; set; }
 
     public IEnumerable<UserTaskColumnDto>? TaskColumns { get; set; }
     public IEnumerable<UserTaskDto>? Tasks { get; set; }
