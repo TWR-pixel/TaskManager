@@ -20,7 +20,6 @@ public sealed record GoogleLoginCallbackCommand : CommandBase<AccessTokenRespons
 
 public sealed class GoogleLoginCallbackCommandHandler(IUnitOfWork unitOfWork,
                                                       IOptions<GoogleOAuthOptions> googleOptions,
-                                                      UserManager<UserEntity> userManager,
                                                       IAccessTokenFactory tokenFactory) : CommandHandlerBase<GoogleLoginCallbackCommand, AccessTokenResponse>(unitOfWork)
 {
     public override async Task<AccessTokenResponse> Handle(GoogleLoginCallbackCommand command, CancellationToken cancellationToken)
@@ -77,12 +76,12 @@ public sealed class GoogleLoginCallbackCommandHandler(IUnitOfWork unitOfWork,
         var role = await UnitOfWork.Roles.GetByNameAsync(RoleConstants.User, cancellationToken)
             ?? throw new RoleNotFoundException(RoleConstants.User);
 
-        var userEntity = new UserEntity(role, email, profileInfo.Name, profileInfo.Picture, profileInfo.EmailVerified)
+        var userEntity = new UserEntity(role, email, profileInfo.Name, profileInfo.Picture, isEmailConfirmed: profileInfo.EmailVerified)
         {
             AuthenticationScheme = GoogleOAuthDefaults.AuthenticationScheme
         };
 
-        await userManager.CreateAsync(userEntity);
+        await UnitOfWork.Users.AddAsync(userEntity, cancellationToken);
         await SaveChangesAsync(cancellationToken);
 
         var defaultColumns = new List<UserTaskColumnEntity>()

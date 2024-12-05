@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using TaskManager.Application.Common.Requests.Queries;
+﻿using TaskManager.Application.Common.Requests.Queries;
 using TaskManager.Application.Common.Security;
 using TaskManager.Application.Common.Security.AccessToken;
 using TaskManager.Application.Common.Security.Auth.OAuth.Google;
 using TaskManager.Domain.Entities.Common.Exceptions;
-using TaskManager.Domain.Entities.Users;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
 
@@ -15,8 +13,7 @@ public sealed record LoginUserQuery(string EmailLogin, string Password) :
 
 public sealed class LoginUserQueryHandler(IReadonlyUnitOfWork unitOfWork,
                                           IPasswordHasher hasher,
-                                          IAccessTokenFactory accessTokenFactory,
-                                          UserManager<UserEntity> userManager) : QueryHandlerBase<LoginUserQuery, AccessTokenResponse>(unitOfWork)
+                                          IAccessTokenFactory accessTokenFactory) : QueryHandlerBase<LoginUserQuery, AccessTokenResponse>(unitOfWork)
 {
     public override async Task<AccessTokenResponse> Handle(LoginUserQuery request, CancellationToken cancellationToken)
     {
@@ -32,10 +29,11 @@ public sealed class LoginUserQueryHandler(IReadonlyUnitOfWork unitOfWork,
 
         var accessToken = accessTokenFactory.Create(user);
 
-        if (user.PasswordHash is null)
+        if (user.AuthenticationScheme == GoogleOAuthDefaults.AuthenticationScheme)
             return accessToken;
 
-        if (!hasher.Verify(request.Password, user.PasswordHash))
+        var requestPasswordHash = hasher.HashPassword(request.Password, user.PasswordSalt);
+        if (requestPasswordHash != user.PasswordHash)
             throw new NotRightPasswordException(request.Password);
 
         return accessToken;

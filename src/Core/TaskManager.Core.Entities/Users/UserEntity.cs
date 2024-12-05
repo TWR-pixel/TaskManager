@@ -17,6 +17,8 @@ public sealed class UserEntity : IdentityUser<int>, IEntity
                       string emailLogin,
                       string username,
                       string profileImageLink,
+                      string passwordHash = "",
+                      string passwordSalt = "",
                       bool isEmailConfirmed = false)
     {
         Role = role;
@@ -24,6 +26,8 @@ public sealed class UserEntity : IdentityUser<int>, IEntity
         UserName = username;
         EmailConfirmed = isEmailConfirmed;
         ProfileImageLink = profileImageLink;
+        PasswordHash = passwordHash;
+        PasswordSalt = passwordSalt;
     }
 
     public UserEntity() { }
@@ -38,7 +42,7 @@ public sealed class UserEntity : IdentityUser<int>, IEntity
     public string AuthenticationScheme { get; set; } = DefaultAuthenticationScheme.AuthenticationScheme;
 
     [StringLength(256, MinimumLength = 3)]
-    public string PasswordSalt { get; set; } = "default";
+    public required string PasswordSalt { get; set; } = "default";
 
     public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
     public DateTime LastLoginAt { get; set; } = DateTime.UtcNow;
