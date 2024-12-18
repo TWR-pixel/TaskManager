@@ -39,6 +39,7 @@ public sealed class UserController(IMediatorWrapper mediator, IConfiguration con
     }
 
     [HttpGet("profile-image")]
+    [AllowAnonymous]
     public async Task<ActionResult> GetUserProfileImage([FromQuery] GetUserProfileImageQuery query, CancellationToken cancellationToken = default)
     {
         var response = await Mediator.SendAsync(query, cancellationToken);
