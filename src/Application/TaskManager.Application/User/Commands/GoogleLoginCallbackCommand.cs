@@ -5,6 +5,7 @@ using System.Text.Json;
 using TaskManager.Application.Common.Requests.Commands;
 using TaskManager.Application.Common.Security.AccessToken;
 using TaskManager.Application.Common.Security.Auth.OAuth.Google;
+using TaskManager.Domain.Entities.Common;
 using TaskManager.Domain.Entities.Roles;
 using TaskManager.Domain.Entities.TaskColumns;
 using TaskManager.Domain.Entities.Users;
@@ -78,7 +79,7 @@ public sealed class GoogleLoginCallbackCommandHandler(IUnitOfWork unitOfWork,
 
         var userEntity = new UserEntity(role, email, profileInfo.Name, profileInfo.Picture, isEmailConfirmed: profileInfo.EmailVerified)
         {
-            AuthenticationScheme = GoogleOAuthDefaults.AuthenticationScheme
+            AuthenticationScheme = GoogleDefaults.AuthenticationScheme
         };
 
         await UnitOfWork.Users.AddAsync(userEntity, cancellationToken);

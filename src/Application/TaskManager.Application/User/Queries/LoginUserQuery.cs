@@ -1,7 +1,7 @@
 ﻿using TaskManager.Application.Common.Requests.Queries;
 using TaskManager.Application.Common.Security;
 using TaskManager.Application.Common.Security.AccessToken;
-using TaskManager.Application.Common.Security.Auth.OAuth.Google;
+using TaskManager.Domain.Entities.Common;
 using TaskManager.Domain.Entities.Common.Exceptions;
 using TaskManager.Domain.Entities.Users.Exceptions;
 using TaskManager.Domain.UseCases.Common.UnitOfWorks;
@@ -20,7 +20,7 @@ public sealed class LoginUserQueryHandler(IReadonlyUnitOfWork unitOfWork,
         var user = await UnitOfWork.Users.GetByEmailAsync(request.EmailLogin, cancellationToken)
                    ?? throw new UserNotFoundException(request.EmailLogin);
 
-        if (user.AuthenticationScheme == GoogleOAuthDefaults.AuthenticationScheme)
+        if (user.AuthenticationScheme == GoogleDefaults.AuthenticationScheme)
             throw new GoogleOAuthRegisteredException(user.Email!);
 
         user.EmailConfirmed = true;
@@ -29,7 +29,7 @@ public sealed class LoginUserQueryHandler(IReadonlyUnitOfWork unitOfWork,
 
         var accessToken = accessTokenFactory.Create(user);
 
-        if (user.AuthenticationScheme == GoogleOAuthDefaults.AuthenticationScheme)
+        if (user.AuthenticationScheme == GoogleDefaults.AuthenticationScheme)
             return accessToken;
 
         var requestPasswordHash = hasher.HashPassword(request.Password, user.PasswordSalt);

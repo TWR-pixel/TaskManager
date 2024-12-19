@@ -11,6 +11,7 @@ using TaskManager.Infrastructure.File;
 using TaskManager.Application.Common;
 using TaskManager.Infrastructure.Validator;
 using TaskManager.Application.Common.Security.Auth.OAuth.Google;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 #region Configure services
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,11 @@ builder.AddSerilog();
 
 var sqliteConnectionStr = config.GetConnectionString("Sqlite")
     ?? throw new NullReferenceException("connection string not found or empty");
+
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.Limits.MaxRequestBodySize = 2_000_000; // 2mbytes
+});
 
 builder.Services
     .AddPersistenceServices(sqliteConnectionStr)

@@ -27,7 +27,8 @@ public sealed class OAuthController(IMediatorWrapper mediator, IOptions<GoogleOA
         var command = new GoogleLoginCallbackCommand { Code = code };
 
         var response = await Mediator.SendAsync(command, cancellationToken);
-
+        
+        
         return Redirect($"{googleOptions.ClientRedirectUri}?access_token={response.AccessTokenString}");
     }
 
